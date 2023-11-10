@@ -36,12 +36,11 @@
                                 <span class="sr-only mt-1">Choose profile photo</span>
                                 <input type="file" id="logo" name="logo"
                                     class=" mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:text-sm file:font-semibold file:rounded-full file:border-0 file:bg-violet-50 file:text-orange-700 hover:file:bg-violet-100
-                                    " />
+                                    "
+                                    onchange="previewImage()" />
                                 <x-input-error :messages="$errors->get('logo')" class="mt-2" />
                                 <div class="shrink-0">
-                                    <img class="h-14 w-14 object-cover rounded-full"
-                                        src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1361&q=80"
-                                        alt="Current profile photo" />
+                                    <img class="img-preview h-14 w-14 object-cover rounded-full" />
                                 </div>
                             </div>
                         </div>
@@ -92,7 +91,7 @@
         })
 
         function previewImage() {
-            const image = document.querySelector('#image');
+            const image = document.querySelector('#logo');
             const imgPreview = document.querySelector('.img-preview');
 
             imgPreview.style.display = 'block';

@@ -14,6 +14,7 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <style>
         /* Card styles */
         .card {
@@ -97,6 +98,58 @@
                 transform: rotate(360deg);
             }
         }
+
+        /* Green dot styles */
+        .dot-active {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #28c76f;
+            position: absolute;
+            top: 5px;
+            right: 25px;
+            animation: blinking-active 1s infinite;
+        }
+
+        /* Red dot styles */
+        .dot-inactive {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: red;
+            position: absolute;
+            top: 5px;
+            right: 25px;
+            animation: blinking-inactive 1s infinite;
+        }
+
+        @keyframes blinking-active {
+            0% {
+                box-shadow: 0 0 5px 0px rgba(0, 255, 0, 0.7);
+            }
+
+            50% {
+                box-shadow: 0 0 20px 5px rgba(0, 255, 0, 0.7);
+            }
+
+            100% {
+                box-shadow: 0 0 5px 0px rgba(0, 255, 0, 0.7);
+            }
+        }
+
+        @keyframes blinking-inactive {
+            0% {
+                box-shadow: 0 0 5px 0px red;
+            }
+
+            50% {
+                box-shadow: 0 0 20px 5px red;
+            }
+
+            100% {
+                box-shadow: 0 0 5px 0px red;
+            }
+        }
     </style>
 </head>
 
@@ -118,6 +171,9 @@
             {{ $slot }}
         </main>
     </div>
+    <script>
+        feather.replace();
+    </script>
 </body>
 
 </html>
