@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        /* Card styles */
+        .card {
+            width: 170px;
+            height: 254px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 20px;
+            background-color: transparent;
+        }
+
+        .card h2 {
+            z-index: 1;
+            color: #eeeeee;
+            font-size: 16px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .type-header h2 {
+            color: #eee;
+            border-bottom: 3px #eee solid;
+            padding-bottom: 10px;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            width: 120px;
+            background-image: linear-gradient(180deg,
+                    rgb(0, 183, 255),
+                    rgb(255, 48, 255));
+            height: 150%;
+            animation: rotBGimg 2s linear infinite;
+            transition: all 0.2s linear;
+            filter: blur(20px);
+            border-radius: 20px;
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            background: #222831;
+            inset: 3px;
+            border-radius: 20px;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            transition: transform 0.3s;
+            text-transform: uppercase;
+        }
+
+        .card-content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg,
+                    rgba(0, 0, 0, 0.6) 0%,
+                    rgba(0, 0, 0, 0) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+
+        @keyframes rotBGimg {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased">
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        @include('layouts.navigation')
+
+        <!-- Page Heading -->
+        @if (isset($header))
+            <header class="bg-white dark:bg-gray-800 shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    {{ $header }}
+                </div>
+            </header>
+        @endif
+
+        <!-- Page Content -->
+        <main>
+            {{ $slot }}
+        </main>
+    </div>
+</body>
+
+</html>
