@@ -25,10 +25,13 @@
                                     <td class="border border-slate-700">{{ $post->name }}</td>
                                     <td class="border border-slate-700 justify-center p-1">
                                         <div class="mx-auto justify-center flex">
-                                            <a href="/dashboard/posts/{{ $post->id }}/edit"
+                                            <a href="/dashboard/posts/{{ $post->slug }}"
+                                                class="bg-orange-600 w-12 h-8 px-3 py-1 me-1 rounded-md hover:bg-orange-500"><i
+                                                    data-feather="eye"></i></a>
+                                            <a href="/dashboard/posts/{{ $post->slug }}/edit"
                                                 class="bg-orange-600 w-12 h-8 px-3 py-1 me-1 rounded-md hover:bg-orange-500"><i
                                                     data-feather="edit"></i></a>
-                                            <form action="/dashboard/posts/{{ $post->id }}" method="post"
+                                            <form action="/dashboard/posts/{{ $post->slug }}" method="post"
                                                 class="d-inline">
                                                 @method('delete')
                                                 @csrf

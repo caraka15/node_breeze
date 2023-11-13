@@ -13,6 +13,14 @@
                                 :value="old('name', $post->name)" required autofocus />
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         </div>
+
+                        <div class="mt-4">
+                            <x-input-label for="slug" :value="__('Slug')" />
+                            <x-text-input id="slug" class="block mt-1 w-full" type="text" name="slug"
+                                :value="old('slug', $post->slug)" required autofocus autocomplete="slug" />
+                            <x-input-error :messages="$errors->get('slug')" class="mt-2" />
+                        </div>
+
                         <div class="mt-4">
                             <textarea name="description" id="description" class="w-full h-52 p-2 mb-2 border-2 border-gray-200">{{ $post->description }}</textarea>
                         </div>

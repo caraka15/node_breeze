@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ChaindController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminChaindController;
+use App\Http\Controllers\guestPostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,15 +25,22 @@ use App\Http\Controllers\AdminChaindController;
 
 Route::get('/', [ChaindController::class, 'index'])->name('home');
 
-Route::get('/posts', function () {
-    return view('posts');
-})->name('posts');
+Route::resource('/blogs', guestPostController::class)->names([
+    'blogs.index' => 'blogs.index',
+    'blogs.create' => 'blogs.create',
+    'blogs.store' => 'blogs.store',
+    'blogs.show' => 'blogs.show',
+    'blogs.edit' => 'blogs.edit',
+    'blogs.update' => 'blogs.update',
+    'blogs.destroy' => 'blogs.destroy',
+]);
 
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/dashboard/posts/checkSlug', [PostController::class, 'checkSlug']);
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -61,6 +69,6 @@ Route::middleware('auth')->group(function () {
     ]);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::get('/{chaind:slug}', [ChaindController::class, 'show']);

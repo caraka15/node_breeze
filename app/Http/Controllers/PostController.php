@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use DOMDocument;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
@@ -34,6 +36,7 @@ class PostController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'slug' => 'required|unique:posts',
             'description' => 'required',
         ]);
 
@@ -58,6 +61,7 @@ class PostController extends Controller
         // Gunakan hasil validasi untuk membuat entri di database
         Post::create([
             'name' => $request->name,
+            'slug' => $request->slug,
             'description' => $description,
         ]);
 
@@ -143,14 +147,25 @@ class PostController extends Controller
         // Hapus file sementara
         unlink($tempFilePath);
 
+        // Tambahkan validasi untuk name, description, dan slug
+        $request->validate([
+            'name' => 'required',
+            'slug' => [
+                'required',
+                Rule::unique('posts')->ignore($post->id),
+            ],
+        ]);
+
         // Update deskripsi
         $post->update([
             'name' => $request->name,
-            'description' => $updatedDescription
+            'description' => $updatedDescription,
+            'slug' => $request->slug,
         ]);
 
         return redirect('/dashboard/posts');
     }
+
 
     // Fungsi untuk mendapatkan daftar nama file gambar dari deskripsi
     private function getImagesFromDescription($description)
@@ -193,5 +208,11 @@ class PostController extends Controller
         }
         $post->delete();
         return redirect('/dashboard/posts');
+    }
+
+    public function checkSlug(Request $request)
+    {
+        $slug = SlugService::createSlug(Post::class, 'slug', $request->name);
+        return response()->json(['slug' => $slug]);
     }
 }
