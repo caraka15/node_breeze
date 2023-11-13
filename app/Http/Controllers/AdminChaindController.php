@@ -97,7 +97,7 @@ class AdminChaindController extends Controller
         ];
 
         if ($request->slug != $chaind->slug) {
-            $rules['slug']  = 'required|unique:posts';
+            $rules['slug']  = 'required|unique:chainds';
         }
 
         $validateData = $request->validate($rules);
@@ -111,7 +111,7 @@ class AdminChaindController extends Controller
 
         if ($request->file('guide_link')) {
             if ($request->oldGuide) {
-                Storage::delete($request->oldImage);
+                Storage::delete($request->oldGuideLink);
             }
             $validateData['guide_link'] = $request->file('guide_link')->store('guide-chaind');
         }
@@ -132,7 +132,7 @@ class AdminChaindController extends Controller
             Storage::delete($chaind->logo);
         }
 
-        if ($chaind->Guide_link) {
+        if ($chaind->guide_link) {
             Storage::delete($chaind->guide_link);
         }
         Chaind::destroy($chaind->id);

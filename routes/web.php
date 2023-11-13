@@ -2,6 +2,7 @@
 
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ChaindController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminChaindController;
@@ -48,6 +49,15 @@ Route::middleware('auth')->group(function () {
         'edit' => 'chainds.edit',
         'update' => 'chainds.update',
         'destroy' => 'chainds.destroy',
+    ]);
+    Route::resource('/dashboard/posts', PostController::class)->names([
+        'index' => 'posts.index',
+        'create' => 'posts.create',
+        'store' => 'posts.store',
+        'show' => 'posts.show',
+        'edit' => 'posts.edit',
+        'update' => 'posts.update',
+        'destroy' => 'posts.destroy',
     ]);
 });
 

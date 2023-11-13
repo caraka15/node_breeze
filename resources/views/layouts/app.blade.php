@@ -15,6 +15,12 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <style>
         /* Card styles */
         .card {
@@ -87,6 +93,22 @@
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
         }
+
+        .note-editable {
+            background-color: white !important;
+            color: black !important;
+        }
+
+        .note-editable ul {
+            list-style: disc !important;
+            list-style-position: inside !important;
+        }
+
+        .note-editable ol {
+            list-style: decimal !important;
+            list-style-position: inside !important;
+        }
+
 
 
         @keyframes rotBGimg {
