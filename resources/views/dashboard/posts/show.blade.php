@@ -5,8 +5,7 @@
                 <div class="max-w-full">
                     <h2 class="dark:text-white mb-7 text-2xl text-center">{{ $post->name }}</h2>
 
-
-                    <div>
+                    <div class="prose dark:prose-dark dark:text-white">
                         {!! $post->description !!}
                     </div>
                 </div>
