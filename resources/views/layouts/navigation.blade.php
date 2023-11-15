@@ -22,11 +22,14 @@
                         <x-nav-link :href="route('chainds.index')" :active="request()->routeIs('chainds*')">
                             {{ __('Chaind') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index*')">
+                            {{ __('Blogs') }}
+                        </x-nav-link>
                     @else
                         <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                             {{ __('Home') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('blogs.index')" :active="request()->routeIs('blogs.index*')">
+                        <x-nav-link :href="route('posts')" :active="request()->routeIs(['posts', 'blogs.show'])">
                             {{ __('Blogs') }}
                         </x-nav-link>
                     @endif

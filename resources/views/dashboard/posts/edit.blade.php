@@ -34,6 +34,33 @@
         </div>
     </div>
     <script>
+        const name = document.querySelector('#name');
+        const slug = document.querySelector('#slug');
+
+        name.addEventListener('change', function() {
+            fetch('/dashboard/posts/checkSlug?name=' + name.value)
+                .then(response => response.json())
+                .then(data => slug.value = data.slug)
+        })
+
+        document.addEventListener('trix-file-accept', function(e) {
+            e.preventDefault();
+        })
+
+        function previewImage() {
+            const image = document.querySelector('#logo');
+            const imgPreview = document.querySelector('.img-preview');
+
+            imgPreview.style.display = 'block';
+
+            const oFReader = new FileReader();
+            oFReader.readAsDataURL(image.files[0]);
+
+            oFReader.onload = function(oFREvent) {
+                imgPreview.src = oFREvent.target.result;
+            }
+        }
+
         $('#description').summernote({
             toolbar: [
                 ['style', ['style']],
@@ -43,7 +70,22 @@
                 ['table', ['table']],
                 ['insert', ['link', 'picture', 'video']],
                 ['view', ['fullscreen', 'codeview', 'help']]
-            ]
+            ],
+            callbacks: {
+                onPaste: function(e) {
+                    // Block default paste behavior
+                    e.preventDefault();
+
+                    // Get plain text from clipboard
+                    var text = (e.originalEvent.clipboardData || window.clipboardData).getData('text/plain');
+
+                    // Remove all tags and attributes (including style and class)
+                    var cleanText = text.replace(/<\/?[^>]+(>|$)/g, "");
+
+                    // Insert plain text into Summernote
+                    document.execCommand('insertText', false, cleanText);
+                }
+            }
         });
     </script>
 </x-app-layout>

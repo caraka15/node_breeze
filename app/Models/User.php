@@ -43,4 +43,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'username';
+    }
+
+    public function countUserPosts()
+    {
+        return $this->posts()->count();
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

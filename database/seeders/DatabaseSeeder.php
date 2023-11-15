@@ -1,8 +1,11 @@
 <?php
 
 namespace Database\Seeders;
-use App\Models\Chaind;
 
+use App\Models\Category;
+use App\Models\Chaind;
+use App\Models\Post;
+use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,6 +22,9 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        User::factory(5)->create();
+        Post::factory(20)->create();
 
         Chaind::create([
             'type' => 'Mainnet',
@@ -38,6 +44,21 @@ class DatabaseSeeder extends Seeder
             'guide_link' => 'mande.md',
             'rpc_link' => 'https://rpc.mande.crxa.my.id',
             'stake_link' => 'https://explorer.tcnetwork.io/planq/validator/plqvaloper16cfuq9d8nv2yrfzl409xkk6w0s4mq9asad5c47',
+        ]);
+
+        Category::create([
+            'name' => 'Web Programming',
+            'slug' => 'web-programming'
+        ]);
+
+        Category::create([
+            'name' => 'Personal',
+            'slug' => 'personal'
+        ]);
+
+        Category::create([
+            'name' => 'Web Design',
+            'slug' => 'web-design'
         ]);
     }
 }

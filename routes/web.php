@@ -25,15 +25,8 @@ use App\Http\Controllers\guestPostController;
 
 Route::get('/', [ChaindController::class, 'index'])->name('home');
 
-Route::resource('/blogs', guestPostController::class)->names([
-    'blogs.index' => 'blogs.index',
-    'blogs.create' => 'blogs.create',
-    'blogs.store' => 'blogs.store',
-    'blogs.show' => 'blogs.show',
-    'blogs.edit' => 'blogs.edit',
-    'blogs.update' => 'blogs.update',
-    'blogs.destroy' => 'blogs.destroy',
-]);
+Route::get('/blogs', [guestPostController::class, 'index'])->name('posts');
+
 
 
 Route::get('/dashboard', function () {
@@ -59,16 +52,19 @@ Route::middleware('auth')->group(function () {
         'destroy' => 'chainds.destroy',
     ]);
     Route::resource('/dashboard/posts', PostController::class)->names([
-        'index' => 'posts.index',
-        'create' => 'posts.create',
-        'store' => 'posts.store',
-        'show' => 'posts.show',
-        'edit' => 'posts.edit',
-        'update' => 'posts.update',
-        'destroy' => 'posts.destroy',
+        'posts.index' => 'posts.index',
+        'posts.create' => 'posts.create',
+        'posts.store' => 'posts.store',
+        'posts.show' => 'posts.show',
+        'posts.edit' => 'posts.edit',
+        'posts.update' => 'posts.update',
+        'posts.destroy' => 'posts.destroy',
     ]);
 });
 
 require __DIR__ . '/auth.php';
 
 Route::get('/{chaind:slug}', [ChaindController::class, 'show']);
+
+
+Route::get('/blogs/{post:slug}', [guestPostController::class, 'show'])->name('blogs.show');

@@ -1,8 +1,8 @@
 <x-app-layout>
     <div class="py-12">
-        <div class="max-w-[700px] mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-full mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
+                <div class="max-w-full">
                     <h2 class="dark:text-white mb-7 text-2xl text-center">ADD NEW POST</h2>
                     <form method="post" action="/dashboard/posts" enctype="multipart/form-data">
                         @csrf
@@ -11,6 +11,21 @@
                             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name"
                                 :value="old('name')" required autofocus autocomplete="name" />
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                        </div>
+
+                        <div class="mt-4">
+                            <x-input-label for="category_id" class="form-label">Category</x-input-label>
+                            <select
+                                class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                name="category_id">
+                                @foreach ($categories as $category)
+                                    @if (old('category_id') == $category->id)
+                                        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                                    @else
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="mt-4">
@@ -32,6 +47,7 @@
             </div>
         </div>
     </div>
+    <!-- Pastikan untuk memuat library DOMPurify -->
     <script>
         const name = document.querySelector('#name');
         const slug = document.querySelector('#slug');
@@ -53,7 +69,7 @@
             imgPreview.style.display = 'block';
 
             const oFReader = new FileReader();
-            oFReader.readAsDataURL(image.files[0]); // Perbaikan typo di sini
+            oFReader.readAsDataURL(image.files[0]);
 
             oFReader.onload = function(oFREvent) {
                 imgPreview.src = oFREvent.target.result;
@@ -69,7 +85,23 @@
                 ['table', ['table']],
                 ['insert', ['link', 'picture', 'video']],
                 ['view', ['fullscreen', 'codeview', 'help']]
-            ]
+            ],
+            callbacks: {
+                onPaste: function(e) {
+                    // Block default paste behavior
+                    e.preventDefault();
+
+                    // Get plain text from clipboard
+                    var text = (e.originalEvent.clipboardData || window.clipboardData).getData('text/plain');
+
+                    // Remove all tags and attributes (including style and class)
+                    var cleanText = text.replace(/<\/?[^>]+(>|$)/g, "");
+
+                    // Insert plain text into Summernote
+                    document.execCommand('insertText', false, cleanText);
+                }
+            }
         });
     </script>
+
 </x-app-layout>

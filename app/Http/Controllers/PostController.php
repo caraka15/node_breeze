@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use DOMDocument;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+
 
 class PostController extends Controller
 {
@@ -26,7 +29,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('dashboard.posts.create');
+        return view('dashboard.posts.create', [
+            'categories' => Category::all()
+        ]);
     }
 
     /**
@@ -36,6 +41,7 @@ class PostController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'category_id' => 'required',
             'slug' => 'required|unique:posts',
             'description' => 'required',
         ]);
@@ -58,11 +64,21 @@ class PostController extends Controller
 
         $description = $dom->saveHTML();
 
+        $excerpt = Str::limit(html_entity_decode(strip_tags($description)), 200);
+
+        $firstImage = $this->getFirstImageFromDescription($description);
+
+        $user_id = auth()->user()->id;
+
         // Gunakan hasil validasi untuk membuat entri di database
         Post::create([
             'name' => $request->name,
             'slug' => $request->slug,
+            'user_id' => $user_id,
             'description' => $description,
+            'excerpt' => $excerpt,
+            'category_id' => $request->category_id,
+            'image' => $firstImage ?? null, // Make $firstImage optional
         ]);
 
         return redirect('/dashboard/posts');
@@ -156,11 +172,20 @@ class PostController extends Controller
             ],
         ]);
 
+        $excerpt = Str::limit(html_entity_decode(strip_tags($updatedDescription)), 200);
+
+        $firstImage = $this->getFirstImageFromDescription($updatedDescription);
+
+        $user_id = auth()->user()->id;
         // Update deskripsi
         $post->update([
             'name' => $request->name,
+            'user_id' => $user_id,
+            'category' => $request->category,
             'description' => $updatedDescription,
             'slug' => $request->slug,
+            'excerpt' => $excerpt,
+            'image' => $firstImage
         ]);
 
         return redirect('/dashboard/posts');
@@ -208,6 +233,17 @@ class PostController extends Controller
         }
         $post->delete();
         return redirect('/dashboard/posts');
+    }
+
+    protected function getFirstImageFromDescription($description)
+    {
+        if ($description) {
+            // Ekstrak URL gambar pertama dari teks deskripsi
+            preg_match('/<img.*?src=[\'"](.*?)[\'"].*?>/i', $description, $matches);
+            return isset($matches[1]) ? $matches[1] : null;
+        }
+
+        return null;
     }
 
     public function checkSlug(Request $request)

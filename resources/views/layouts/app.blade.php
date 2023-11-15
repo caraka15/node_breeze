@@ -97,6 +97,7 @@
         .note-editable {
             background-color: white !important;
             color: black !important;
+            min-height: 240px;
         }
 
         .note-editable ul {
