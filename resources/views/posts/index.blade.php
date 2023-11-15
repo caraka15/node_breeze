@@ -1,9 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
         <h2
-            class="flex content-between font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight items-center">
-            <div class="p-6 text-gray-900 dark:text-gray-100">
-                {{ __('Post All') }}
+            class="flex flex-col sm:flex-row sm:justify-between font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight items-center">
+            <div class="mb-2 sm:mb-0 text-gray-900 dark:text-gray-100">
+                {{ $title }}
             </div>
             <form action="/blogs">
                 @if (request('category'))
@@ -11,64 +11,61 @@
                 @endif
                 <div class="flex items-center justify-center">
                     <input type="text"
-                        class="border-gray-300 dark:border-gray-700 dark:bg-gray-900
+                        class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 shadow-none
                         dark:text-gray-300 focus:border-orange-500 dark:focus:border-orange-600 focus:ring-orange-500
-                        dark:focus:ring-orange-600 rounded-l-md w-80"
+                        dark:focus:ring-orange-600 rounded-l-md max-w-full sm:w-80"
                         placeholder="Search.." name="search" value="{{ request('search') }}">
                     <button
                         class="inline-flex items-center p-3 bg-gray-800 dark:bg-orange-500 border border-transparent rounded-r-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-orange-600 focus:bg-gray-700 dark:focus:bg-orange-600 active:bg-gray-900 dark:active:bg-orange-600  transition ease-in-out duration-150"
                         type="submit">Search</button>
                 </div>
             </form>
+            </form>
         </h2>
+
+
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __('Post All') }}
-                </div>
-            </div>
-        </div>
-    </div>
 
     <?php
     $excerpt = Illuminate\Support\Str::limit(html_entity_decode(strip_tags($posts[0]->description)), 400);
     ?>
     @if ($posts->count())
-        <div class="bg-white dark:bg-slate-800 max-w-5xl mx-auto shadow-md rounded-md p-6 mb-6 text-center ">
-            @if ($posts[0]->image)
-                {{-- <img src="{{ $posts[0]->image }}" class="post-image bg-contain w-full" alt="" /> --}}
-                <div class="w-full h-[350px] mx-auto bg-cover bg-no-repeat bg-center border-slate-200"
-                    style="background-image: url({{ $posts[0]->image }})">
-                </div>
-            @else
-                <div class="w-full h-[350px] mx-auto bg-cover bg-no-repeat bg-center border-slate-200"
-                    style="background-image: url(https://source.unsplash.com/500x400?{{ $posts[0]->category->name }})">
-                </div>
-            @endif
+        <div class="flex m-6">
+            <div class="bg-white dark:bg-slate-800 max-w-5xl mx-auto shadow-md rounded-md p-6  text-center ">
+                @if ($posts[0]->image)
+                    {{-- <img src="{{ $posts[0]->image }}" class="post-image bg-contain w-full" alt="" /> --}}
+                    <div class="w-full h-[350px] mx-auto bg-cover bg-no-repeat bg-center border-slate-200"
+                        style="background-image: url({{ $posts[0]->image }})">
+                    </div>
+                @else
+                    <div class="w-full h-[350px] mx-auto bg-cover bg-no-repeat bg-center border-slate-200"
+                        style="background-image: url(https://source.unsplash.com/500x400?{{ $posts[0]->category->name }})">
+                    </div>
+                @endif
 
-            <div class="mt-4">
-                <h3 class="text-xl font-semibold mb-2">
+                <div class="mt-4">
+                    <h3 class="text-xl font-semibold mb-2">
+                        <a href="/blogs/{{ $posts[0]->slug }}"
+                            class="text-gray-700 dark:text-white no-underline hover:underline">{{ $posts[0]->name }}</a>
+                    </h3>
+                    <p class="text-gray-700 dark:text-white">
+                        By.
+                        <a href="/blogs?author={{ $posts[0]->author->username }}"
+                            class="text-blue-500">{{ $posts[0]->author->name }}</a>
+                        in
+                        <a href="/blogs?category={{ $posts[0]->category->slug }}"
+                            class="text-blue-500">{{ $posts[0]->category->name }}</a>
+                        {{ $posts[0]->created_at->diffForHumans() }}
+                    </p>
+                    <p class="mt-2 text-left text-gray-700 dark:text-white">
+                        {{ $excerpt }}
+                    </p>
                     <a href="/blogs/{{ $posts[0]->slug }}"
-                        class="text-gray-700 dark:text-white no-underline hover:underline">{{ $posts[0]->name }}</a>
-                </h3>
-                <p class="text-gray-700 dark:text-white">
-                    By.
-                    <a href="/blogs?author={{ $posts[0]->author->username }}"
-                        class="text-blue-500">{{ $posts[0]->author->name }}</a>
-                    in
-                    <a href="/blogs?category={{ $posts[0]->category->slug }}"
-                        class="text-blue-500">{{ $posts[0]->category->name }}</a>
-                </p>
-                <p class="mt-2 text-left text-gray-700 dark:text-white">
-                    {{ $excerpt }}
-                </p>
-                <a href="/blogs/{{ $posts[0]->slug }}"
-                    class="w-32 ml-auto block mt-3 text-white bg-orange-500 px-4 py-2 rounded-md hover:bg-orange-600 focus:outline-none focus:shadow-outline-orange active:bg-orange-800">
-                    Read More..
-                </a>
+                        class="w-32 ml-auto block mt-3 text-white bg-orange-500 px-4 py-2 rounded-md hover:bg-orange-600 focus:outline-none focus:shadow-outline-orange active:bg-orange-800">
+                        Read More..
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -97,6 +94,7 @@
                                         By.
                                         <a href="/blogs?author={{ $post->author->username }}"
                                             class="text-blue-500">{{ $post->author->name }}</a>
+                                        {{ $posts[0]->updated_at->diffForHumans() }}
                                     </small>
                                 </p>
                                 <p class="mt-2 text-gray-700 dark:text-white text-sm">
@@ -115,5 +113,10 @@
     @else
         <p class="dark:text-white text-center">No Post Found.</p>
     @endif
+
+    <div class="p-4">
+        {{ $posts->links('vendor.pagination.tailwind') }}
+    </div>
+
 
 </x-app-layout>

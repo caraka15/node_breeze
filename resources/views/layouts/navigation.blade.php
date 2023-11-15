@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
-                        <img class="w-12 h-12 ml-4" src="https://crxa.my.id/img/logo.png" alt="">
+                        <img class="w-12 h-12 ml-4" src="{{ asset('/upload/logo.png') }}" alt="">
                     </a>
                 </div>
 
@@ -19,9 +19,11 @@
                         <x-nav-link :href="route('user')" :active="request()->routeIs('user')">
                             {{ __('Users') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('chainds.index')" :active="request()->routeIs('chainds*')">
-                            {{ __('Chaind') }}
-                        </x-nav-link>
+                        @can('isAdmin')
+                            <x-nav-link :href="route('chainds.index')" :active="request()->routeIs('chainds*')">
+                                {{ __('Chaind') }}
+                            </x-nav-link>
+                        @endcan
                         <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index*')">
                             {{ __('Blogs') }}
                         </x-nav-link>

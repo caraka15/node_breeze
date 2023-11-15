@@ -41,6 +41,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/user', function () {
         return view('user');
     })->name('user');
+    Route::resource('/dashboard/posts', PostController::class)->names([
+        'posts.index' => 'posts.index',
+        'posts.create' => 'posts.create',
+        'posts.store' => 'posts.store',
+        'posts.show' => 'posts.show',
+        'posts.edit' => 'posts.edit',
+        'posts.update' => 'posts.update',
+        'posts.destroy' => 'posts.destroy',
+    ]);
+});
+
+Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/dashboard/chainds/checkSlug', [AdminChaindController::class, 'checkSlug']);
     Route::resource('/dashboard/chainds', AdminChaindController::class)->names([
         'index' => 'chainds.index',
@@ -50,15 +62,6 @@ Route::middleware('auth')->group(function () {
         'edit' => 'chainds.edit',
         'update' => 'chainds.update',
         'destroy' => 'chainds.destroy',
-    ]);
-    Route::resource('/dashboard/posts', PostController::class)->names([
-        'posts.index' => 'posts.index',
-        'posts.create' => 'posts.create',
-        'posts.store' => 'posts.store',
-        'posts.show' => 'posts.show',
-        'posts.edit' => 'posts.edit',
-        'posts.update' => 'posts.update',
-        'posts.destroy' => 'posts.destroy',
     ]);
 });
 
