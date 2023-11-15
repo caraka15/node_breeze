@@ -19,7 +19,7 @@
                         <x-nav-link :href="route('user')" :active="request()->routeIs('user')">
                             {{ __('Users') }}
                         </x-nav-link>
-                        @can('isAdmin')
+                        @can('admin')
                             <x-nav-link :href="route('chainds.index')" :active="request()->routeIs('chainds*')">
                                 {{ __('Chaind') }}
                             </x-nav-link>
