@@ -1,4 +1,3 @@
-<!-- resources/views/your-view.blade.php -->
 <x-app-layout>
     <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -15,10 +14,29 @@
                                     $rpc_status = @file_get_contents("{$chaind['rpc_link']}/status?");
                                     $rpc_status = json_decode($rpc_status);
                                 @endphp
-                                <x-Card class="mr-10" image="{{ asset('storage/' . $chaind->logo) }}"
-                                    name="{{ $chaind->name }}" stakeLink="{{ $chaind->stake_link }}"
-                                    guideLink="{{ $chaind->slug }}"
-                                    dotActive="{{ $rpc_status && isset($rpc_status->result->sync_info->catching_up) && $rpc_status->result->sync_info->catching_up == false }}" />
+
+                                <div class="card mr-10">
+                                    <div class="card-content">
+                                        <img src="{{ asset('storage/' . $chaind->logo) }}" alt="{{ $chaind->name }}"
+                                            class="mx-auto w-[70px] h-[70px] rounded-full" />
+                                        <h2>{{ $chaind->name }}</h2>
+                                        <a href="{{ $chaind->stake_link }}"
+                                            class="bg-orange-600 w-[120px] h-[35px] inline-block relative pt-[5px] rounded-md hover:scale-105 hover:bg-orange-500 mb-3"
+                                            target="_blank">STAKE</a>
+                                        <a href="{{ $chaind->slug }}"
+                                            class="bg-orange-600 w-[120px] h-[35px] inline-block relative pt-[5px] rounded-md hover:scale-105 hover:bg-orange-500 mb-3"
+                                            target="_blank">GUIDE</a>
+
+                                        @if (
+                                            $rpc_status &&
+                                                isset($rpc_status->result->sync_info->catching_up) &&
+                                                $rpc_status->result->sync_info->catching_up == false)
+                                            <div class="dot-active"></div>
+                                        @else
+                                            <div class="dot-inactive"></div>
+                                        @endif
+                                    </div>
+                                </div>
                             @endif
                         @endforeach
                     </div>
@@ -43,10 +61,29 @@
                                     $rpc_status = @file_get_contents("{$chaind['rpc_link']}/status?");
                                     $rpc_status = json_decode($rpc_status);
                                 @endphp
-                                <x-Card class="mt-10" image="{{ asset('storage/' . $chaind->logo) }}"
-                                    name="{{ $chaind->name }}" stakeLink="{{ $chaind->stake_link }}"
-                                    guideLink="{{ $chaind->slug }}"
-                                    dotActive="{{ $rpc_status && isset($rpc_status->result->sync_info->catching_up) && $rpc_status->result->sync_info->catching_up == false }}" />
+
+                                <div class="card mt-10">
+                                    <div class="card-content">
+                                        <img src="{{ asset('storage/' . $chaind->logo) }}" alt="{{ $chaind->name }}"
+                                            class="mx-auto w-[70px] h-[70px] rounded-full" />
+                                        <h2>{{ $chaind->name }}</h2>
+                                        <a href="{{ $chaind->stake_link }}"
+                                            class="bg-orange-600 w-[120px] h-[35px] inline-block relative pt-[5px] rounded-md hover:scale-105 hover:bg-orange-500 mb-3"
+                                            target="_blank">STAKE</a>
+                                        <a href="{{ $chaind->slug }}"
+                                            class="bg-orange-600 w-[120px] h-[35px] inline-block relative pt-[5px] rounded-md hover:scale-105 hover:bg-orange-500 mb-3"
+                                            target="_blank">GUIDE</a>
+
+                                        @if (
+                                            $rpc_status &&
+                                                isset($rpc_status->result->sync_info->catching_up) &&
+                                                $rpc_status->result->sync_info->catching_up == false)
+                                            <div class="dot-active"></div>
+                                        @else
+                                            <div class="dot-inactive"></div>
+                                        @endif
+                                    </div>
+                                </div>
                             @endif
                         @endforeach
                     </div>
