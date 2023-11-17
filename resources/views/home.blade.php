@@ -7,7 +7,7 @@
                         {{ __('Mainnet') }}
                     </div>
 
-                    <div class="flex flex-wrap justify-center">
+                    <div class="flex flex-wrap justify-start">
                         @foreach ($chainds as $chaind)
                             @if ($chaind['type'] === 'Mainnet')
                                 @php
@@ -54,7 +54,7 @@
                         {{ __('Testnet') }}
                     </div>
 
-                    <div class="flex flex-wrap justify-center">
+                    <div class="flex flex-wrap justify-start">
                         @foreach ($chainds as $chaind)
                             @if ($chaind['type'] === 'Testnet')
                                 @php
@@ -62,7 +62,7 @@
                                     $rpc_status = json_decode($rpc_status);
                                 @endphp
 
-                                <div class="card mt-10">
+                                <div class="card m-6">
                                     <div class="card-content">
                                         <img src="{{ asset('storage/' . $chaind->logo) }}" alt="{{ $chaind->name }}"
                                             class="mx-auto w-[70px] h-[70px] rounded-full" />
