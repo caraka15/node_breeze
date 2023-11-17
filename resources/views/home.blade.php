@@ -2,12 +2,12 @@
     <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <div class="mb-4 text-2xl">
+                <div class="py-6 text-gray-900 dark:text-gray-100">
+                    <div class="pl-6 mb-4 text-2xl">
                         {{ __('Mainnet') }}
                     </div>
 
-                    <div class="flex flex-row">
+                    <div class="flex flex-wrap justify-center">
                         @foreach ($chainds as $chaind)
                             @if ($chaind['type'] === 'Mainnet')
                                 @php
@@ -15,8 +15,8 @@
                                     $rpc_status = json_decode($rpc_status);
                                 @endphp
 
-                                <div class="card mr-10">
-                                    <div class="card-content">
+                                <div class="card m-4">
+                                    <div class="card-content ">
                                         <img src="{{ asset('storage/' . $chaind->logo) }}" alt="{{ $chaind->name }}"
                                             class="mx-auto w-[70px] h-[70px] rounded-full" />
                                         <h2>{{ $chaind->name }}</h2>
@@ -49,12 +49,12 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <div class="mb-4 text-2xl">
+                <div class="py-6 text-gray-900 dark:text-gray-100">
+                    <div class="pl-6 mb-4 text-2xl">
                         {{ __('Testnet') }}
                     </div>
 
-                    <div class="flex flex-row">
+                    <div class="flex flex-wrap justify-center">
                         @foreach ($chainds as $chaind)
                             @if ($chaind['type'] === 'Testnet')
                                 @php

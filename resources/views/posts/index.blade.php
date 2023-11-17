@@ -26,10 +26,6 @@
 
     </x-slot>
 
-
-    <?php
-    $excerpt = Illuminate\Support\Str::limit(html_entity_decode(strip_tags($posts[0]->description)), 400);
-    ?>
     @if ($posts->count())
         <div class="flex m-6">
             <div class="bg-white dark:bg-slate-800 max-w-5xl mx-auto shadow-md rounded-md p-6  text-center ">
@@ -59,7 +55,7 @@
                         {{ $posts[0]->created_at->diffForHumans() }}
                     </p>
                     <p class="mt-2 text-left text-gray-700 dark:text-white">
-                        {{ $excerpt }}
+                        {{ $posts[0]->excerpt }}
                     </p>
                     <a href="/blogs/{{ $posts[0]->slug }}"
                         class="w-32 ml-auto block mt-3 text-white bg-orange-500 px-4 py-2 rounded-md hover:bg-orange-600 focus:outline-none focus:shadow-outline-orange active:bg-orange-800">
@@ -111,7 +107,11 @@
             </div>
         </div>
     @else
-        <p class="dark:text-white text-center">No Post Found.</p>
+        <div class="m-6">
+            <div class="bg-white dark:bg-slate-800 max-w-full mx-auto shadow-md rounded-md p-6  text-center ">
+                <p class="dark:text-white text-center">No Post Found.</p>
+            </div>
+        </div>
     @endif
 
     <div class="p-4">
