@@ -27,6 +27,7 @@ Route::get('/', [ChaindController::class, 'index'])->name('home');
 
 Route::get('/blogs', [guestPostController::class, 'index'])->name('posts');
 
+Route::get('/test', [guestPostController::class, 'test'])->name('test');
 
 
 Route::get('/dashboard', function () {
