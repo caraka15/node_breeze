@@ -20,7 +20,8 @@ class PostController extends Controller
     public function index()
     {
         return view('dashboard.posts.index', [
-            "posts" => Post::all()
+            "posts" => Post::orderBy('created_at', 'desc')->get(),
+            'title' => "Your Post"
         ]);
     }
 
@@ -30,7 +31,8 @@ class PostController extends Controller
     public function create()
     {
         return view('dashboard.posts.create', [
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'title' => "Add Post"
         ]);
     }
 
@@ -92,6 +94,7 @@ class PostController extends Controller
     {
         return view('dashboard.posts.show', [
             "post" => $post,
+            "title" => $post->name
         ]);
     }
 
@@ -102,6 +105,7 @@ class PostController extends Controller
     {
         return view('dashboard.posts.edit', [
             'post' => $post,
+            'title' => "Edit "  . $post->name
         ]);
     }
 

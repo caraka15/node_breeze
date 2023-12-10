@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', $title)
     <x-slot name="header">
         <h2
             class="flex flex-col sm:flex-row sm:justify-between font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight items-center">
@@ -28,15 +29,14 @@
 
     @if ($posts->count())
         <div class="flex m-6">
-            <div class="bg-white dark:bg-slate-800 max-w-5xl mx-auto shadow-md rounded-md p-6  text-center ">
+            <div class="bg-white dark:bg-slate-800 w-full mx-auto shadow-md rounded-md p-6  text-center ">
                 @if ($posts[0]->image)
-                    {{-- <img src="{{ $posts[0]->image }}" class="post-image bg-contain w-full" alt="" /> --}}
                     <div class="w-full h-[350px] mx-auto bg-cover bg-no-repeat bg-center border-slate-200"
                         style="background-image: url({{ $posts[0]->image }})">
                     </div>
                 @else
-                    <div class="w-full h-[350px] mx-auto bg-cover bg-no-repeat bg-center border-slate-200"
-                        style="background-image: url(https://source.unsplash.com/500x400?{{ $posts[0]->category->name }})">
+                    <div class="w-full h-[250px] mx-auto bg-cover bg-no-repeat bg-center border-slate-200"
+                        style="background-image: url(https://source.unsplash.com/500x400?{{ $posts[0]->category->slug }})">
                     </div>
                 @endif
 
@@ -70,7 +70,8 @@
                 @foreach ($posts->skip(1) as $post)
                     <div class="w-[320px] m-3">
                         <div class="relative bg-white dark:bg-slate-800 shadow-md rounded-sm overflow-hidden">
-                            <div class="absolute left-0 top-0 px-3 py-2 bg-black bg-opacity-70">
+                            <div
+                                class="absolute left-0 top-0 px-3 py-2 bg-black text-white dark:text-black bg-opacity-70">
                                 <a href="/blogs?category={{ $post->category->slug }}"
                                     class="dark:text-white no-underline">{{ $post->category->name }}</a>
                             </div>

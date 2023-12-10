@@ -5,8 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
 
-    <title>Crxa Nodes Services</title>
+    <title>Crxa Nodes Services | @yield('title')
+    </title>
 
     <meta name="description"
         content="CRXA NODES is a premier individual enterprise dedicated to providing exceptional node and
@@ -42,7 +44,7 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.css" />
 
-    <link rel="stylesheet" href="{{ asset('build/assets/markdown.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/markdown.css') }}">
     <style>
         /* Card styles */
         .card {

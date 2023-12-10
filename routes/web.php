@@ -27,11 +27,11 @@ Route::get('/', [ChaindController::class, 'index'])->name('home');
 
 Route::get('/blogs', [guestPostController::class, 'index'])->name('posts');
 
-Route::get('/test', [guestPostController::class, 'test'])->name('test');
-
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('dashboard', [
+        'title' => "Dashboard"
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/dashboard/posts/checkSlug', [PostController::class, 'checkSlug']);
@@ -40,7 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/dashboard/user', function () {
-        return view('user');
+        return view('user', [
+            'title' => "All User List"
+        ]);
     })->name('user');
     Route::resource('/dashboard/posts', PostController::class)->names([
         'posts.index' => 'posts.index',

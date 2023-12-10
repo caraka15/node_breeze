@@ -1,0 +1,73 @@
+.markdown-body {
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 10px;
+}
+
+.markdown-body img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+}
+
+pre {
+    position: relative;
+    padding: 10px;
+    background-color: #64748b;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    overflow: auto;
+}
+
+.copy-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 5px;
+    background-color: transparent;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.copy-button:hover {
+    opacity: 0.8;
+}
+
+.copy-icon {
+    width: 16px;
+    height: 16px;
+    color: white;
+    transition: transform 0.2s ease-in-out;
+}
+
+.copy-button.copied .copy-icon {
+    transform: rotate(180deg);
+}
+
+@keyframes showCopiedText {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.copied-text {
+    position: absolute;
+    top: 5px;
+    right: 40px;
+    font-size: 14px;
+    color: #555;
+    opacity: 0;
+    animation: showCopiedText 0.3s ease-in-out forwards;
+}

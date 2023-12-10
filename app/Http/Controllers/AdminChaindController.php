@@ -16,7 +16,8 @@ class AdminChaindController extends Controller
     public function index()
     {
         return view('dashboard.chainds.index', [
-            'chainds' => Chaind::all()
+            'chainds' => Chaind::all(),
+            'title' => "Chaind Dashboard"
         ]);
     }
 
@@ -26,7 +27,8 @@ class AdminChaindController extends Controller
     public function create()
     {
         return view('dashboard.chainds.create', [
-            'chainds' => Chaind::all()
+            'chainds' => Chaind::all(),
+            'title' => "Add Chaind"
         ]);
     }
 
@@ -68,7 +70,8 @@ class AdminChaindController extends Controller
     public function show(Chaind $chaind)
     {
         return view('dashboard.chainds.sh', [
-            'chaind' => $chaind
+            'chaind' => $chaind,
+            'title' => $chaind->name
         ]);
     }
 
@@ -78,7 +81,8 @@ class AdminChaindController extends Controller
     public function edit(Chaind $chaind)
     {
         return view('dashboard.chainds.edit', [
-            'chaind' => $chaind
+            'chaind' => $chaind,
+            'title' => "Edit chaind" . $chaind->name
         ]);
     }
 
@@ -144,6 +148,5 @@ class AdminChaindController extends Controller
     {
         $slug = SlugService::createSlug(Chaind::class, 'slug', $request->name);
         return response()->json(['slug' => $slug]);
-
     }
 }

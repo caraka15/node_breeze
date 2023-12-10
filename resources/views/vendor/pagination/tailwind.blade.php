@@ -86,7 +86,7 @@
                                 @if ($page == $paginator->currentPage())
                                     <span aria-current="page">
                                         <span
-                                            class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-500 dark:text-orange-500 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-300 cursor-default leading-5">{{ $page }}</span>
+                                            class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-orange-500 dark:text-orange-500 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-300 cursor-default leading-5">{{ $page }}</span>
                                     </span>
                                 @else
                                     <a href="{{ $url }}"
@@ -113,7 +113,7 @@
                     @else
                         <span aria-disabled="true" aria-label="{{ __('pagination.next') }}">
                             <span
-                                class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 dark:text-white bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-300 cursor-default rounded-r-md leading-5"
+                                class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-300 dark:text-white bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-300 cursor-default rounded-r-md leading-5"
                                 aria-hidden="true">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd"

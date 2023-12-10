@@ -32,6 +32,7 @@ class guestPostController extends Controller
     {
         return view('posts.show', [
             "post" => $post,
+            "title" => $post->name
         ]);
     }
 }

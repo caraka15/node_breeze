@@ -11,7 +11,6 @@ class ChaindController extends Controller
     {
         return view('home', [
             "title" => "Home",
-            "active" => "home",
             "chainds" => Chaind::all()
         ]);
     }
@@ -19,8 +18,8 @@ class ChaindController extends Controller
     public function show(Chaind $chaind)
     {
         return view('chains', [
+            "title" => "Home",
             "chaind" => $chaind,
-            "active" => "home"
         ]);
     }
 }

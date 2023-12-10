@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L33K6VP4EV"></script>
     <script>
@@ -18,7 +19,8 @@
         gtag('config', 'G-L33K6VP4EV');
     </script>
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Crxa Nodes Services | @yield('title')
+    </title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
