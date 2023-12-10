@@ -6,13 +6,24 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
-class guestPostController extends Controller
+class GuestPostController extends Controller
 {
     public function index()
     {
-
         $title = '';
+
+        // Membuat key unik untuk cache berdasarkan parameter request
+        $cacheKey = 'posts.' . md5(request()->fullUrl());
+
+        // Menggunakan Cache::remember untuk menyimpan dan mengambil data dari cache
+        $posts = Cache::remember($cacheKey, now()->addMinutes(10), function () {
+            Log::info('Data diambil dari query ulang.'); // Log jika data diambil dari query ulang
+            return Post::latest()->filter(request(['search', 'category', 'author']))->paginate(7)->withQueryString();
+        });
+
         if (request('author')) {
             $author = User::firstWhere('username', request('author'));
             $title = ' in ' . $author->name;
@@ -22,9 +33,14 @@ class guestPostController extends Controller
             $title = ' in ' . $category->name;
         }
 
+        if (!Cache::has($cacheKey)) {
+            Log::info('Data diambil dari cache.'); // Log jika data diambil dari cache
+        }
+
         return view('posts.index', [
             "title" => "All Posts" . $title,
-            "posts" => Post::latest()->filter(request(['search', 'category', 'author']))->paginate(7)->withQueryString()
+            "posts" => $posts,
+            "cache" => Cache::has($cacheKey)
         ]);
     }
 
@@ -32,7 +48,7 @@ class guestPostController extends Controller
     {
         return view('posts.show', [
             "post" => $post,
-            "title" => $post->name
+            "title" => $post->name,
         ]);
     }
 }
