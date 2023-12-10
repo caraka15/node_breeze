@@ -17,10 +17,10 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Post $post)
     {
         return view('dashboard.posts.index', [
-            "posts" => Post::orderBy('created_at', 'desc')->get(),
+            'posts' => Post::where('user_id', auth()->user()->id)->latest('created_at')->get(),
             'title' => "Your Post"
         ]);
     }
