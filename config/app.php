@@ -163,6 +163,7 @@ return [
         /*
          * Application Service Providers...
          */
+        Spatie\Sitemap\SitemapServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,

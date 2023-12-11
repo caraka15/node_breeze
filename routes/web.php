@@ -4,10 +4,11 @@ use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ChaindController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AdminChaindController;
 use App\Http\Controllers\ConfigController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\guestPostController;
+use App\Http\Controllers\AdminChaindController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,9 @@ Route::get('/', [ChaindController::class, 'index'])->name('home');
 Route::get('/blogs', [guestPostController::class, 'index'])->name('posts');
 
 Route::get('/config', [ConfigController::class, 'config'])->name('config');
+
+Route::get('/generate-sitemap', [SitemapController::class, 'generate']);
+
 
 
 
