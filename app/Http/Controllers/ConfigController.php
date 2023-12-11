@@ -41,7 +41,7 @@ class ConfigController extends Controller
 
         // Menyimpan informasi file ke dalam database
         Config::create([
-            'config' => "/uploads/" . $fileName,
+            'config' => $fileName,
         ]);
 
         return redirect()->route('config.index')->with('success', 'File berhasil diunggah!');
@@ -68,11 +68,11 @@ class ConfigController extends Controller
             $file->storeAs('upload', $fileName, 'public');
 
             // Hapus file lama jika perlu
-            Storage::disk('public')->delete('upload/' . $config->file_name);
+            Storage::disk('public')->delete('upload/' . $config->config);
 
             // Update informasi file di database
             $config->update([
-                'file_name' => $fileName,
+                'config' => $fileName,
             ]);
 
             return redirect()->route('config.index')->with('success', 'File berhasil diperbarui!');
@@ -87,11 +87,23 @@ class ConfigController extends Controller
     public function destroy(Config $config)
     {
         // Hapus file dari storage
-        Storage::disk('public')->delete('uploads/' . $config->file_name);
+        $filePath = 'uploads/' . $config->config;
 
-        // Hapus record dari database
-        $config->delete();
+        if (Storage::exists($filePath)) {
+            Storage::delete($filePath);
 
-        return redirect()->route('configs.index')->with('success', 'File berhasil dihapus!');
+            // Hapus record dari database
+            $config->delete();
+
+            return redirect()->route('config.index')->with('success', 'File berhasil dihapus!');
+        }
+    }
+
+    public function config()
+    {
+        return view('config', [
+            'configs' => Config::orderBy('updated_at', 'desc')->get(),
+            'title' => " Config Inject Internet"
+        ]);
     }
 }

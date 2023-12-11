@@ -11,7 +11,7 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class=" hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     @if (request()->is('dashboard*'))
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
@@ -33,6 +33,9 @@
                         </x-nav-link>
                         <x-nav-link :href="route('posts')" :active="request()->routeIs(['posts', 'blogs.show'])">
                             {{ __('Blogs') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('config')" :active="request()->routeIs(['config'])">
+                            {{ __('Config') }}
                         </x-nav-link>
                     @endif
 
