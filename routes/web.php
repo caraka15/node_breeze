@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ChaindController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminChaindController;
+use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\guestPostController;
 
 /*
@@ -65,6 +66,15 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
         'edit' => 'chainds.edit',
         'update' => 'chainds.update',
         'destroy' => 'chainds.destroy',
+    ]);
+    Route::resource('/dashboard/config', ConfigController::class)->names([
+        'config.index' => 'config.index',
+        'config.create' => 'config.create',
+        'config.store' => 'config.store',
+        'config.show' => 'config.show',
+        'config.edit' => 'config.edit',
+        'config.update' => 'config.update',
+        'config.destroy' => 'config.destroy',
     ]);
 });
 

@@ -7,6 +7,7 @@ use App\Models\Post;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use DOMDocument;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -17,11 +18,22 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index(Post $post)
     {
+        $cacheKey = 'user_posts_' . auth()->user()->id;
+
+        $posts = Cache::remember($cacheKey, now()->addMinutes(10), function () {
+            return Post::where('user_id', auth()->user()->id)->latest('created_at')->get();
+        });
+
+        // Menambahkan informasi apakah data diambil dari cache atau tidak
+        $isDataFromCache = Cache::has($cacheKey);
+
         return view('dashboard.posts.index', [
-            'posts' => Post::where('user_id', auth()->user()->id)->latest('created_at')->get(),
-            'title' => "Your Post"
+            'posts' => $posts,
+            'title' => "Your Post",
+            'isDataFromCache' => $isDataFromCache,
         ]);
     }
 
