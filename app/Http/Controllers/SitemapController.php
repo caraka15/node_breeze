@@ -12,7 +12,7 @@ class SitemapController extends Controller
     public function generate()
     {
 
-        $urlToBeCrawled = "https://crxanode.com/";
+        $urlToBeCrawled = config("app.url");
 
         SitemapGenerator::create($urlToBeCrawled)->writeToFile(public_path('sitemap.xml'));
         return response()->json(['message' => 'Sitemap generated successfully.']);

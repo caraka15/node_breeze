@@ -6,22 +6,12 @@
         <priority>0.8</priority>
             </url>
     <url>
-        <loc>https://crxanode.com/config</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
         <loc>https://crxanode.com/register</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
     <url>
-        <loc>https://crxanode.com/mande</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>https://crxanode.com/planq</loc>
+        <loc>https://crxanode.com/config</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
@@ -31,12 +21,22 @@
         <priority>0.8</priority>
             </url>
     <url>
+        <loc>https://crxanode.com/blogs</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
         <loc>https://crxanode.com/osmosis</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
     <url>
-        <loc>https://crxanode.com/blogs</loc>
+        <loc>https://crxanode.com/planq</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>https://crxanode.com/mande</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
@@ -56,7 +56,7 @@
         <priority>0.8</priority>
             </url>
     <url>
-        <loc>https://crxanode.com/blogs/config-indosat</loc>
+        <loc>https://crxanode.com/forgot-password</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
@@ -71,11 +71,6 @@
         <priority>0.8</priority>
             </url>
     <url>
-        <loc>https://crxanode.com/forgot-password</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
         <loc>https://crxanode.com/blogs?author=caraka15</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
@@ -86,7 +81,17 @@
         <priority>0.8</priority>
             </url>
     <url>
+        <loc>https://crxanode.com/blogs/config-indosat</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
         <loc>https://crxanode.com/blogs/config-xl-flex</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>https://crxanode.com/upload/im3bab.nm</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
@@ -96,17 +101,12 @@
         <priority>0.8</priority>
             </url>
     <url>
-        <loc>https://crxanode.com/upload/IM3%2011%20Jan.nm</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
         <loc>https://crxanode.com/upload/xl_enhance.nm</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
     <url>
-        <loc>https://crxanode.com/upload/im3bab.nm</loc>
+        <loc>https://crxanode.com/upload/IM3%2011%20Jan.nm</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>

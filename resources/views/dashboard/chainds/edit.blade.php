@@ -32,15 +32,14 @@
                             <x-input-error :messages="$errors->get('slug')" class="mt-2" />
                         </div>
 
-
                         <div class="mt-4">
                             <x-input-label for="logo" :value="__('Logo')" />
                             <div class="flex items-center">
-                                <span class="sr-only mt-1">Choose profile photo</span>
-                                <input type="hidden" name="oldLogo" value="{{ $chaind->logo }}"
+                                <span class="sr-only mt-1">Choose logo</span>
+                                <input type="file" id="logo" name="logo"
                                     class=" mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:text-sm file:font-semibold file:rounded-full file:border-0 file:bg-violet-50 file:text-orange-700 hover:file:bg-violet-100
                                     "
-                                    :value="{{ $chaind->logo }}" onchange="previewImage()" />
+                                    onchange="previewImage()" />
                                 <x-input-error :messages="$errors->get('logo')" class="mt-2" />
                                 <div class="shrink-0">
                                     @if ($chaind->logo)
@@ -49,8 +48,6 @@
                                     @else
                                         <img class="img-preview h-14 w-14 object-cover rounded-full" />
                                     @endif
-
-
                                 </div>
                             </div>
                         </div>

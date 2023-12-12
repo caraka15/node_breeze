@@ -7,11 +7,15 @@
                     <h2 class="dark:text-white mb-7 text-2xl text-center">ADD NEW CONFIG</h2>
                     <form method="post" action="/dashboard/config" enctype="multipart/form-data">
                         @csrf
-                        <div>
+                        <div class="mt-4">
                             <x-input-label for="config" :value="__('Config')" />
-                            <x-text-input id="config" class="block mt-1 w-full" type="file" name="file"
-                                :value="old('file')" required autofocus autocomplete="file" />
-                            <x-input-error :messages="$errors->get('config')" class="mt-2" />
+                            <div class="flex items-center">
+                                <span class="sr-only mt-1">Choose profile photo</span>
+                                <input type="file" id="config" name="config"
+                                    class=" mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:text-sm file:font-semibold file:rounded-full file:border-0 file:bg-violet-50 file:text-orange-700 hover:file:bg-violet-100
+                                    " />
+                                <x-input-error :messages="$errors->get('config')" class="mt-2" />
+                            </div>
                         </div>
 
                         <x-primary-button class="ml-[450px] mt-5 w-[122px]">
@@ -37,7 +41,7 @@
         })
 
         function previewImage() {
-            const image = document.querySelector('#logo');
+            const image = document.querySelector('#config');
             const imgPreview = document.querySelector('.img-preview');
 
             imgPreview.style.display = 'block';

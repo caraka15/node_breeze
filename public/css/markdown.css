@@ -17,7 +17,8 @@ pre {
     background-color: #64748b;
     border-radius: 3px;
     margin-bottom: 20px;
-    overflow: auto;
+    overflow-x: hidden;
+    white-space: nowrap;
 }
 
 .copy-button {
@@ -33,6 +34,7 @@ pre {
     align-items: center;
     justify-content: center;
     transition: opacity 0.2s ease-in-out;
+    z-index: 1;
 }
 
 .copy-button:hover {
