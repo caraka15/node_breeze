@@ -54,6 +54,7 @@
 
                         <div class="mt-4">
                             <x-input-label for="guide_link" :value="__('Guide_Link')" />
+
                             <span class="sr-only mt-1 mb-2">Choose Guide File</span>
                             <input type="hidden" name="oldGuideLink" value="{{ $chaind->guide_link }}" />
 
@@ -65,19 +66,18 @@
                                 </div>
 
                                 @if (!$errors->has('guide_link'))
-                                    <input type="file" id="guide_link" name="guide_link" class="hidden" />
-                                    <label for="guide_link"
-                                        class="mt-2 block w-full px-4 py-2 text-sm font-semibold rounded-full border-0 bg-violet-50 text-orange-700 hover:bg-violet-100 cursor-pointer">
-                                        Change Guide
-                                    </label>
+                                    <input type="file" id="guide_link" name="guide_link"
+                                        class=" mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:text-sm file:font-semibold file:rounded-full file:border-0 file:bg-violet-50 file:text-orange-700 hover:file:bg-violet-100
+                                " />
                                 @endif
                             @else
-                                <textarea id="guide_link" name="guide_link"
-                                    class="mt-2 block w-full px-4 py-2 text-sm font-semibold rounded-full border-gray-300 dark:border-gray-700 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm"
-                                    rows="5"></textarea>
+                                <input type="file" id="guide_link" name="guide_link"
+                                    class=" mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:text-sm file:font-semibold file:rounded-full file:border-0 file:bg-violet-50 file:text-orange-700 hover:file:bg-violet-100
+                                " />
                             @endif
 
                             <x-input-error :messages="$errors->get('guide_link')" class="mt-2" />
+
                         </div>
 
 
