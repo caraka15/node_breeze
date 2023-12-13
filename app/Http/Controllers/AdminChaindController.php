@@ -92,40 +92,49 @@ class AdminChaindController extends Controller
     public function update(Request $request, Chaind $chaind)
     {
         $rules = [
-            'logo' => 'required|image|file|max:1024',
             'type' => 'required',
             'name' => 'required|max:20',
             'guide_link' => 'required|file',
             'rpc_link' => 'required',
-            'stake_link' => 'required'
+            'stake_link' => 'required',
         ];
 
+        // Add validation rule for logo if it is present in the request
+        if ($request->hasFile('logo')) {
+            $rules['logo'] = 'required|image|file|max:1024';
+        }
+
+        // Add validation rule for slug if it has changed
         if ($request->slug != $chaind->slug) {
             $rules['slug']  = 'required|unique:chainds';
         }
 
         $validateData = $request->validate($rules);
 
-        if ($request->file('logo')) {
-            if ($request->oldLogo) {
-                Storage::delete($request->oldLogo);
+        // Handle logo update
+        if ($request->hasFile('logo')) {
+            if ($chaind->logo) {
+                Storage::delete($chaind->logo);
             }
             $validateData['logo'] = $request->file('logo')->store('logo-chaind');
         }
 
-        if ($request->file('guide_link')) {
-            if ($request->oldGuide) {
-                Storage::delete($request->oldGuideLink);
+        // Handle guide link update
+        if ($request->hasFile('guide_link')) {
+            if ($chaind->guide_link) {
+                Storage::delete($chaind->guide_link);
             }
-            $validateData['guide_link'] = $request->file('guide_link')->store('guide-chaind');
+            $fileName = $request->slug . '.md';  // Use the slug as the file name
+            $filePath = $request->file('guide_link')->storeAs('guide-chaind', $fileName);
+            $validateData['guide_link'] = $filePath;
         }
 
+        // Update the Chaind model
+        $chaind->update($validateData);
 
-        Chaind::where('id', $chaind->id)
-            ->update($validateData);
-
-        return redirect('/dashboard/chainds')->with('success', 'post has been Updated');
+        return redirect('/dashboard/chainds')->with('success', 'Post has been updated');
     }
+
 
     /**
      * Remove the specified resource from storage.
