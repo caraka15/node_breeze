@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <title>Crxa Nodes Services | @yield('title')
+    <title>@yield('title') - Crxa Nodes Services
     </title>
 
     {{-- meta tags --}}

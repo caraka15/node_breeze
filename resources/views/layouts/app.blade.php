@@ -23,7 +23,7 @@
     <meta property="og:url" content="{{ request()->url() }}">
 
 
-    <title>Crxa Nodes Services | @yield('title')
+    <title>@yield('title') - Crxa Nodes Services
     </title>
 
 
