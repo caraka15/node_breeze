@@ -18,9 +18,15 @@
 
     {{-- tags og --}}
     <meta property="og:title" content="@yield('title')">
-    <meta property="og:description" content=" @yield('description')">
     <meta property="og:image" content="{{ asset('img/' . basename(request()->path()) . '.PNG') }}">
     <meta property="og:url" content="{{ request()->url() }}">
+
+    @if (request()->route()->getName() == 'home')
+        <meta property="og:description"
+            content="Explore the world of CRXA Node, your premier destination for top-notch node and validator services. Dive into the offerings of PlanQ, Osmosis, Mande, Cosmos, Over, and more. Stay informed with our insightful blogs and articles, covering a spectrum of topics in the blockchain and node service ecosystem.">
+    @else
+        <meta property="og:description" content=" @yield('description')">
+    @endif
 
 
     <title>@yield('title') - Crxa Nodes Services
