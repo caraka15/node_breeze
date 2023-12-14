@@ -7,6 +7,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
     <meta name="description" content=" @yield('description') ">
+    <meta property="og:image" content="{{ asset('img/' . basename(request()->path()) . '.PNG') }}">
+    <meta property="og:url" content="{{ request()->url() }}">
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L33K6VP4EV"></script>
     <script>
@@ -64,6 +67,20 @@
                 eyeClosed.classList.toggle('hidden');
             });
         });
+    </script>
+    <script>
+        // Mendapatkan path URL tanpa karakter slash terakhir
+        var pathWithoutSlash = window.location.pathname.replace(/\/$/, "");
+
+        // Mendapatkan nama file dari path URL
+        var fileName = pathWithoutSlash.substring(pathWithoutSlash.lastIndexOf("/") + 1);
+
+        // Mengubah nama file menjadi huruf besar dan menambahkan ekstensi PNG
+        var thumbnailFileName = fileName.toUpperCase() + ".PNG";
+        var thumbnailPath = "{{ asset('img/') }}" + '/' + thumbnailFileName;
+
+        // Mengatur nilai og:image dengan URL gambar thumbnail
+        document.getElementById("ogImage").content = thumbnailPath;
     </script>
 </body>
 

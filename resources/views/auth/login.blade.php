@@ -1,6 +1,7 @@
 <x-guest-layout>
     @section('title', $title)
-    @section('description', 'Log in to your CRXA Node account. Ensure secure access to exclusive content and features.
+    @section('description',
+        'Log in to your CRXA Node account. Ensure secure access to exclusive content and features.
         Your trusted gateway to node and validator services.')
 
         <!-- Session Status -->
