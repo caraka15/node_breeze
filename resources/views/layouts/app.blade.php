@@ -29,9 +29,13 @@
     @endif
 
 
-    <title>@yield('title') - Crxa Nodes Services
-    </title>
-
+    @if (request()->route()->getName() == 'home')
+        <title>Home - Crxa Nodes Services
+        </title>
+    @else
+        <title>@yield('title') - Crxa Nodes Services
+        </title>
+    @endif
 
     <!-- Fonts -->
     <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">

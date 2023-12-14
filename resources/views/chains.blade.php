@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', $title)
+    @section('title', $chaind->name)
     @section('description', $chaind->name . ' Node Service, Validator guide')
     <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
