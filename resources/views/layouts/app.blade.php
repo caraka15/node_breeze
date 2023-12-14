@@ -7,16 +7,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
     <meta name="robots" content="index, follow">
+    <meta property="og:image" content="{{ asset('img/tumbnail.PNG') }}" />
+
 
     <title>Crxa Nodes Services | @yield('title')
     </title>
 
     <meta name="description"
-        content="CRXA NODES is a premier individual enterprise dedicated to providing exceptional node and
-                            validator services across various networks, with a primary focus on the thriving Cosmos
-                            ecosystem. With an unwavering commitment to excellence, we have established ourselves as a
-                            trusted partner for network participants, offering reliable infrastructure and comprehensive
-                            support to ensure optimal performance, security, and growth">
+        content="Explore the world of CRXA Node, your premier destination for top-notch node and validator services. Dive into the offerings of PlanQ, Osmosis, Mande, Cosmos, Over, and more. Stay informed with our insightful blogs and articles, covering a spectrum of topics in the blockchain and node service ecosystem.">
     <!-- Fonts -->
     <link rel="canonical" href="https://crxanode.com/" />
     <link rel="preconnect" href="https://fonts.bunny.net">

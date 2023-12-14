@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+    <meta name="description" content=" @yield('description') ">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L33K6VP4EV"></script>
     <script>
@@ -27,6 +28,8 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -43,6 +46,25 @@
             {{ $slot }}
         </div>
     </div>
+    <script>
+        feather.replace();
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+            const passwordInput = document.getElementById('password');
+            const eyeOpen = document.getElementById('eye-open');
+            const eyeClosed = document.getElementById('eye-closed');
+            const togglePassword = document.getElementById('togglePassword');
+
+            togglePassword.addEventListener('change', function() {
+                const passwordType = togglePassword.checked ? 'text' : 'password';
+                passwordInput.type = passwordType;
+                eyeOpen.classList.toggle('hidden');
+                eyeClosed.classList.toggle('hidden');
+            });
+        });
+    </script>
 </body>
 
 </html>
