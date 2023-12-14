@@ -2,13 +2,32 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
+    <title>Crxa Nodes Services | @yield('title')
+    </title>
+
+    {{-- meta tags --}}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
     <meta name="description" content=" @yield('description') ">
+    <meta name="robots" content="index, follow">
+
+
+    {{-- tags og --}}
+    <meta property="og:title" content="@yield('title')">
+    <meta property="og:description" content=" @yield('description')">
     <meta property="og:image" content="{{ asset('img/' . basename(request()->path()) . '.PNG') }}">
     <meta property="og:url" content="{{ request()->url() }}">
+
+
+    {{-- link --}}
+    <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    @if (request()->route()->getName() == 'home')
+        <link rel="canonical" href="{{ url()->current() }}">
+    @endif
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L33K6VP4EV"></script>
@@ -23,17 +42,10 @@
         gtag('config', 'G-L33K6VP4EV');
     </script>
 
-    <title>Crxa Nodes Services | @yield('title')
-    </title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 </head>
 
 <body class="font-sans text-gray-900 antialiased">

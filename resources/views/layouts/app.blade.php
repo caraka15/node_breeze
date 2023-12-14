@@ -5,17 +5,30 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
     <meta name="robots" content="index, follow">
-    <meta property="og:image" content="{{ asset('img/tumbnail.PNG') }}" />
+
+    @if (request()->route()->getName() == 'home')
+        <meta name="description"
+            content="Explore the world of CRXA Node, your premier destination for top-notch node and validator services. Dive into the offerings of PlanQ, Osmosis, Mande, Cosmos, Over, and more. Stay informed with our insightful blogs and articles, covering a spectrum of topics in the blockchain and node service ecosystem.">
+    @else
+        <meta name="description" content=" @yield('description') ">
+    @endif
+
+
+
+    {{-- tags og --}}
+    <meta property="og:title" content="@yield('title')">
+    <meta property="og:description" content=" @yield('description')">
+    <meta property="og:image" content="{{ asset('img/' . basename(request()->path()) . '.PNG') }}">
+    <meta property="og:url" content="{{ request()->url() }}">
 
 
     <title>Crxa Nodes Services | @yield('title')
     </title>
 
-    <meta name="description"
-        content="Explore the world of CRXA Node, your premier destination for top-notch node and validator services. Dive into the offerings of PlanQ, Osmosis, Mande, Cosmos, Over, and more. Stay informed with our insightful blogs and articles, covering a spectrum of topics in the blockchain and node service ecosystem.">
+
     <!-- Fonts -->
+    <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
     <link rel="canonical" href="https://crxanode.com/" />
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
