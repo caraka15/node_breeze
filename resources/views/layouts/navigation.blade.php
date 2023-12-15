@@ -138,6 +138,9 @@
                 <x-responsive-nav-link :href="route('posts')" :active="request()->routeIs(['posts', 'blogs.show'])">
                     {{ __('Blogs') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('config')" :active="request()->routeIs(['config'])">
+                    {{ __('Blogs') }}
+                </x-responsive-nav-link>
             @endif
 
         </div>
