@@ -139,7 +139,7 @@
                     {{ __('Blogs') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('config')" :active="request()->routeIs(['config'])">
-                    {{ __('Blogs') }}
+                    {{ __('Config') }}
                 </x-responsive-nav-link>
             @endif
 
