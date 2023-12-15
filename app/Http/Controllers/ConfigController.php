@@ -35,7 +35,7 @@ class ConfigController extends Controller
     public function store(Request $request)
     {
         // Menyimpan file ke storage tanpa validasi
-        $file = $request->file('file');
+        $file = $request->file('config');
         $fileName = $file->getClientOriginalName();
         $file->storeAs('uploads', $fileName, 'public');
 
@@ -62,8 +62,8 @@ class ConfigController extends Controller
     {
         // Menghapus validasi file
         // Jika ada file yang diunggah, update file yang ada
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
+        if ($request->hasFile('config')) {
+            $file = $request->file('config');
             $fileName = $file->getClientOriginalName();
             $file->storeAs('upload', $fileName, 'public');
 
