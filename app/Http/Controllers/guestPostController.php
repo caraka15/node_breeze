@@ -47,6 +47,11 @@ class GuestPostController extends Controller
 
     public function show(Post $post)
     {
+
+        if (!$post->public) {
+            abort(404); // Jika tidak public, tampilkan halaman 404
+        }
+
         return view('posts.show', [
             "post" => $post,
             "title" => $post->name,
