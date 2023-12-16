@@ -15,9 +15,16 @@
                         </div>
 
                         <div class="mt-4">
+                            <x-input-label for="slug" :value="__('Slug')" />
+                            <x-text-input id="slug" class="block mt-1 w-full" type="text" name="slug"
+                                :value="old('slug')" required autofocus autocomplete="slug" />
+                            <x-input-error :messages="$errors->get('slug')" class="mt-2" />
+                        </div>
+
+                        <div class="mt-4">
                             <x-input-label for="category_id" class="form-label">Category</x-input-label>
                             <select
-                                class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-orange-500 dark:focus:border-orange-600 focus:ring-orange-500 dark:focus:ring-orange-600 rounded-md shadow-sm"
                                 name="category_id">
                                 @foreach ($categories as $category)
                                     @if (old('category_id') == $category->id)
@@ -30,10 +37,13 @@
                         </div>
 
                         <div class="mt-4">
-                            <x-input-label for="slug" :value="__('Slug')" />
-                            <x-text-input id="slug" class="block mt-1 w-full" type="text" name="slug"
-                                :value="old('slug')" required autofocus autocomplete="slug" />
-                            <x-input-error :messages="$errors->get('slug')" class="mt-2" />
+                            <x-input-label for="public" class="form-label">Post Status</x-input-label>
+                            <select
+                                class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-orange-500 dark:focus:border-orange-600 focus:ring-orange-500 dark:focus:ring-orange-600 rounded-md shadow-sm"
+                                name="public">
+                                <option value="1" selected>Public</option>
+                                <option value="0">Private</option>
+                            </select>
                         </div>
 
                         <div class="mt-4">

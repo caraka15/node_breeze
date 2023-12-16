@@ -19,7 +19,7 @@ class PostFactory extends Factory
         return [
             'name' => $this->faker->sentence(mt_rand(2, 8)),
             'slug' => $this->faker->slug(),
-            'excerpt' => $this->faker->paragraph(),
+            'excerpt' => $this->faker->paragraph(3),
             'image' => '/upload/16998693801.png',
             // 'body' => '<p>' . implode('<p></p>',$this->faker->paragraphs(mt_rand(5,10))),
             'description' => collect($this->faker->paragraphs(mt_rand(5, 10)))

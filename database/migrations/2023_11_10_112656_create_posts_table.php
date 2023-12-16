@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->longText('description');
             $table->string('excerpt');
+            $table->boolean('public')->nullable()->default(true);
             $table->string('image')->nullable();
             $table->timestamps();
         });

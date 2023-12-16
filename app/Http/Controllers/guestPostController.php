@@ -19,10 +19,11 @@ class GuestPostController extends Controller
         $cacheKey = 'posts.' . md5(request()->fullUrl());
 
         // Menggunakan Cache::remember untuk menyimpan dan mengambil data dari cache
-        $posts = Cache::remember($cacheKey, now()->addMinutes(10), function () {
-            Log::info('Data diambil dari query ulang.'); // Log jika data diambil dari query ulang
-            return Post::latest()->filter(request(['search', 'category', 'author']))->paginate(7)->withQueryString();
-        });
+        $posts = Post::where('public', 1)
+            ->latest()
+            ->filter(request(['search', 'category', 'author']))
+            ->paginate(7)
+            ->withQueryString();
 
         if (request('author')) {
             $author = User::firstWhere('username', request('author'));

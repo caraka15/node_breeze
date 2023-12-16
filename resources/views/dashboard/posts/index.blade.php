@@ -7,31 +7,60 @@
         </h2>
     </x-slot>
 
+    @if (session()->has('success'))
+        <!-- Alert Container -->
+        <div id="alert"
+            class="relative flex justify-between top-0 right-0 m-4 p-4 bg-green-500 text-white rounded shadow-lg">
+            <p>{{ session('success') }}</p>
+            <button type="button" id="closeBtn" class="close transition" data-dismiss="alert">
+                <i class="text-white" data-feather="x"></i>
+            </button>
+        </div>
+    @endif
+
     <div class="py-12">
-        <div class=" mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="flex w-full p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="m-auto dark:text-white">
-                    <table class="border-collapse border border-slate-500 w-6xl text-center">
-                        <thead class="w-full">
+                <div class="relative max-w-full">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <th class="border border-slate-600 w-10">NO</th>
-                                <th class="border border-slate-600 w-[900px]">Title</th>
-                                <th class="border border-slate-600">Action</th>
+                                <th scope="col" class="px-6 py-3">
+                                    No
+                                </th>
+                                <th scope="col" class="px-12 py-3 w-[800px]">
+                                    Title
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Status
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Action
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($posts as $post)
-                                <tr>
-                                    <td class="border border-slate-700">{{ $loop->iteration }}</td>
-                                    <td class="border border-slate-700">{{ $post->name }}</td>
-                                    <td class="border border-slate-700 justify-center p-1">
-                                        <div class="mx-auto justify-center flex">
-                                            <a href="/dashboard/posts/{{ $post->slug }}"
-                                                class="relative inline-block bg-orange-600 w-12 h-8 px-3 py-1 me-1 rounded-md group">
-                                                <i data-feather="eye"></i>
-                                                <span
-                                                    class="z-50 opacity-0 group-hover:opacity-100 transition duration-300 absolute left-7 top-8 bg-slate-100 text-black text-xs px-0.5 py-0.5 border border-black">View</span>
-                                            </a>
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <th scope="row"
+                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $loop->iteration }}
+                                    </th>
+                                    <td class="px-12 py-4 whitespace-normal w-[800px]">
+                                        <a class="hover:underline hover:underline-offset-1 status-element"
+                                            href="/dashboard/posts/{{ $post->slug }}" data-slug="{{ $post->slug }}"
+                                            data-current-value="{{ $post->public }}">
+                                            {{ $post->name }}
+                                        </a>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="status-element" data-slug="{{ $post->slug }}"
+                                            data-current-value="{{ $post->public }}">
+                                            {{ $post->public ? 'Public' : 'Private' }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-white mx-auto justify-start flex">
                                             <a href="/dashboard/posts/{{ $post->slug }}/edit"
                                                 class="relative inline-block bg-orange-600 w-12 h-8 px-3 py-1 me-1 rounded-md group">
                                                 <i data-feather="edit"></i>
@@ -58,4 +87,14 @@
             </div>
         </div>
     </div>
+    <script>
+        // Function to close the alert
+        function closeAlert() {
+            const alertElement = document.getElementById('alert');
+            alertElement.classList.add('hidden');
+        }
+
+        // Attach event listener to the close button
+        document.getElementById('closeBtn').addEventListener('click', closeAlert);
+    </script>
 </x-app-layout>

@@ -21,19 +21,9 @@ class PostController extends Controller
 
     public function index(Post $post)
     {
-        $cacheKey = 'user_posts_' . auth()->user()->id;
-
-        $posts = Cache::remember($cacheKey, now()->addMinutes(10), function () {
-            return Post::where('user_id', auth()->user()->id)->latest('created_at')->get();
-        });
-
-        // Menambahkan informasi apakah data diambil dari cache atau tidak
-        $isDataFromCache = Cache::has($cacheKey);
-
         return view('dashboard.posts.index', [
-            'posts' => $posts,
+            'posts' => Post::where('user_id', auth()->user()->id)->latest('created_at')->get(),
             'title' => "Your Post",
-            'isDataFromCache' => $isDataFromCache,
         ]);
     }
 
@@ -58,6 +48,7 @@ class PostController extends Controller
             'category_id' => 'required',
             'slug' => 'required|unique:posts',
             'description' => 'required',
+            'public' => 'boolean'
         ]);
 
         $description = $request->description;
@@ -92,10 +83,11 @@ class PostController extends Controller
             'description' => $description,
             'excerpt' => $excerpt,
             'category_id' => $request->category_id,
-            'image' => $firstImage ?? null, // Make $firstImage optional
+            'image' => $firstImage ?? null,
+            'public' => $request->public  // Make $firstImage optional
         ]);
 
-        return redirect('/dashboard/posts');
+        return redirect('/dashboard/posts')->with('success', 'New post has been added');;
     }
 
 
@@ -116,6 +108,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         return view('dashboard.posts.edit', [
+            'categories' => Category::all(),
             'post' => $post,
             'title' => "Edit "  . $post->name
         ]);
@@ -197,11 +190,12 @@ class PostController extends Controller
         $post->update([
             'name' => $request->name,
             'user_id' => $user_id,
-            'category' => $request->category,
+            'category_id' => $request->category_id,
             'description' => $updatedDescription,
             'slug' => $request->slug,
             'excerpt' => $excerpt,
-            'image' => $firstImage
+            'image' => $firstImage,
+            'public' => $request->public
         ]);
 
         return redirect('/dashboard/posts');
@@ -251,6 +245,7 @@ class PostController extends Controller
         return redirect('/dashboard/posts');
     }
 
+
     protected function getFirstImageFromDescription($description)
     {
         if ($description) {
@@ -258,7 +253,6 @@ class PostController extends Controller
             preg_match('/<img.*?src=[\'"](.*?)[\'"].*?>/i', $description, $matches);
             return isset($matches[1]) ? $matches[1] : null;
         }
-
         return null;
     }
 
