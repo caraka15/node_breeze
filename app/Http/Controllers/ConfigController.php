@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Config;
+use Illuminate\Http\Exceptions\PostTooLargeException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -34,18 +35,30 @@ class ConfigController extends Controller
      */
     public function store(Request $request)
     {
-        // Menyimpan file ke storage tanpa validasi
-        $file = $request->file('config');
-        $fileName = $file->getClientOriginalName();
-        $file->storeAs('uploads', $fileName, 'public');
+        // Validasi data input
+        try {
+            // Validasi data input
+            $request->validate([
+                'config' => 'required|max:2048', // Sesuaikan dengan jenis file yang diizinkan dan ukuran maksimum
+            ]);
 
-        // Menyimpan informasi file ke dalam database
-        Config::create([
-            'config' => $fileName,
-        ]);
+            // Menyimpan file ke storage tanpa validasi
+            $file = $request->file('config');
+            $fileName = $file->getClientOriginalName();
+            $file->storeAs('uploads', $fileName, 'public');
 
-        return redirect()->route('config.index')->with('success', 'File berhasil diunggah!');
+            // Menyimpan informasi file ke dalam database
+            Config::create([
+                'config' => $fileName,
+            ]);
+
+            return redirect()->route('config.index')->with('success', 'File berhasil diunggah!');
+        } catch (PostTooLargeException $e) {
+            // Handle the exception when the file is too large
+            return redirect()->back()->withInput()->withErrors(['config' => 'The file size exceeds the maximum allowed size.']);
+        }
     }
+
 
     /**
      * Show the form for editing the specified resource.

@@ -23,6 +23,9 @@
                             <x-nav-link :href="route('chainds.index')" :active="request()->routeIs('chainds*')">
                                 {{ __('Chaind') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('config.index')" :active="request()->routeIs('config*')">
+                                {{ __('Config') }}
+                            </x-nav-link>
                         @endcan
                         <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index*')">
                             {{ __('Blogs') }}

@@ -87,14 +87,5 @@
             </div>
         </div>
     </div>
-    <script>
-        // Function to close the alert
-        function closeAlert() {
-            const alertElement = document.getElementById('alert');
-            alertElement.classList.add('hidden');
-        }
 
-        // Attach event listener to the close button
-        document.getElementById('closeBtn').addEventListener('click', closeAlert);
-    </script>
 </x-app-layout>

@@ -14,8 +14,8 @@
                                 <input type="file" id="config" name="config"
                                     class=" mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:text-sm file:font-semibold file:rounded-full file:border-0 file:bg-violet-50 file:text-orange-700 hover:file:bg-violet-100
                                     " />
-                                <x-input-error :messages="$errors->get('config')" class="mt-2" />
                             </div>
+                            <x-input-error :messages="$errors->get('config')" class="mt-2" />
                         </div>
 
                         <x-primary-button class="ml-[450px] mt-5 w-[122px]">

@@ -1,6 +1,17 @@
 <x-app-layout>
     @section('title', $title)
 
+    @if (session()->has('success'))
+        <!-- Alert Container -->
+        <div id="alert"
+            class="relative flex justify-between top-0 right-0 m-4 p-4 bg-green-500 text-white rounded shadow-lg">
+            <p>{{ session('success') }}</p>
+            <button type="button" id="closeBtn" class="close transition" data-dismiss="alert">
+                <i class="text-white" data-feather="x"></i>
+            </button>
+        </div>
+    @endif
+
     <div class="py-6">
         <div class="mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="bg-white dark:bg-gray-800 shadow sm:rounded-lg p-4 sm:p-8">
