@@ -8,7 +8,7 @@
                     <table class="min-w-full border-collapse border border-slate-500 text-center">
                         <thead>
                             <tr>
-                                <th class="border border-slate-600">Name</th>
+                                <th class="border border-slate-600">Config</th>
                                 <th class="border border-slate-600">Tanggal Upload</th>
                                 <th class="border border-slate-600">Download</th>
                             </tr>
