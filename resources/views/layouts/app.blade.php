@@ -237,6 +237,7 @@
             {{ $slot }}
         </main>
     </div>
+    @include('layouts.footer')
     <script>
         feather.replace();
     </script>

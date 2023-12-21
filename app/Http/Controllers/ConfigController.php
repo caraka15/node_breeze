@@ -54,7 +54,7 @@ class ConfigController extends Controller
 
             return redirect()->route('config.index')->with('success', 'File berhasil diunggah!');
         } catch (PostTooLargeException $e) {
-            // Handle the exception when the file is too large
+
             return redirect()->back()->withInput()->withErrors(['config' => 'The file size exceeds the maximum allowed size.']);
         }
     }
