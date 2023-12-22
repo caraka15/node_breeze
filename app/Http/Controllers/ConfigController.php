@@ -37,27 +37,45 @@ class ConfigController extends Controller
     {
         // Validasi data input
         try {
-            // Validasi data input
+            // Validasi data input, tambahkan validasi untuk type
             $request->validate([
                 'config' => 'required|max:2048', // Sesuaikan dengan jenis file yang diizinkan dan ukuran maksimum
             ]);
 
-            // Menyimpan file ke storage tanpa validasi
-            $file = $request->file('config');
-            $fileName = $file->getClientOriginalName();
-            $file->storeAs('uploads', $fileName, 'public');
+            // Menentukan apakah file config harus diunggah atau dimasukkan langsung ke dalam database
+            if ($request->type == 'vmess') {
+                // Jika type bukan vmess, langsung masukkan config ke dalam database
+                Config::create([
+                    'config' => $request->config, // Gantilah dengan nama kolom yang sesuai
+                    'type' => $request->type,
+                    'name' => $request->name
+                ]);
 
-            // Menyimpan informasi file ke dalam database
-            Config::create([
-                'config' => $fileName,
-            ]);
+                return redirect()->route('config.index')->with('success', 'Data berhasil disimpan!');
+            } else {
+                $file = $request->file('config');
+                $fileName = $file->getClientOriginalName();
+                $file->storeAs('uploads', $fileName, 'public');
 
-            return redirect()->route('config.index')->with('success', 'File berhasil diunggah!');
+                // Menyimpan informasi file ke dalam database
+                Config::create([
+                    'config' => $fileName,
+                    'type' => $request->type,
+                    'name' => $request->name
+                ]);
+
+                return redirect()->route('config.index')->with('success', 'File berhasil diunggah!');
+            }
+
+            // Jika type adalah vmess, lakukan upload file config ke storage
+
         } catch (PostTooLargeException $e) {
-
             return redirect()->back()->withInput()->withErrors(['config' => 'The file size exceeds the maximum allowed size.']);
         }
     }
+
+
+
 
 
     /**

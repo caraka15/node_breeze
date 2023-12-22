@@ -1,38 +1,40 @@
-<div class="max-w-screen-xl px-4 py-12 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8">
-    <nav class="flex flex-wrap justify-center -mx-5 -my-2">
+<div
+    class="max-w-screen-xl px-4 pt-12 pb-4 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 dark:bg-gray-800 border-t dark:border-gray-700">
+    <nav class="flex flex-wrap justify-center -mx-5 -my-2 dark:bg-gray-800">
         <div class="px-5 py-2">
-            <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+            <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900 dark:hover:text-gray-200">
                 About
             </a>
         </div>
         <div class="px-5 py-2">
-            <a href="/blogs" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+            <a href="/blogs" class="text-base leading-6 text-gray-500 hover:text-gray-900 dark:hover:text-gray-200">
                 Blog
             </a>
         </div>
         <div class="px-5 py-2">
-            <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+            <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900 dark:hover:text-gray-200">
                 Team
             </a>
         </div>
         <div class="px-5 py-2">
-            <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+            <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900 dark:hover:text-gray-200">
                 Pricing
             </a>
         </div>
         <div class="px-5 py-2">
-            <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+            <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900 dark:hover:text-gray-200">
                 Contact
             </a>
         </div>
         <div class="px-5 py-2">
-            <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+            <a href="#" class="text-base leading-6 text-gray-500 hover:text-gray-900 dark:hover:text-gray-200">
                 Terms
             </a>
         </div>
     </nav>
     <div class="flex justify-center mt-8 space-x-6">
-        <a href="https://www.facebook.com/caraka.jakmania/" class="text-gray-400 hover:text-gray-500">
+        <a href="https://www.facebook.com/caraka.jakmania/"
+            class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-200">
             <span class="sr-only">Facebook</span>
             <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
                 <path fill-rule="evenodd"
@@ -40,7 +42,8 @@
                     clip-rule="evenodd"></path>
             </svg>
         </a>
-        <a href="https://www.instagram.com/caraka1928_" class="text-gray-400 hover:text-gray-500">
+        <a href="https://www.instagram.com/caraka1928_"
+            class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-200">
             <span class="sr-only">Instagram</span>
             <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
                 <path fill-rule="evenodd"
@@ -48,7 +51,7 @@
                     clip-rule="evenodd"></path>
             </svg>
         </a>
-        <a href="https://twitter.com/crxanode" class="text-gray-400 hover:text-gray-500">
+        <a href="https://twitter.com/crxanode" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-200">
             <span class="sr-only">Twitter</span>
             <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
                 <path
@@ -56,7 +59,7 @@
                 </path>
             </svg>
         </a>
-        <a href="https://github.com/caraka15" class="text-gray-400 hover:text-gray-500">
+        <a href="https://github.com/caraka15" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-200">
             <span class="sr-only">GitHub</span>
             <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
                 <path fill-rule="evenodd"
@@ -66,7 +69,7 @@
         </a>
 
     </div>
-    <p class="mt-8 text-base leading-6 text-center text-gray-400">
+    <p class="mt-8 text-base leading-6 text-center text-gray-400 dark:text-gray-300">
         © 2021 Crxa Nodes Services, Inc. All rights reserved.
     </p>
 </div>

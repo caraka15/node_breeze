@@ -20,6 +20,7 @@
                         <thead>
                             <tr>
                                 <th class="border border-slate-600">Config</th>
+                                <th class="border border-slate-600">Type</th>
                                 <th class="border border-slate-600">Tanggal Upload</th>
                                 <th class="border border-slate-600">Download</th>
                             </tr>
@@ -29,11 +30,16 @@
                                 <tr>
                                     <td class="border border-slate-700 relative py-2">
                                         <div class="text-sm">
-                                            {{ $config->config }}
+                                            {{ $config->name }}
                                             @if (now()->diffInDays($config->updated_at) < 5)
                                                 <span
                                                     class="absolute left-0 top-0 text-xs px-0.5 py-0.5 text-white bg-red-500 border rounded-full">New</span>
                                             @endif
+                                        </div>
+                                    </td>
+                                    <td class="border border-slate-700 py-2">
+                                        <div class="text-sm">
+                                            {{ $config->type }}
                                         </div>
                                     </td>
                                     <td class="border border-slate-700 py-2">
@@ -43,11 +49,17 @@
                                     </td>
                                     <td class="border border-slate-700 py-2">
                                         <div class="flex justify-center">
-                                            <a href="{{ asset('storage/uploads/' . $config->config) }}"
-                                                class="bg-orange-600 w-10 h-10 flex items-center justify-center rounded-full hover:bg-orange-500"
-                                                title="Download">
-                                                <i data-feather="download" class="text-white"></i>
-                                            </a>
+                                            @if ($config->type === 'vmess')
+                                                <button
+                                                    class="bg-blue-600 w-12 h-8 px-3 py-1 me-1 rounded-md hover:bg-blue-500"
+                                                    onclick="copyToClipboard('{{ $config->config }}')">
+                                                    <i data-feather="copy"></i>
+                                                </button>
+                                            @else
+                                                <a href="{{ asset('storage/uploads/' . $config->config) }}"
+                                                    class="bg-orange-600 w-12 h-8 px-3 py-1 me-1 rounded-md hover:bg-orange-500"><i
+                                                        data-feather="download"></i></a>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

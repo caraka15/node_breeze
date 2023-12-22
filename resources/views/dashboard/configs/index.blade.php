@@ -26,6 +26,7 @@
                         <thead class="w-28">
                             <tr>
                                 <th class="border border-slate-600">Name</th>
+                                <th class="border border-slate-600">Type</th>
                                 <th class="border border-slate-600">Tanggal Upload</th>
                                 <th class="border border-slate-600">Action</th>
                             </tr>
@@ -33,14 +34,23 @@
                         <tbody>
                             @foreach ($configs as $config)
                                 <tr>
-                                    <td class="border border-slate-700">{{ $config->config }}</td>
+                                    <td class="border border-slate-700">{{ $config->name }}</td>
+                                    <td class="border border-slate-700">{{ $config->type }}</td>
                                     <td class="border border-slate-700">
                                         {{ $config->updated_at->diffForHumans() }}</td>
                                     <td class="border border-slate-700 justify-center p-1">
                                         <div class="mx-auto justify-center flex">
-                                            <a href="{{ asset('storage/uploads/' . $config->config) }}"
-                                                class="bg-orange-600 w-12 h-8 px-3 py-1 me-1 rounded-md hover:bg-orange-500"><i
-                                                    data-feather="download"></i></a>
+                                            @if ($config->type === 'vmess')
+                                                <button
+                                                    class="bg-blue-600 w-12 h-8 px-3 py-1 me-1 rounded-md hover:bg-blue-500"
+                                                    onclick="copyToClipboard('{{ $config->config }}')">
+                                                    <i data-feather="copy"></i>
+                                                </button>
+                                            @else
+                                                <a href="{{ asset('storage/uploads/' . $config->config) }}"
+                                                    class="bg-orange-600 w-12 h-8 px-3 py-1 me-1 rounded-md hover:bg-orange-500"><i
+                                                        data-feather="download"></i></a>
+                                            @endif
                                             <form action="/dashboard/config/{{ $config->id }}" method="post"
                                                 class="d-inline">
                                                 @method('delete')
@@ -60,4 +70,15 @@
             </div>
         </div>
     </div>
+    <script>
+        function copyToClipboard(text) {
+            var textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('Config copied to clipboard!');
+        }
+    </script>
 </x-app-layout>
