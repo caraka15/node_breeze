@@ -223,6 +223,9 @@
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @include('layouts.navigation')
 
+        <div class=" bg-red-700 text-white text-center py-1">
+            <p class="text-sm mt-16">Website is Under Development (Beta)</p>
+        </div>
         <!-- Page Heading -->
         @if (isset($header))
             <header class="bg-white dark:bg-gray-800 shadow">
@@ -231,6 +234,7 @@
                 </div>
             </header>
         @endif
+
 
         <!-- Page Content -->
         <main>
