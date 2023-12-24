@@ -3,56 +3,69 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\File;
 
 class UpdateVersion extends Command
 {
-    protected $signature = 'update:version';
-    protected $description = 'Update version based on GitHub commit count';
+    protected $signature = 'update:version {--patch : Increase patch version} {--minor : Increase minor version} {--major : Increase major version}';
+    protected $description = 'Update version based on command options';
 
     public function handle()
     {
-        $repositoryOwner = 'caraka15';  // Ganti dengan pemilik repositori GitHub Anda
-        $repositoryName = 'node_breeze';  // Ganti dengan nama repositori GitHub Anda
+        $currentVersion = $this->getCurrentVersion();
 
-        // Ambil jumlah commit dari GitHub API
-        $apiUrl = "https://api.github.com/repos/{$repositoryOwner}/{$repositoryName}/commits";
-        $response = Http::get($apiUrl);
-
-        if ($response->successful()) {
-            $commits = $response->json();
-            $commitCount = count($commits);
-
-            $this->info("Jumlah commit dari GitHub API: {$commitCount}");
-
-            // Logika pembaruan versi menggunakan commit count (ganti sesuai kebutuhan)
-            $newVersion = $this->updateVersion($commitCount);
-
-            if ($newVersion !== null) {
-                $this->info("Versi diperbarui: {$newVersion}");
-                // Simpan versi baru ke file atau tempat lain yang sesuai
-                // Misalnya, untuk menyimpan versi dalam file version.php
-                file_put_contents(base_path('version.php'), "<?php\nreturn '{$newVersion}';\n");
-            } else {
-                $this->error("Invalid version format.");
-            }
+        if ($this->option('patch')) {
+            $newVersion = $this->increasePatchVersion($currentVersion);
+        } elseif ($this->option('minor')) {
+            $newVersion = $this->increaseMinorVersion($currentVersion);
+        } elseif ($this->option('major')) {
+            $newVersion = $this->increaseMajorVersion($currentVersion);
         } else {
-            $this->error("Error: " . $response->status());
+            $this->error('Please specify which version to update: --patch, --minor, or --major.');
+            return;
         }
+
+        $this->info("Version updated from {$currentVersion} to {$newVersion}");
+        $this->saveNewVersion($newVersion);
     }
 
-    private function updateVersion($commitCount)
+    private function getCurrentVersion()
     {
-        // Menambahkan leading zero pada commit count jika kurang dari 100
-        $commitCountFormatted = str_pad($commitCount, 3, '0', STR_PAD_LEFT);
+        // Implement logic to retrieve current version from storage (e.g., file, database)
+        $versionFile = base_path('version.php');
 
-        // Menggunakan commit count untuk membuat versi baru
-        $major = substr($commitCountFormatted, 0, 1);
-        $minor = substr($commitCountFormatted, 1, 1);
-        $patch = substr($commitCountFormatted, 2, 1);
+        if (File::exists($versionFile)) {
+            return include $versionFile;
+        }
 
-        $newVersion = "{$major}.{$minor}.{$patch}";
+        return '1.5.4'; // Set initial version
+    }
 
-        return $newVersion;
+    private function increasePatchVersion($currentVersion)
+    {
+        list($major, $minor, $patch) = explode('.', $currentVersion);
+        $patch = (int) $patch + 1;
+        return "{$major}.{$minor}.{$patch}";
+    }
+
+    private function increaseMinorVersion($currentVersion)
+    {
+        list($major, $minor, $patch) = explode('.', $currentVersion);
+        $minor = (int) $minor + 1;
+        return "{$major}.{$minor}.0";
+    }
+
+    private function increaseMajorVersion($currentVersion)
+    {
+        list($major, $minor, $patch) = explode('.', $currentVersion);
+        $major = (int) $major + 1;
+        return "{$major}.0.0";
+    }
+
+    private function saveNewVersion($newVersion)
+    {
+        // Implement logic to save new version to storage (e.g., file, database)
+        $versionFile = base_path('version.php');
+        File::put($versionFile, "<?php\nreturn '{$newVersion}';\n");
     }
 }
