@@ -223,9 +223,12 @@
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @include('layouts.navigation')
 
-        <div class=" bg-red-700 text-white text-center py-1">
-            <p class="text-sm mt-16">Website is Under Development (Beta)</p>
+        <div class="flex bg-red-700 text-white text-center py-1">
+            <p class="flex-1 text-xs mt-16 text-left"> </p>
+            <p class="flex-1 text-xs mt-16">Website is Under Development (Beta)</p>
+            <p class="flex-1 text-xs mt-16 text-right px-2">Beta 1.5.4</p>
         </div>
+
         <!-- Page Heading -->
         @if (isset($header))
             <header class="bg-white dark:bg-gray-800 shadow">
