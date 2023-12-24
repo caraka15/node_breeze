@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http; // Tambahkan ini
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,27 +29,24 @@ class AppServiceProvider extends ServiceProvider
         $versionFile = base_path('version.php');
 
         if (File::exists($versionFile)) {
-            $version = include $versionFile;
+            $versionData = include $versionFile;
+
+            if (is_array($versionData)) {
+                $version = $versionData['version'] ?? '1.0.0';
+                $htmlUrl = $versionData['html_url'] ?? '#';
+            } else {
+                // Handle jika $versionData bukan array
+                $version = '1.0.0';
+                $htmlUrl = '#';
+            }
         } else {
             $version = '1.0.0'; // Set versi default jika file tidak ada
+            $htmlUrl = '#';
         }
 
-        // Bagikan versi ke semua tampilan
+
+        // Bagikan versi dan HTML URL ke semua tampilan
         view()->share('appVersion', $version);
-
-        $apiUrl = 'https://api.github.com/repos/caraka15/node_breeze/commits';
-        $response = Http::get($apiUrl);
-
-        // Mengonversi data JSON ke dalam bentuk array
-        $data = $response->json();
-
-        // Mendapatkan html_url dari commit terbaru
-        $htmlUrl = null;
-        if (!empty($data) && is_array($data)) {
-            $latestCommit = $data[0]; // Mengambil commit terbaru dari indeks 0
-            $htmlUrl = $latestCommit['html_url'];
-        }
-
         view()->share('messageVersion', $htmlUrl);
     }
 }
