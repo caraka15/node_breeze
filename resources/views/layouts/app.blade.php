@@ -226,7 +226,9 @@
         <div class="flex bg-red-700 text-white text-center py-1">
             <p class="flex-1 text-xs mt-16 text-left"> </p>
             <p class="flex-grow text-xs mt-16">Website is Under Development</p>
-            <p class="flex-1 text-xs mt-16 text-right px-2">Beta {{ $appVersion }}</p>
+            <p class="flex-1 text-xs mt-16 text-right px-2">Beta <a class="hover:underline" href="{{ $messageVersion }}"
+                    target="_blank">{{ $appVersion }}</a>
+            </p>
         </div>
 
         <!-- Page Heading -->
