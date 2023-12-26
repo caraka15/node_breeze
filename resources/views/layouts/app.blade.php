@@ -223,18 +223,20 @@
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @include('layouts.navigation')
 
-        <div class="flex bg-red-700 text-white text-center py-1">
-            <p class="flex-1 text-xs mt-16 text-left"> </p>
-            <p class="flex-grow text-xs mt-16">Website is Under Development</p>
-            <p class="flex-1 text-xs mt-16 text-right px-2">Beta <a class="hover:underline" href="{{ $messageVersion }}"
+        <div class="flex bg-red-700 py-1 text-center text-white">
+            <p class="mt-16 flex-1 text-left text-xs"> </p>
+            <p class="mt-16 flex-grow text-xs"><a class="hover:underline"
+                    href="https://github.com/caraka15/node_breeze">Website is Under
+                    Development</a></p>
+            <p class="mt-16 flex-1 px-2 text-right text-xs">Beta <a class="hover:underline" href="{{ $messageVersion }}"
                     target="_blank">{{ $appVersion }}</a>
             </p>
         </div>
 
         <!-- Page Heading -->
         @if (isset($header))
-            <header class="bg-white dark:bg-gray-800 shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <header class="bg-white shadow dark:bg-gray-800">
+                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     {{ $header }}
                 </div>
             </header>

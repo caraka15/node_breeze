@@ -17,17 +17,34 @@
         </div>
         <!--Right Col-->
         <div class="z-20 w-full py-6 text-center md:w-3/5">
-            <img class="z-50 mx-auto w-2/3" src="{{ asset('img/hero.svg') }}" />
+            <img class="z-50 mx-auto" src="{{ asset('img/hero.svg') }}" />
         </div>
     </div>
 </div>
 <div id="network" class="relative -mt-12 lg:-mt-24">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" id="mySvg">
         <path fill="#f97316" fill-opacity="1"
             d="M0,160L80,138.7C160,117,320,75,480,90.7C640,107,800,181,960,186.7C1120,192,1280,128,1360,96L1440,64L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z">
         </path>
-        <path fill="#f3f4f5" fill-opacity="1"
+        <path fill-opacity="1" class="fill-light-mode"
             d="M0,160L80,138.7C160,117,320,75,480,90.7C640,107,800,181,960,186.7C1120,192,1280,128,1360,96L1440,64L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z">
         </path>
+
+        <script>
+            // Function to check if dark mode is enabled
+            function isDarkMode() {
+                return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            }
+
+            // Get the path element
+            const pathElement = document.querySelector('#mySvg .fill-light-mode');
+
+            // Set the fill color based on the mode
+            if (isDarkMode()) {
+                pathElement.style.fill = '#111827'; // Dark mode color
+            } else {
+                pathElement.style.fill = '#f3f4f6'; // Light mode color
+            }
+        </script>
     </svg>
 </div>
