@@ -259,8 +259,11 @@
             alertElement.classList.add('hidden');
         }
 
-        // Attach event listener to the close button
-        document.getElementById('closeBtn').addEventListener('click', closeAlert);
+        // Attach event listener to the close button if it exists
+        const closeBtn = document.getElementById('closeBtn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeAlert);
+        }
     </script>
 </body>
 
