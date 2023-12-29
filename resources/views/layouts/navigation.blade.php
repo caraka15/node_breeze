@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="flex shrink-0 items-center">
-                    <a class="ml-5 text-3xl" href="{{ route('home') }}">
+                    <a class="ml-5 text-3xl dark:text-white" href="{{ route('home') }}">
                         Crxa Nodes
                     </a>
                 </div>
@@ -213,40 +213,24 @@
     var header = document.getElementById("header");
     var navcontent = document.getElementById("nav-content");
 
-
     document.addEventListener("scroll", function() {
         /*Apply classes for slide in bar*/
         scrollpos = window.scrollY;
 
         if (scrollpos > 10) {
-            header.classList.add("bg-white");
-            header.classList.add("dark:border-gray-700");
-            header.classList.add("dark:bg-gray-800");
-            header.classList.add("border-b");
-            header.classList.add("border-gray-100");
+            header.classList.add("bg-white", "dark:border-gray-700", "dark:bg-gray-800", "border-b",
+                "border-gray-100");
             header.classList.remove("bg-orange-500");
-            navcontent.classList.remove("py-4");
-            navcontent.classList.remove("sm:px-16");
-            navcontent.classList.remove("lg:px-24");
-            navcontent.classList.add("sm:px-6");
-            navcontent.classList.add("lg:px-8")
 
-            //Use to switch toggleColour colours
-
+            navcontent.classList.remove("py-4", "sm:px-16", "lg:px-24");
+            navcontent.classList.add("sm:px-6", "lg:px-8");
         } else {
-            header.classList.remove("bg-white");
-            header.classList.remove("dark:border-gray-700");
-            header.classList.remove("dark:bg-gray-800");
-            header.classList.remove("border-b");
-            header.classList.remove("border-gray-100");
+            header.classList.remove("bg-white", "dark:border-gray-700", "dark:bg-gray-800", "border-b",
+                "border-gray-100");
             header.classList.add("bg-orange-500");
-            navcontent.classList.add("py-4");
-            navcontent.classList.add("sm:px-16");
-            navcontent.classList.add("lg:px-24");
-            navcontent.classList.remove("sm:px-6");
-            navcontent.classList.remove("lg:px-8")
 
-
+            navcontent.classList.add("py-4", "sm:px-16", "lg:px-24");
+            navcontent.classList.remove("sm:px-6", "lg:px-8");
         }
     });
 </script>

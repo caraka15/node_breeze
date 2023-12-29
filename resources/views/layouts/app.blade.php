@@ -216,13 +216,25 @@
                 box-shadow: 0 0 5px 0px red;
             }
         }
+
+        #header {
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        #nav-content {
+            transition: padding 0.3s ease, margin 0.3s ease;
+        }
     </style>
 </head>
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
 
-        @include('layouts.navigation')
+        @if (request()->route()->getName() == 'home')
+            @include('layouts.navigation')
+        @else
+            @include('layouts.navigation_nonhome')
+        @endif
 
         <div class="bg-red-700 py-1 text-center text-white">
             <p class="mt-20 text-left text-xs"> </p>

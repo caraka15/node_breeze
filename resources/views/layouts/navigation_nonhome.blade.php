@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }"
+<nav id="header" x-data="{ open: false }"
     class="fixed z-50 w-full border-b border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800">
     <!-- Primary Navigation Menu -->
     <div id="alert" class="flex bg-red-700 py-1 text-center text-white">
@@ -15,7 +15,7 @@
 
     </div>
 
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div id="nav-content" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 justify-between">
             <div class="flex">
                 <!-- Logo -->
@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="flex shrink-0 items-center">
-                    <a class="ml-5 text-3xl" href="{{ route('home') }}">
+                    <a class="ml-5 text-3xl dark:text-white" href="{{ route('home') }}">
                         Crxa Nodes
                     </a>
                 </div>
