@@ -220,6 +220,10 @@
 
         if (scrollpos > 10) {
             header.classList.add("bg-white");
+            header.classList.add("dark:border-gray-700");
+            header.classList.add("dark:bg-gray-800");
+            header.classList.add("border-b");
+            header.classList.add("border-gray-100");
             header.classList.remove("bg-orange-500");
             navcontent.classList.remove("py-4");
             navcontent.classList.remove("sm:px-16");
@@ -231,6 +235,10 @@
 
         } else {
             header.classList.remove("bg-white");
+            header.classList.remove("dark:border-gray-700");
+            header.classList.remove("dark:bg-gray-800");
+            header.classList.remove("border-b");
+            header.classList.remove("border-gray-100");
             header.classList.add("bg-orange-500");
             navcontent.classList.add("py-4");
             navcontent.classList.add("sm:px-16");
