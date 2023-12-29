@@ -1,13 +1,32 @@
-<nav x-data="{ open: false }"
-    class="fixed z-50 w-full border-b border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800">
+<nav id="header" x-data="{ open: false }" class="fixed z-50 w-full bg-orange-500">
     <!-- Primary Navigation Menu -->
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div id="alert" class="flex bg-red-700 py-1 text-center text-white">
+        <p class="flex-1 text-left text-xs"> </p>
+        <p class="flex-grow text-xs"><a class="hover:underline" href="https://github.com/caraka15/node_breeze">Website is
+                Under
+                Development</a></p>
+        <p class="flex-1 px-2 text-right text-xs">Beta <a class="hover:underline" href="{{ $messageVersion }}"
+                target="_blank">{{ $appVersion }}</a>
+        </p>
+        <button id="closeBtn" class="text-white hover:text-gray-700">
+            <i data-feather="x" class="h-4 w-4"></i>
+        </button>
+
+    </div>
+
+    <div id="nav-content" class="mx-auto max-w-7xl px-4 py-4 sm:px-16 lg:px-24">
         <div class="flex h-16 justify-between">
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex shrink-0 items-center">
                     <a href="{{ route('home') }}">
                         <img class="ml-4 h-12 w-12" src="{{ asset('/img/logo.png') }}" alt="">
+                    </a>
+                </div>
+
+                <div class="flex shrink-0 items-center">
+                    <a class="ml-5 text-3xl" href="{{ route('home') }}">
+                        Crxa Nodes
                     </a>
                 </div>
 
@@ -189,3 +208,37 @@
         </div>
     </div>
 </nav>
+<script>
+    var scrollpos = window.scrollY;
+    var header = document.getElementById("header");
+    var navcontent = document.getElementById("nav-content");
+
+
+    document.addEventListener("scroll", function() {
+        /*Apply classes for slide in bar*/
+        scrollpos = window.scrollY;
+
+        if (scrollpos > 10) {
+            header.classList.add("bg-white");
+            header.classList.remove("bg-orange-500");
+            navcontent.classList.remove("py-4");
+            navcontent.classList.remove("sm:px-16");
+            navcontent.classList.remove("lg:px-24");
+            navcontent.classList.add("sm:px-6");
+            navcontent.classList.add("lg:px-8")
+
+            //Use to switch toggleColour colours
+
+        } else {
+            header.classList.remove("bg-white");
+            header.classList.add("bg-orange-500");
+            navcontent.classList.add("py-4");
+            navcontent.classList.add("sm:px-16");
+            navcontent.classList.add("lg:px-24");
+            navcontent.classList.remove("sm:px-6");
+            navcontent.classList.remove("lg:px-8")
+
+
+        }
+    });
+</script>
