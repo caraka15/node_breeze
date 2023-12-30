@@ -2,6 +2,7 @@
 
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ChaindController;
 use App\Http\Controllers\ConfigController;
@@ -91,3 +92,13 @@ Route::get('/{chaind:slug}', [ChaindController::class, 'show']);
 
 
 Route::get('/blogs/{post:slug}', [guestPostController::class, 'show'])->name('blogs.show');
+
+Route::post("/connect-metamask", function () {
+    $requestData = json_decode(request()->getContent(), true);
+    $connectedAddress = $requestData["connectedAddress"];
+
+    // Simpan alamat yang terhubung ke dalam sesi
+    Session::put("connectedAddress", $connectedAddress);
+
+    return response()->json(["message" => "Connected address saved successfully"]);
+});

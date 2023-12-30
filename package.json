@@ -17,6 +17,7 @@
         "vite": "^4.5.1"
     },
     "dependencies": {
-        "feather-icons": "^4.29.1"
+        "feather-icons": "^4.29.1",
+        "web3": "^4.3.0"
     }
 }
