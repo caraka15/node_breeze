@@ -125,7 +125,6 @@
                             <span id="connectedAddress"></span>
                         </div>
                     </div>
-
                 </div>
 
 

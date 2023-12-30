@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\guestPostController;
 use App\Http\Controllers\AdminChaindController;
+use App\Http\Controllers\ExordeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,10 @@ Route::get('/blogs', [guestPostController::class, 'index'])->name('posts');
 Route::get('/config', [ConfigController::class, 'config'])->name('config');
 
 Route::get('/generate-sitemap', [SitemapController::class, 'generate']);
+
+
+Route::get('/exorde-stats', [ExordeController::class, 'index']);
+Route::post('/exorde-stats', [ExordeController::class, 'getUserStats']);
 
 
 
