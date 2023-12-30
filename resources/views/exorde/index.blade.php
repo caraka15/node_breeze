@@ -2,65 +2,61 @@
     @section('title', 'Exorde Stats')
     @section('description', 'Exorde Stats Node Service, Validator guide')
 
-    <div class="mx-auto max-w-lg rounded bg-white p-8 shadow">
-        <h1 class="mb-6 text-2xl font-bold">User Stats</h1>
+    <div class="mx-auto mt-5 max-w-lg rounded bg-white p-8 shadow">
+        <label for="user_address">Enter Address:</label>
+        <input type="text" id="user_address" required>
+        <button onclick="getUserStats()">Get Stats</button>
 
-        <form action="/exorde-stats" method="post" class="mb-6">
-            @csrf
-            <div class="mb-4">
-                <label for="userAddress" class="block text-sm font-medium text-gray-600">User Address:</label>
-                <input type="text" id="userAddress" name="user_address" class="mt-1 w-full rounded border p-2"
-                    required>
-            </div>
+        <div id="statsContainer" class="hidden rounded-md bg-gray-200 p-4">
+            <p id="userAddress"></p>
+            <p id="userRep"></p>
+            <p id="userRank"></p>
+            <p id="userBounty"></p>
+            <p id="totalRep"></p>
+            <p id="totalBounty"></p>
+            <p id="exdPrice"></p>
+            <p id="hourlyReward"></p>
+            <p id="monthlyReward"></p>
+            <p id="hourlyRepIncrease"></p>
+        </div>
 
-            <button type="submit"
-                class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:border-blue-300 focus:outline-none focus:ring">
-                Get User Stats
-            </button>
-        </form>
-
-        @isset($userAddress)
-            <div class="py-6">
-                <div class="mx-auto space-y-6 sm:px-6 lg:px-8">
-                    <div class="bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
-                        <div class="overflow-x-auto dark:text-white">
-                            @include('exorde.stats') {{-- Include the stats partial --}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endisset
+        <div id="loadingMessage" class="hidden">
+            Loading...
+        </div>
     </div>
 
     <script>
-        function getUserStats() {
-            var userAddress = document.getElementById('userAddress').value;
+        async function getUserStats() {
+            var userAddress = document.getElementById('user_address').value;
+            var statsContainer = document.getElementById('statsContainer');
+            var loadingMessage = document.getElementById('loadingMessage');
 
-            fetch('/exorde-stats', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        user_address: userAddress
-                    })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    document.getElementById('userRep').innerText = data.userRep;
-                    document.getElementById('userBounty').innerText = data.userBounty;
-                    // Update other elements with additional data
-                    document.getElementById('userStatsResult').classList.remove('hidden');
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+            loadingMessage.style.display = 'block';
+
+            try {
+                // Pengambilan data langsung dari server
+                var response = await fetch(`/php/exorde-stats.php?user_address=${userAddress}`);
+
+                var data = await response.json();
+
+                document.getElementById('userAddress').innerText = 'Address: ' + data.userAddress;
+                document.getElementById('userRep').innerText = 'Reputation: ' + data.userRep;
+                document.getElementById('userRank').innerText = 'Rank: ' + data.userRank;
+                document.getElementById('userBounty').innerText = 'Bounty: ' + data.userBounty;
+                document.getElementById('totalRep').innerText = 'Total Reputation: ' + data.totalRep;
+                document.getElementById('totalBounty').innerText = 'Total Bounty: ' + data.totalBounty;
+                document.getElementById('exdPrice').innerText = 'EXD Price: ' + data.exdPrice;
+                document.getElementById('hourlyReward').innerText = 'Hourly Reward: ' + data.hourlyReward;
+                document.getElementById('monthlyReward').innerText = 'Monthly Reward: ' + data.monthlyReward;
+                document.getElementById('hourlyRepIncrease').innerText = 'Hourly Rep Increase: ' + data
+                    .hourlyRepIncrease;
+
+                loadingMessage.style.display = 'none';
+                statsContainer.style.display = 'block';
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                loadingMessage.innerText = 'Error fetching data';
+            }
         }
     </script>
 </x-app-layout>
