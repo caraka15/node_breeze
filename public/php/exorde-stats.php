@@ -113,8 +113,7 @@ $bitcoinInfo = $cryptoData['data']['23638'];
 $exdPrice = number_format($bitcoinInfo['quote']['USD']['price'], 4);
 
 $hourlyReward = $hourlyData[$userAddress] ?? 0;
-$monthlyReward = ($dailyData[$userAddress] ?? 0) * 30;
-$hourlyRepIncrease = $leaderboardData[$userAddress] - ($previousLeaderboardData[$userAddress]);
+$monthlyReward = ($hourlyData[$userAddress] ?? 0) * 720;
 $usdReward = $monthlyReward * $exdPrice;
 
 // Create a string for "minutes ago" information
@@ -132,8 +131,6 @@ $data = [
     'hourlyReward' => $hourlyReward,
     'monthlyReward' => $monthlyReward,
     'usdReward' => $usdReward,
-    'hourlyRepIncrease' => $hourlyRepIncrease,
-    'lastUpdate' => $minutesAgoString, // Add last update time
 ];
 
 // Mengembalikan data sebagai JSON

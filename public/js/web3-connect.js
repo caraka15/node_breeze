@@ -5,6 +5,26 @@ document.addEventListener("DOMContentLoaded", function () {
     );
     const connectedAddressElement = document.getElementById("connectedAddress");
 
+    // Fungsi untuk mengirim permintaan ke server dan menyimpan alamat di session
+    async function saveConnectedAddressToSession(connectedAddress) {
+        try {
+            await fetch("/connect-metamask", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector(
+                        'meta[name="csrf-token"]'
+                    ).content,
+                },
+                body: JSON.stringify({ connectedAddress }),
+            });
+
+            console.log("Connected account:", connectedAddress);
+        } catch (error) {
+            console.error("Error saving connected address to session:", error);
+        }
+    }
+
     if (window.ethereum) {
         window.web3 = new Web3(window.ethereum);
         connectButton.addEventListener("click", async () => {
@@ -20,18 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const connectedAddress = accounts[0];
 
                 // Save connected address to session via Laravel route
-                await fetch("/connect-metamask", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document.querySelector(
-                            'meta[name="csrf-token"]'
-                        ).content,
-                    },
-                    body: JSON.stringify({ connectedAddress }),
-                });
-
-                console.log("Connected account:", connectedAddress);
+                await saveConnectedAddressToSession(connectedAddress);
 
                 // Update UI to display the connected address
                 updateUI(connectedAddress);
