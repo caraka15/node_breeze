@@ -39,29 +39,17 @@ class AdminChaindController extends Controller
     {
 
         $validateData = $request->validate([
-            'logo' => 'required|image|file|max:1024',
             'type' => 'required',
             'name' => 'required|max:20',
             'slug' => 'required|unique:chainds',
-            'guide_link' => 'required|file',
             'rpc_link' => 'required',
             'stake_link' => 'required'
         ]);
 
-        if ($request->file('logo')) {
-            $validateData['logo'] = $request->file('logo')->store('logo-chaind');
-        }
-
-        if ($request->file('guide_link')) {
-            $fileExtension = $request->file('guide_link')->getClientOriginalExtension();
-            $fileName = $request->slug . '.md';
-            $filePath = $request->file('guide_link')->storeAs('guide-chaind', $fileName);
-            $validateData['guide_link'] = $filePath;
-        }
 
         Chaind::create($validateData);
 
-        return redirect('/dashboard/chainds')->with('success', 'New post has been added');
+        return redirect('/dashboard/chainds')->with('success', 'New chaind has been added');
     }
 
     /**
@@ -91,48 +79,18 @@ class AdminChaindController extends Controller
      */
     public function update(Request $request, Chaind $chaind)
     {
-        $rules = [
+        $validateData = $request->validate([
             'type' => 'required',
             'name' => 'required|max:20',
-            'guide_link' => 'required|file',
             'rpc_link' => 'required',
             'stake_link' => 'required',
-        ];
+        ]);
 
-        // Add validation rule for logo if it is present in the request
-        if ($request->hasFile('logo')) {
-            $rules['logo'] = 'required|image|file|max:1024';
-        }
-
-        // Add validation rule for slug if it has changed
-        if ($request->slug != $chaind->slug) {
-            $rules['slug']  = 'required|unique:chainds';
-        }
-
-        $validateData = $request->validate($rules);
-
-        // Handle logo update
-        if ($request->hasFile('logo')) {
-            if ($chaind->logo) {
-                Storage::delete($chaind->logo);
-            }
-            $validateData['logo'] = $request->file('logo')->store('logo-chaind');
-        }
-
-        // Handle guide link update
-        if ($request->hasFile('guide_link')) {
-            if ($chaind->guide_link) {
-                Storage::delete($chaind->guide_link);
-            }
-            $fileName = $request->slug . '.md';  // Use the slug as the file name
-            $filePath = $request->file('guide_link')->storeAs('guide-chaind', $fileName);
-            $validateData['guide_link'] = $filePath;
-        }
 
         // Update the Chaind model
         $chaind->update($validateData);
 
-        return redirect('/dashboard/chainds')->with('success', 'Post has been updated');
+        return redirect('/dashboard/chainds')->with('success', 'Chaind has been updated');
     }
 
 
@@ -150,7 +108,7 @@ class AdminChaindController extends Controller
         }
         Chaind::destroy($chaind->id);
 
-        return redirect('/dashboard/chainds')->with('success', 'Post has been deleted!');
+        return redirect('/dashboard/chainds')->with('success', 'Chaind has been deleted!');
     }
 
     public function checkSlug(Request $request)

@@ -19,8 +19,8 @@
 
                                 <div class="card m-4">
                                     <div class="card-content">
-                                        <img src="{{ asset('storage/' . $chaind->logo) }}" alt="{{ $chaind->name }}"
-                                            class="mx-auto h-[70px] w-[70px] rounded-full" />
+                                        <img src="{{ 'https://raw.githubusercontent.com/caraka15/node_network/main/logo-chaind/' . $chaind->slug . '.png' }}"
+                                            alt="{{ $chaind->name }}" class="mx-auto h-[70px] w-[70px] rounded-full" />
                                         <h2>{{ $chaind->name }}</h2>
                                         <a href="{{ $chaind->stake_link }}"
                                             class="relative mb-3 inline-block h-[35px] w-[120px] rounded-md bg-orange-600 pt-[5px] hover:scale-105 hover:bg-orange-500"
@@ -66,7 +66,7 @@
 
                                 <div class="card m-6">
                                     <div class="card-content">
-                                        <img src="{{ asset('storage/' . $chaind->logo) }}" alt="{{ $chaind->name }}"
+                                        <img src="{{ 'https://raw.githubusercontent.com/caraka15/node_network/main/logo-chaind/' . $chaind->slug . '.png' }}"
                                             class="mx-auto h-[70px] w-[70px] rounded-full" />
                                         <h2>{{ $chaind->name }}</h2>
                                         <a href="{{ $chaind->stake_link }}"

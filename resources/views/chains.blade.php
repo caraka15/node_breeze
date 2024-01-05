@@ -2,15 +2,16 @@
     @section('title', $chaind->name)
     @section('description', $chaind->name . ' Node Service, Validator guide')
     <div class="py-10">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="flex items-center justify-between bg-slate-300 p-4 rounded-md shadow-md">
-                    <img src="{{ asset('storage/' . $chaind->logo) }}" alt="Logo" width="40" height="40">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
+                <div class="flex items-center justify-between rounded-md bg-slate-300 p-4 shadow-md">
+                    <img src="{{ 'https://raw.githubusercontent.com/caraka15/node_network/main/logo-chaind/' . $chaind->slug . '.png' }}"
+                        alt="Logo" width="40" height="40">
                     <div class="text-xl">Installation</div>
                     <div class="name">{{ $chaind->name }}</div>
                 </div>
 
-                <div class="p-5 prose max-w-full">
+                <div class="prose max-w-full p-5">
                     <article id="markdownContent" class="markdown-body"></article>
                 </div>
             </div>
@@ -21,7 +22,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // Ubah urlFile menjadi URL file Markdown yang ingin Anda tampilkan
-        const urlFile = "{{ $chaind ? asset('storage/' . $chaind->guide_link) : '' }}";
+        const urlFile =
+            "{{ $chaind ? 'https://raw.githubusercontent.com/caraka15/node_network/main/guide/' . $chaind->slug . '.md' : '' }}";
 
         if (urlFile) {
             // Ambil konten file Markdown menggunakan XMLHttpRequest

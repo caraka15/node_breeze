@@ -1,8 +1,8 @@
 <x-app-layout>
     @section('title', $title)
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            <a href="{{ route('posts.create') }}" class="bg-orange-600 px-5 py-2 rounded-md hover:bg-orange-500">New
+        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+            <a href="{{ route('posts.create') }}" class="rounded-md bg-orange-600 px-5 py-2 hover:bg-orange-500">New
                 post</a>
         </h2>
     </x-slot>
@@ -10,7 +10,7 @@
     @if (session()->has('success'))
         <!-- Alert Container -->
         <div id="alert"
-            class="relative flex justify-between top-0 right-0 m-4 p-4 bg-green-500 text-white rounded shadow-lg">
+            class="relative right-0 top-0 m-4 flex justify-between rounded bg-green-500 p-4 text-white shadow-lg">
             <p>{{ session('success') }}</p>
             <button type="button" id="closeBtn" class="close transition" data-dismiss="alert">
                 <i class="text-white" data-feather="x"></i>
@@ -19,16 +19,16 @@
     @endif
 
     <div class="py-12">
-        <div class="mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="flex w-full p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+        <div class="mx-auto space-y-6 sm:px-6 lg:px-8">
+            <div class="flex w-full bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
                 <div class="relative max-w-full">
-                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <table class="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
+                        <thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3">
                                     No
                                 </th>
-                                <th scope="col" class="px-12 py-3 w-[800px]">
+                                <th scope="col" class="w-[800px] px-12 py-3">
                                     Title
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -41,13 +41,13 @@
                         </thead>
                         <tbody>
                             @foreach ($posts as $post)
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <tr class="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
                                     <th scope="row"
-                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white">
                                         {{ $loop->iteration }}
                                     </th>
-                                    <td class="px-12 py-4 whitespace-normal w-[800px]">
-                                        <a class="hover:underline hover:underline-offset-1 status-element"
+                                    <td class="w-[800px] whitespace-normal px-12 py-4">
+                                        <a class="status-element hover:underline hover:underline-offset-1"
                                             href="/dashboard/posts/{{ $post->slug }}" data-slug="{{ $post->slug }}"
                                             data-current-value="{{ $post->public }}">
                                             {{ $post->name }}
@@ -60,21 +60,21 @@
                                         </span>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <div class="text-white mx-auto justify-start flex">
+                                        <div class="mx-auto flex justify-start text-white">
                                             <a href="/dashboard/posts/{{ $post->slug }}/edit"
-                                                class="relative inline-block bg-orange-600 w-12 h-8 px-3 py-1 me-1 rounded-md group">
+                                                class="group relative me-1 inline-block h-8 w-12 rounded-md bg-orange-600 px-3 py-1">
                                                 <i data-feather="edit"></i>
                                                 <span
-                                                    class="z-50 opacity-0 group-hover:opacity-100 transition duration-300 absolute left-7 top-8 bg-slate-100 text-black text-xs px-0.5 py-0.5 border border-black">Edit</span>
+                                                    class="absolute left-7 top-8 z-50 border border-black bg-slate-100 px-0.5 py-0.5 text-xs text-black opacity-0 transition duration-300 group-hover:opacity-100">Edit</span>
                                             </a>
                                             <form action="/dashboard/posts/{{ $post->slug }}" method="post"
                                                 class="d-inline relative inline-block">
                                                 @method('delete')
                                                 @csrf
-                                                <button class="relative bg-red-600 w-12 h-8 px-3 py-1 rounded-md group">
+                                                <button class="group relative h-8 w-12 rounded-md bg-red-600 px-3 py-1">
                                                     <i data-feather="x-circle"></i>
                                                     <span
-                                                        class="z-50 opacity-0 group-hover:opacity-100 transition duration-300 absolute left-7 top-8 bg-slate-100 text-black text-xs px-0.5 py-0.5 border border-black">Delete</span>
+                                                        class="absolute left-7 top-8 z-50 border border-black bg-slate-100 px-0.5 py-0.5 text-xs text-black opacity-0 transition duration-300 group-hover:opacity-100">Delete</span>
                                                 </button>
                                             </form>
                                         </div>

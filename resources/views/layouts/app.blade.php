@@ -260,18 +260,21 @@
         feather.replace();
     </script>
     <script>
-        // Function to close the alert
-        function closeAlert() {
-            const alertElement = document.getElementById('alert');
-            alertElement.classList.add('hidden');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to close the alert
+            function closeAlert() {
+                const alertElement = document.getElementById('alert');
+                alertElement.classList.add('hidden');
+            }
 
-        // Attach event listener to the close button if it exists
-        const closeBtn = document.getElementById('closeBtn');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', closeAlert);
-        }
+            // Attach event listener to the close button if it exists
+            const closeBtn = document.getElementById('closeBtn');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeAlert);
+            }
+        });
     </script>
+
     <script src="{{ asset('js/web3-connect.js') }}"></script>
 
 

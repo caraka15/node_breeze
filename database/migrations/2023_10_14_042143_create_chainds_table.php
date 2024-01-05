@@ -16,8 +16,6 @@ return new class extends Migration
             $table->string('type');
             $table->string('name');
             $table->string('slug')->unique();
-            $table->string('logo');
-            $table->string('guide_link');
             $table->string('rpc_link');
             $table->string('stake_link');
             $table->timestamp('published_at')->nullable();
