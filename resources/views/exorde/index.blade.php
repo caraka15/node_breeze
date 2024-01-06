@@ -67,6 +67,55 @@
         </div>
     </div>
 
+    <div class="py-12">
+        <div class="mx-auto max-w-5xl space-y-6 sm:px-6 lg:px-8">
+            <div class="bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
+                <table class="w-full table-auto border dark:text-white">
+                    <tr>
+                        <th class="border p-2">Total Reputation</th>
+                        <th class="border p-2">{{ number_format($totalReputation) }}</th>
+                    </tr>
+                    <tr>
+                        <th class="border p-2">Total Bounty</th>
+                        <th class="border p-2">{{ number_format($totalBounty) }}</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-4">
+        <div class="mx-auto max-w-5xl space-y-6 sm:px-6 lg:px-8">
+            <div class="bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
+                <h1 class="mb-4 text-center text-lg dark:text-white">Leaderboard</h1>
+                @if (!empty($leaderboards))
+                    <table class="w-full table-auto border dark:text-white">
+                        <thead>
+                            <tr>
+                                <th class="border p-2">No</th>
+                                <th class="border p-2">Address</th>
+                                <th class="border p-2">Reputation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($leaderboards as $address => $reward)
+                                @if ($reward !== 0)
+                                    <tr>
+                                        <td class="border p-2">{{ $loop->iteration }}</td>
+                                        <td class="border p-2">{{ $address }}</td>
+                                        <td class="border p-2">{{ number_format($reward) }}</td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <p>Failed to fetch leaderboard data.</p>
+                @endif
+            </div>
+        </div>
+    </div>
+
     <script>
         // Event listener untuk tombol connect
         document.getElementById("connectButton1").addEventListener("click", async () => {

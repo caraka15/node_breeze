@@ -9,7 +9,21 @@ class ExordeController extends Controller
 {
     public function index()
     {
-        return view('exorde.index');
+
+        $leaderboardUrl = "https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/Stats/leaderboard.json";
+        $leaderboardData = Http::get($leaderboardUrl)->json();
+
+        $bountyUrl = "https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/Stats/bounties.json";
+        $bountyData = Http::get($bountyUrl)->json();
+
+        $totalRep = array_sum($leaderboardData);
+        $totalBounty = array_sum($bountyData['tweets']);
+
+        return view('exorde.index', [
+            'leaderboards' => $leaderboardData,
+            'totalReputation' => $totalRep,
+            'totalBounty' => $totalBounty
+        ]);
     }
 
     public function getUserStats(Request $request)
