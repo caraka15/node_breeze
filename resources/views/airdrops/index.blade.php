@@ -2,13 +2,13 @@
     @section('title', $title)
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-            <div x-data="{ showModal: false }">
+            <div x-data="{ showModal: {{ $errors->any() ? 'true' : 'false' }} }">
                 <!-- Tombol untuk menampilkan modal -->
                 <button @click="showModal = true" class="rounded-md bg-orange-600 px-5 py-2 hover:bg-orange-500">
                     New Airdrop
                 </button>
                 <!-- Modal -->
-                <div x-show="showModal" class="fixed inset-7 z-50 overflow-hidden bg-transparent">
+                <div x-show="showModal" class="fixed inset-9 z-50 overflow-hidden bg-transparent">
                     <div class="items-center justify-center">
                         <div
                             class="mx-auto max-w-5xl rounded-lg border border-gray-700 bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
@@ -31,15 +31,15 @@
 
     <div class="py-12">
         <div class="mx-auto space-y-6 sm:px-6 lg:px-8">
-            <div class="flex w-full bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
+            <div class="flex max-w-full overflow-auto bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
                 <div class="relative max-w-full">
-                    <table class="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
+                    <table class="max-w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
                         <thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3">
                                     No
                                 </th>
-                                <th scope="col" class="w-[800px] px-12 py-3">
+                                <th scope="col" class="max-w-[800px] px-4 py-3">
                                     Title
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -47,9 +47,6 @@
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Frekuensi
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Sudah dikerjakan?
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Action
@@ -63,7 +60,7 @@
                                         class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white">
                                         {{ $loop->iteration }}
                                     </th>
-                                    <td class="w-[800px] whitespace-normal px-12 py-4">
+                                    <td class="max-w-[800px] whitespace-normal px-4 py-4">
                                         <input type="text" name="nama" value="{{ $airdrop->nama }}"
                                             class="border-transparent bg-transparent px-4 py-1 focus:border-none focus:ring-transparent">
                                     </td>
