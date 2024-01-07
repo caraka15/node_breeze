@@ -30,8 +30,6 @@ class DatabaseSeeder extends Seeder
             'type' => 'Mainnet',
             'name' => 'Planq',
             'slug' => 'planq',
-            'logo' => 'planq.jpg',
-            'guide_link' => 'planq.md',
             'rpc_link' => 'https://rpc.planq.crxa.my.id',
             'stake_link' => 'https://explorer.tcnetwork.io/planq/validator/plqvaloper16cfuq9d8nv2yrfzl409xkk6w0s4mq9asad5c47',
         ]);
@@ -40,8 +38,6 @@ class DatabaseSeeder extends Seeder
             'type' => 'Testnet',
             'name' => 'Mande',
             'slug' => 'mande',
-            'logo' => 'mande.png',
-            'guide_link' => 'mande.md',
             'rpc_link' => 'https://rpc.mande.crxa.my.id',
             'stake_link' => 'https://explorer.tcnetwork.io/planq/validator/plqvaloper16cfuq9d8nv2yrfzl409xkk6w0s4mq9asad5c47',
         ]);

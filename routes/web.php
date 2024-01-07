@@ -6,11 +6,12 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ChaindController;
 use App\Http\Controllers\ConfigController;
+use App\Http\Controllers\ExordeController;
+use App\Http\Controllers\AirdropController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\guestPostController;
 use App\Http\Controllers\AdminChaindController;
-use App\Http\Controllers\ExordeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,9 @@ Route::middleware('auth')->group(function () {
         'posts.update' => 'posts.update',
         'posts.destroy' => 'posts.destroy',
     ]);
+    Route::resource('/airdrop', AirdropController::class);
+
+    Route::put('/airdrop/{id}', [AirdropController::class, 'checkedUpdate'])->name('airdrop-checked');
 });
 
 Route::middleware(['auth', 'isAdmin'])->group(function () {
