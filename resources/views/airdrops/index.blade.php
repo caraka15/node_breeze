@@ -32,8 +32,8 @@
     <div class="py-12">
         <div class="mx-auto space-y-6 sm:px-6 lg:px-8">
             <div class="flex max-w-full overflow-auto bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
-                <div class="relative max-w-full">
-                    <table class="max-w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
+                <div class="relative w-full">
+                    <table class="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
                         <thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3">
@@ -65,7 +65,8 @@
                                             class="border-transparent bg-transparent px-4 py-1 focus:border-none focus:ring-transparent">
                                     </td>
                                     <td class="px-6 py-4">
-                                        <form action="/airdrop/{{ $airdrop->id }}" method="post" id="updateForm">
+                                        <form action="/airdrop/status/{{ $airdrop->id }}" method="post"
+                                            id="updateForm">
                                             @csrf
                                             @method('put')
 
@@ -103,11 +104,6 @@
                                                 {{ $airdrop->frekuensi === 'weekly' ? 'selected' : '' }}>Weekly
                                             </option>
                                         </select>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <i
-                                            data-feather="{{ $airdrop->sudah_dikerjakan ? 'check-square' : 'x-square' }}"></i>
-
                                     </td>
                                     <td class="px-6 py-4">
                                         <x-primary-button type="submit"

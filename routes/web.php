@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function () {
     ]);
     Route::resource('/airdrop', AirdropController::class);
 
-    Route::put('/airdrop/{id}', [AirdropController::class, 'checkedUpdate'])->name('airdrop-checked');
+    Route::put('/airdrop/status/{id}', [AirdropController::class, 'checkedUpdate'])->name('airdrop-checked');
 });
 
 Route::middleware(['auth', 'isAdmin'])->group(function () {
@@ -94,6 +94,8 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
         'config.destroy' => 'config.destroy',
     ]);
 });
+
+Route::get('/send-telegram-notification', 'TelegramController@sendNotification');
 
 require __DIR__ . '/auth.php';
 

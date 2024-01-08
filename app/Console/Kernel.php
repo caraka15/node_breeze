@@ -14,6 +14,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('sitemap:generate')->daily();
+        $schedule->command('telegram:send-notification')
+            ->dailyAt('13:11')
+            ->timezone('Asia/Jakarta');
     }
 
     /**

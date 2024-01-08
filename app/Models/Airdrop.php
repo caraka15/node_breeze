@@ -12,4 +12,9 @@ class Airdrop extends Model
     protected $casts = [
         'sudah_dikerjakan' => 'boolean',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
