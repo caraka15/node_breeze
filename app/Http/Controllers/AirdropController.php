@@ -39,6 +39,8 @@ class AirdropController extends Controller
             // Sesuaikan dengan kolom-kolom lainnya
         ]);
 
+        $user_id = auth()->user()->id;
+
         // Simpan data ke database
         Airdrop::create([
             'nama' => $request->nama,
@@ -46,6 +48,7 @@ class AirdropController extends Controller
             'frekuensi' => $request->frekuensi,
             'sudah_dikerjakan' => false,
             'selesai' => false,
+            'user_id' => $user_id
             // Sesuaikan dengan kolom-kolom lainnya
         ]);
 
