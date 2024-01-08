@@ -49,10 +49,20 @@ class SendTelegramNotification extends Command
             ->where('selesai', false)
             ->pluck('nama')
             ->unique()
-            ->implode(', ');
+            ->map(function ($airdrop, $index) {
+                // Mulai dari 1 (indeks + 1)
+                return ($index + 1) . ". $airdrop";
+            })
+            ->implode(PHP_EOL);
 
-        return "Hi $user->name! Airdrop notification goes here. Unchecked Airdrops: $listUnchecked";
+        $message = "Hi $user->name!\nAirdrop notification goes here.\n\nUnchecked Airdrops:\n$listUnchecked";
+
+        // Add the link to perform the task
+        $message .= "\n\nTo work on these airdrops, click https://crxanode.com/airdrop";
+
+        return $message;
     }
+
 
     private function sendNotification($chatId, $message)
     {
