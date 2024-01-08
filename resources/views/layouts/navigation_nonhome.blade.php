@@ -61,6 +61,9 @@
                         <x-nav-link :href="route('config')" :active="request()->routeIs(['config'])">
                             {{ __('Config') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('airdrop.index')" :active="request()->routeIs('airdrop.index')">
+                            {{ __('Airdrop') }}
+                        </x-nav-link>
                     @endif
 
                 </div>
@@ -164,6 +167,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('config')" :active="request()->routeIs(['config'])">
                     {{ __('Config') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('airdrop.index')" :active="request()->routeIs(['airdrop.index'])">
+                    {{ __('Airdrop') }}
                 </x-responsive-nav-link>
             @endif
 

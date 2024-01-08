@@ -1,7 +1,7 @@
 <x-app-layout>
     @section('title', $title)
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+        <h2 class="flex justify-between text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
             <div x-data="{ showModal: {{ $errors->any() ? 'true' : 'false' }} }">
                 <!-- Tombol untuk menampilkan modal -->
                 <button @click="showModal = true" class="rounded-md bg-orange-600 px-5 py-2 hover:bg-orange-500">
@@ -25,7 +25,9 @@
                     </div>
                 </div>
             </div>
-
+            <x-primary-button id="NotificationBtn" class="rounded-md bg-orange-500 px-2 py-1 text-black">
+                {{ auth()->user()->telegram_username ? 'Notifikasi Menyala' : 'Nyalakan Notifikasi' }}
+            </x-primary-button>
         </h2>
     </x-slot>
 
@@ -120,7 +122,23 @@
         </div>
     </div>
     <script>
-        // Set showModal based on validation errors
-        let showModal = @json($errors->any());
+        document.getElementById('NotificationBtn').addEventListener('click', function() {
+            // Gantilah 'your-telegram-id' dengan properti yang sesuai dengan Telegram ID pengguna
+            var telegramId = '{{ auth()->user()->telegram_username }}';
+
+            if (!telegramId) {
+                // Jika Telegram ID kosong, tampilkan pesan peringatan
+                alert('Isi Telegram ID untuk menyalakan notifikasi.');
+
+                // Arahkan pengguna ke halaman edit profile
+                window.location.href = '{{ route('profile.edit') }}';
+            } else {
+                alert('Anda ingin mematikan notifikasi? hapus Telegram ID di Profile');
+                // Arahkan pengguna ke halaman edit profile
+
+                window.location.href = '{{ route('profile.edit') }}';
+            }
+        });
     </script>
+
 </x-app-layout>

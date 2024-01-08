@@ -28,7 +28,7 @@ class SendTelegramNotification extends Command
     {
         return User::whereNotNull('telegram_username')
             ->whereHas('airdrops', function ($query) {
-                $query->where('sudah_dikerjakan', false)
+                $query->where('frekuensi', 'daily')
                     ->where('selesai', false);
             })
             ->get();
