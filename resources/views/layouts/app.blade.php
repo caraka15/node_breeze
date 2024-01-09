@@ -237,8 +237,8 @@
             @include('layouts.navigation_nonhome')
         @endif
 
-        <div class="bg-white py-1 text-center text-white dark:bg-gray-800">
-            <p class="mt-20 text-left text-xs"> </p>
+        <div class="bg-white py-1 text-center text-white dark:bg-red-800">
+            <p id="backNav" class="mt-20 text-left text-xs"> </p>
         </div>
         <!-- Page Heading -->
         @if (isset($header))
@@ -263,8 +263,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Function to close the alert
             function closeAlert() {
+
                 const alertElement = document.getElementById('alert');
                 alertElement.classList.add('hidden');
+
+                var backNav = document.getElementById("backNav");
+                backNav.classList.remove("mt-20");
+                backNav.classList.add("mt-14");
             }
 
             // Attach event listener to the close button if it exists

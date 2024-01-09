@@ -20,7 +20,7 @@ class AirdropController extends Controller
         //     ->toSql());
 
         return view('airdrops.index', [
-            'title' => 'Airdrop List',
+            'title' => 'Airdrop List and Notification',
             'airdrops' => Airdrop::where('user_id', auth()->user()->id)
                 ->where('sudah_dikerjakan', false)
                 ->orderByDesc('created_at')
