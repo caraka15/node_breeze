@@ -237,7 +237,7 @@
             @include('layouts.navigation_nonhome')
         @endif
 
-        <div class="bg-white py-1 text-center text-white dark:bg-red-800">
+        <div class="bg-white py-1 text-center text-white dark:bg-gray-800">
             <p id="backNav" class="mt-20 text-left text-xs"> </p>
         </div>
         <!-- Page Heading -->
