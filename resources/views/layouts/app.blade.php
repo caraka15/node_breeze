@@ -228,7 +228,7 @@
     </style>
 </head>
 
-<body class="font-sans antialiased">
+<body class="antialiase scroll-smooth font-sans">
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
 
         @if (request()->route()->getName() == 'home')
@@ -237,7 +237,7 @@
             @include('layouts.navigation_nonhome')
         @endif
 
-        <div class="bg-red-700 py-1 text-center text-white">
+        <div class="bg-white py-1 text-center text-white dark:bg-gray-800">
             <p class="mt-20 text-left text-xs"> </p>
         </div>
         <!-- Page Heading -->

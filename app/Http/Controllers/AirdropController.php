@@ -13,9 +13,25 @@ class AirdropController extends Controller
     public function index()
     {
 
+        // dd(Airdrop::where('user_id', auth()->user()->id)
+        //     ->latest('created_at')
+        //     ->orderBy('sudah_dikerjakan', 'desc')
+        //     ->filter(request(['search']))
+        //     ->toSql());
+
         return view('airdrops.index', [
             'title' => 'Airdrop List',
-            'airdrops' => Airdrop::where('user_id', auth()->user()->id)->latest('created_at')->get(),
+            'airdrops' => Airdrop::where('user_id', auth()->user()->id)
+                ->where('sudah_dikerjakan', false)
+                ->orderByDesc('created_at')
+                ->filter(request(['search']))
+                ->union(
+                    Airdrop::where('user_id', auth()->user()->id)
+                        ->where('sudah_dikerjakan', true)
+                        ->orderByDesc('created_at')
+                        ->filter(request(['search']))
+                )
+                ->get(),
         ]);
     }
 

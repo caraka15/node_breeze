@@ -38,9 +38,6 @@ Route::get('/generate-sitemap', [SitemapController::class, 'generate']);
 
 
 Route::get('/exorde-stats', [ExordeController::class, 'index']);
-Route::post('/exorde-stats', [ExordeController::class, 'getUserStats']);
-
-
 
 
 Route::get('/dashboard', function () {

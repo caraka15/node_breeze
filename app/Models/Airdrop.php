@@ -17,4 +17,15 @@ class Airdrop extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            if ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('nama', 'like', '%' . $search . '%');
+                });
+            }
+        });
+    }
 }
