@@ -146,9 +146,11 @@
                                         </td>
                                     </tr>
                                 @endforeach
-
                             </tbody>
                         </table>
+                        <div class="p-4">
+                            {{ $airdrops->links('vendor.pagination.tailwind') }}
+                        </div>
                     @else
                         <div class="m-6">
                             <div
@@ -161,5 +163,6 @@
             </div>
         </div>
     </div>
+
 
 </x-app-layout>

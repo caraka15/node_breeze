@@ -30,8 +30,9 @@ class AirdropController extends Controller
                         ->where('sudah_dikerjakan', true)
                         ->orderByDesc('created_at')
                         ->filter(request(['search']))
+
                 )
-                ->get(),
+                ->paginate(7),
         ]);
     }
 
