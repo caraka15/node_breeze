@@ -17,8 +17,8 @@ pre {
     background-color: #64748b;
     border-radius: 3px;
     margin-bottom: 20px;
-    overflow-x: hidden;
-    white-space: nowrap;
+    overflow: auto;
+    white-space: pre-wrap;
 }
 
 .copy-button {

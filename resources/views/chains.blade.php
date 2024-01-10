@@ -11,7 +11,7 @@
                     <div class="name">{{ $chaind->name }}</div>
                 </div>
 
-                <div class="prose max-w-full p-5">
+                <div class="prose max-w-full p-5 dark:prose-invert">
                     <article id="markdownContent" class="markdown-body"></article>
                 </div>
             </div>
