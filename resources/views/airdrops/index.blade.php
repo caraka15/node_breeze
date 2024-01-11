@@ -87,11 +87,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($airdrops as $airdrop)
+                                @foreach ($airdrops as $index => $airdrop)
                                     <tr class="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
                                         <th scope="row"
                                             class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white">
-                                            {{ $loop->iteration }}
+                                            {{ ($airdrops->currentPage() - 1) * $airdrops->perPage() + $index + 1 }}
                                         </th>
                                         <td class="max-w-[800px] whitespace-normal px-4 py-4">
                                             <input type="text" name="nama" value="{{ $airdrop->nama }}"

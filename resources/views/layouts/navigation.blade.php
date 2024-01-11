@@ -121,14 +121,14 @@
                         </x-nav-link>
                     </div>
                 @endauth
-                <div class="hidden space-x-8 sm:-my-px sm:ml-5 sm:flex">
+                {{-- <div class="hidden space-x-8 sm:-my-px sm:ml-5 sm:flex">
                     <div class="hidden space-x-8 sm:-my-px sm:ml-5 sm:flex">
                         <button class="rounded-lg border bg-white p-2 text-sm" id="connectButton">Connect</button>
                         <div id="connectedAddressContainer" class="hidden text-sm dark:text-white">
                             <span id="connectedAddress"></span>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
 
             </div>

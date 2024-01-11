@@ -280,7 +280,7 @@
         });
     </script>
 
-    <script src="{{ asset('js/web3-connect.js') }}"></script>
+    {{-- <script src="{{ asset('js/web3-connect.js') }}"></script> --}}
 
 
 </body>
