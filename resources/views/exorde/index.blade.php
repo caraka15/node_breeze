@@ -31,9 +31,6 @@
                     <p id="userRank"></p>
                     <p id="userBounty"></p>
                     <br>
-                    <p id="totalRep"></p>
-                    <p id="totalBounty"></p>
-                    <br>
                     <p id="exdPrice"></p>
                     <p id="hourlyReward"></p>
                     <p id="monthlyReward"></p>
@@ -169,8 +166,6 @@
                 document.getElementById('userRep').innerText = 'Reputation: ' + data.userRep;
                 document.getElementById('userRank').innerText = 'Rank: ' + data.userRank;
                 document.getElementById('userBounty').innerText = 'Bounty: ' + data.userBounty + ' REP';
-                document.getElementById('totalRep').innerText = 'Total Reputation: ' + data.totalRep + ' REP';
-                document.getElementById('totalBounty').innerText = 'Total Bounty: ' + data.totalBounty + ' REP';
                 document.getElementById('exdPrice').innerText = 'EXD Price: ' + data.exdPrice + 'USD';
                 document.getElementById('hourlyReward').innerText = 'Hourly Reward: ' + data.hourlyReward + ' EXD';
                 document.getElementById('monthlyReward').innerText = 'Monthly Reward: ' + data.monthlyReward +
