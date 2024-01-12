@@ -116,21 +116,18 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.3.6/dist/web3.min.js"></script>
     <script>
-        // Event listener untuk tombol connect
         document.getElementById("connectButton1").addEventListener("click", async () => {
             try {
-                // Request account access if needed
-                await window.ethereum.enable();
+                await ethereum.enable(); // Request account access if needed
                 console.log("Connected to MetaMask");
 
-                // Now you can use web3 to interact with Ethereum
-
-                // Example: Get accounts
-                const accounts = await window.web3.eth.getAccounts();
+                const accounts = await ethereum.request({
+                    method: 'eth_requestAccounts'
+                });
                 const connectedAddress = accounts[0];
 
-                // Simpan alamat terhubung di sesi Laravel
                 await fetch("/connect-metamask", {
                     method: "POST",
                     headers: {
@@ -147,21 +144,18 @@
                 sessionStorage.setItem("connectAddress", connectedAddress);
 
                 document.getElementById("connectButton1").style.display = "none";
-                // Update UI to display the connected address
                 document.getElementById("connectedAddress").textContent = connectedAddress;
                 document.getElementById("connectedAddressContainer").style.display = "inline";
                 var reloadButton = document.getElementById("reloadButton");
                 reloadButton.classList.add("inline-flex");
                 reloadButton.classList.remove("hidden");
 
-                // Jalankan fungsi PHP untuk mendapatkan statistik
                 await getUserStats(connectedAddress);
             } catch (error) {
                 console.error("MetaMask connection error:", error);
             }
         });
 
-        // Fungsi untuk mendapatkan dan menampilkan statistik
         async function getUserStats(userAddress) {
             var statsContainer = document.getElementById('statsContainer');
             var loadingMessage = document.getElementById('loadingMessage');
@@ -196,15 +190,10 @@
             var loadingMessage = document.getElementById('loadingMessage');
             var connectedAddress = sessionStorage.getItem("connectAddress");
 
-            console.log("Connected Address:", connectedAddress);
-
-
-            // Sembunyikan statsContainer dan tampilkan loadingMessage
             statsContainer.style.display = 'none';
             loadingMessage.style.display = 'block';
 
             if (connectedAddress) {
-                // Panggil getUserStats untuk mendapatkan dan menampilkan statistik baru
                 getUserStats(connectedAddress);
             } else {
                 console.log("User not connected. Please connect to MetaMask first.");
