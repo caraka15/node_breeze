@@ -54,16 +54,21 @@
         <div class="mx-auto space-y-6 sm:px-6 lg:px-8">
             <div class="flex max-w-full overflow-auto bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
                 <div class="relative w-full">
-                    <form action="/airdrop">
-                        <div class="mb-4 flex items-end justify-end">
-                            <input type="text"
-                                class="max-w-full rounded-l-md border-gray-300 shadow-none focus:border-orange-500 focus:ring-orange-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-orange-600 dark:focus:ring-orange-600 sm:w-80"
-                                placeholder="Search.." name="search" value="{{ request('search') }}">
-                            <button
-                                class="inline-flex items-center rounded-r-md border border-transparent bg-gray-800 p-3 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:bg-orange-600 dark:active:bg-orange-600"
-                                type="submit">Search</button>
+                    <div class="mb-4 flex flex-row justify-between">
+                        <div class="text-gray-900 dark:text-gray-100">
+                            Your total airdrop: {{ $airdropCount }}
                         </div>
-                    </form>
+                        <form action="/airdrop">
+                            <div class="flex">
+                                <input type="text"
+                                    class="max-w-full rounded-l-md border-gray-300 shadow-none focus:border-orange-500 focus:ring-orange-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-orange-600 dark:focus:ring-orange-600 sm:w-80"
+                                    placeholder="Search.." name="search" value="{{ request('search') }}">
+                                <button
+                                    class="inline-flex items-center rounded-r-md border border-transparent bg-gray-800 p-3 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:bg-orange-600 dark:active:bg-orange-600"
+                                    type="submit">Search</button>
+                            </div>
+                        </form>
+                    </div>
                     @if ($airdrops->count())
                         <table class="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
                             <thead
@@ -72,7 +77,7 @@
                                     <th scope="col" class="px-6 py-3">
                                         No
                                     </th>
-                                    <th scope="col" class="max-w-[800px] px-4 py-3">
+                                    <th scope="col" class="max-w-[600px] px-4 py-3">
                                         Title
                                     </th>
                                     <th scope="col" class="px-6 py-3">
@@ -93,9 +98,8 @@
                                             class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white">
                                             {{ ($airdrops->currentPage() - 1) * $airdrops->perPage() + $index + 1 }}
                                         </th>
-                                        <td class="max-w-[800px] whitespace-normal px-4 py-4">
-                                            <input type="text" name="nama" value="{{ $airdrop->nama }}"
-                                                class="border-transparent bg-transparent px-4 py-1 focus:border-none focus:ring-transparent">
+                                        <td class="max-w-[600px] whitespace-normal px-4 py-4">
+                                            {{ $airdrop->nama }}
                                         </td>
                                         <td class="px-6 py-4">
                                             <form action="/airdrop/status/{{ $airdrop->id }}" method="post"
@@ -125,24 +129,31 @@
                                             </script>
                                         </td>
                                         <td class="px-6 py-4">
-                                            <select name="frekuensi"
-                                                class="border-transparent bg-transparent px-4 py-1 focus:border-none focus:ring-transparent">
-                                                <option value="sekali"
-                                                    {{ $airdrop->frekuensi === 'sekali' ? 'selected' : '' }}>Once
-                                                </option>
-                                                <option value="daily"
-                                                    {{ $airdrop->frekuensi === 'daily' ? 'selected' : '' }}>Daily
-                                                </option>
-                                                <option value="weekly"
-                                                    {{ $airdrop->frekuensi === 'weekly' ? 'selected' : '' }}>Weekly
-                                                </option>
-                                            </select>
+                                            {{ $airdrop->frekuensi }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            <x-primary-button type="submit"
-                                                class="rounded-md bg-orange-500 px-2 py-1 text-black hover:bg-orange-600">
-                                                {{ __('Update') }}
-                                            </x-primary-button>
+                                            <div x-data="{ showEdit: false }">
+                                                <button @click="showEdit = true">
+                                                    <i data-feather="edit"></i>
+                                                </button>
+                                                <div x-show="showEdit"
+                                                    class="fixed inset-16 z-50 overflow-auto bg-transparent">
+                                                    <div class="items-center justify-center">
+                                                        <div
+                                                            class="mx-auto max-w-5xl rounded-lg border border-gray-700 bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
+                                                            <div class="mt-4 flex justify-end">
+                                                                <button @click="showEdit = false"
+                                                                    class="relative text-gray-500 hover:text-gray-700">
+                                                                    <i data-feather="x"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="max-w-full overflow-auto">
+                                                                @include('airdrops.edit')
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

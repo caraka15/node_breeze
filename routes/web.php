@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\guestPostController;
 use App\Http\Controllers\AdminChaindController;
+use App\Http\Controllers\TelegramController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,7 +93,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     ]);
 });
 
-Route::get('/send-telegram-notification', 'TelegramController@sendNotification');
+Route::get('/send-telegram-notification', [TelegramController::class, 'sendNotification']);
 
 require __DIR__ . '/auth.php';
 

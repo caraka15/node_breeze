@@ -13,26 +13,26 @@ class AirdropController extends Controller
     public function index()
     {
 
-        // dd(Airdrop::where('user_id', auth()->user()->id)
-        //     ->latest('created_at')
-        //     ->orderBy('sudah_dikerjakan', 'desc')
-        //     ->filter(request(['search']))
-        //     ->toSql());
+        $airdrop = Airdrop::where('user_id', auth()->user()->id)
+            ->where('sudah_dikerjakan', false)
+            ->orderByDesc('created_at')
+            ->filter(request(['search']))
+            ->union(
+                Airdrop::where('user_id', auth()->user()->id)
+                    ->where('sudah_dikerjakan', true)
+                    ->orderByDesc('created_at')
+                    ->filter(request(['search']))
 
+            )
+            ->paginate(7);
+
+        $userId = auth()->user()->id;
+
+        $airdropCount = Airdrop::where('user_id', $userId)->count();
         return view('airdrops.index', [
             'title' => 'Airdrop List and Notification',
-            'airdrops' => Airdrop::where('user_id', auth()->user()->id)
-                ->where('sudah_dikerjakan', false)
-                ->orderByDesc('created_at')
-                ->filter(request(['search']))
-                ->union(
-                    Airdrop::where('user_id', auth()->user()->id)
-                        ->where('sudah_dikerjakan', true)
-                        ->orderByDesc('created_at')
-                        ->filter(request(['search']))
-
-                )
-                ->paginate(7),
+            'airdrops' => $airdrop,
+            'airdropCount' => $airdropCount
         ]);
     }
 
@@ -101,7 +101,9 @@ class AirdropController extends Controller
      */
     public function edit(Airdrop $airdrop)
     {
-        //
+        return view('airdrops.edit', [
+            'airdrop' => $airdrop,
+        ]);
     }
 
     /**
@@ -111,26 +113,33 @@ class AirdropController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'link' => 'required',
+            'link' => 'required|url',
             'frekuensi' => 'required|in:sekali,daily,weekly',
-            'sudah_dikerjakan' => 'boolean',
             // Sesuaikan dengan kolom-kolom lainnya
         ]);
 
+        $user_id = auth()->user()->id;
+
+        // Retrieve the specific Airdrop instance by its ID
         $airdrop = Airdrop::find($id);
 
-        // Update data di database
+        // Check if the Airdrop instance is found
+        if (!$airdrop) {
+            return redirect('/airdrop')->with('error', 'Airdrop not found.');
+        }
+
+        // Update the specified columns of the retrieved instance
         $airdrop->update([
             'nama' => $request->nama,
             'link' => $request->link,
             'frekuensi' => $request->frekuensi,
-            'sudah_dikerjakan' => $request->has('sudah_dikerjakan'),
-            // Sesuaikan dengan kolom-kolom lainnya
+            // Sesuaikan dengan kolom-kolom lainnya yang ingin Anda perbarui
         ]);
 
-        // Redirect atau kembalikan respons yang sesuai
-        return redirect('/airdrop')->with('success', 'Airdrop berhasil diperbarui!');
+        // Redirect or return a response as appropriate
+        return redirect('/airdrop')->with('success', 'Airdrop successfully updated!');
     }
+
 
     /**
      * Remove the specified resource from storage.
