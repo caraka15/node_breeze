@@ -52,7 +52,7 @@ class AirdropController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'link' => 'required|url',
-            'frekuensi' => 'required|in:sekali,daily,weekly',
+            'frekuensi' => 'required|in:once,daily,weekly',
             // Sesuaikan dengan kolom-kolom lainnya
         ]);
 
@@ -114,7 +114,7 @@ class AirdropController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'link' => 'required|url',
-            'frekuensi' => 'required|in:sekali,daily,weekly',
+            'frekuensi' => 'required|in:once,daily,weekly',
             // Sesuaikan dengan kolom-kolom lainnya
         ]);
 
@@ -146,6 +146,8 @@ class AirdropController extends Controller
      */
     public function destroy(Airdrop $airdrop)
     {
-        //
+        Airdrop::destroy($airdrop->id);
+
+        return redirect('/airdrop')->with('success', 'Airdrop has been deleted!');
     }
 }
