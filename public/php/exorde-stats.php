@@ -77,20 +77,33 @@ function getCryptoData()
 // Get cryptocurrency data
 $cryptoData = getCryptoData();
 $bitcoinInfo = $cryptoData['data']['23638'];
-$exdPrice = number_format($bitcoinInfo['quote']['USD']['price'], 4);
+$exdPrice = $bitcoinInfo['quote']['USD']['price'];
+$numExdPrice = number_format($exdPrice, 4);
 
-$hourlyReward = $hourlyData[$userAddress] ?? null;
-$monthlyReward = number_format(($hourlyData[$userAddress] ?? 0) * 720, 2);
+// Get hourly reward data
+$hourlyReward = isset($hourlyData[$userAddress]) ? floatval($hourlyData[$userAddress]) : 0;
+
+$totalRep = array_sum($leaderboardData);
+$totalBounty = array_sum($bountyData['tweets']);
+
+$userPercentage = number_format(($userRep / $totalRep) * 100, 2);
+$bountyPercentage = number_format(($userBounty / $totalBounty) * 100, 2);
+// Calculate monthly reward
+$monthlyReward = $hourlyReward * 720;
+$numMonthlyReward = number_format($monthlyReward, 2);
+// Calculate USD reward
 $usdReward = number_format($monthlyReward * $exdPrice, 2);
 
 $data = [
     'userAddress' => $userAddress,
+    'userPercentage' => $userPercentage,
+    'bountyPercentage' => $bountyPercentage,
     'userRep' => $userRep,
     'userRank' => $userRank,
     'userBounty' => $userBounty,
-    'exdPrice' => $exdPrice,
+    'exdPrice' => $numExdPrice,
     'hourlyReward' => $hourlyReward,
-    'monthlyReward' => $monthlyReward,
+    'monthlyReward' => $numMonthlyReward,
     'usdReward' => $usdReward,
 ];
 

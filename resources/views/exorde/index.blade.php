@@ -2,7 +2,7 @@
     @section('title', 'Exorde Stats')
     @section('description', 'Exorde Stats Node Service, Validator guide')
 
-    <div class="py-12">
+    <div class="py-4">
         <div class="mx-auto max-w-5xl space-y-6 sm:px-6 lg:px-8">
             <div class="bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
 
@@ -27,10 +27,16 @@
 
                 <div id="statsContainer"
                     class="mt-4 hidden rounded-md bg-gray-200 p-4 dark:bg-slate-500 dark:text-white">
-                    <p id="userRep"></p>
+                    <h1 class="text-pretty text-xl font-bold">Leaderboard Statistic</h1>
                     <p id="userRank"></p>
-                    <p id="userBounty"></p>
+                    <p id="userRep"></p>
+                    <p id="userPercentage"></p>
                     <br>
+                    <h1 class="text-pretty text-xl font-bold">Bounty Leaderboard Statistic</h1>
+                    <p id="userBounty"></p>
+                    <p id="bountyPercentage"></p>
+                    <br>
+                    <h1 class="text-pretty text-xl font-bold">Rewrd Expectation</h1>
                     <p id="exdPrice"></p>
                     <p id="hourlyReward"></p>
                     <p id="monthlyReward"></p>
@@ -171,6 +177,10 @@
                 document.getElementById('monthlyReward').innerText = 'Monthly Reward: ' + data.monthlyReward +
                     ' EXD';
                 document.getElementById('usdReward').innerText = 'USD Monthly Reward: ' + data.usdReward + ' USD';
+                document.getElementById('userPercentage').innerText = 'Percentage: ' + data.userPercentage +
+                    ' %';
+                document.getElementById('bountyPercentage').innerText = 'Percentage: ' + data.bountyPercentage +
+                    ' %';
 
                 loadingMessage.style.display = 'none';
                 statsContainer.style.display = 'block';
