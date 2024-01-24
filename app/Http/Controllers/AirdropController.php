@@ -43,7 +43,8 @@ class AirdropController extends Controller
     public function exportToExcel()
     {
         // Filter airdrops yang dimiliki oleh user yang terautentikasi
-        $userAirdrops = auth()->user()->airdrops;
+        $user = auth()->user();
+
         // Ambil airdrops yang dimiliki oleh user tersebut
         $userAirdrops = $user->airdrops;
 
