@@ -44,9 +44,14 @@ class AirdropController extends Controller
     {
         // Filter airdrops yang dimiliki oleh user yang terautentikasi
         $userAirdrops = auth()->user()->airdrops;
+        // Ambil airdrops yang dimiliki oleh user tersebut
+        $userAirdrops = $user->airdrops;
 
-        // Download data airdrops menggunakan export class
-        return Excel::download(new UserAirdropsExport($userAirdrops), 'user_airdrops.xlsx');
+        // Nama file yang diinginkan
+        $fileName = $user->username . '_airdrops_' . now()->format('d-m-Y') . '.xls';
+
+        // Download file Excel dengan nama yang ditentukan
+        return Excel::download(new UserAirdropsExport($userAirdrops), $fileName);
     }
 
     /**
