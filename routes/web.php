@@ -40,6 +40,9 @@ Route::get('/generate-sitemap', [SitemapController::class, 'generate']);
 
 Route::get('/exorde-stats', [ExordeController::class, 'index']);
 
+Route::get('/airdrop/export-to-excel', [AirdropController::class, 'exportToExcel'])->name('airdrops.export.to.excel');
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard', [
@@ -70,7 +73,6 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/airdrop/status/{id}', [AirdropController::class, 'checkedUpdate'])->name('airdrop-checked');
 });
-
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/dashboard/chainds/checkSlug', [AdminChaindController::class, 'checkSlug']);
     Route::resource('/dashboard/chainds', AdminChaindController::class)->names([

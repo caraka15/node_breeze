@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Airdrop;
 use Illuminate\Http\Request;
+use App\Exports\UserAirdropsExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Collection;
+
 
 class AirdropController extends Controller
 {
@@ -34,6 +38,15 @@ class AirdropController extends Controller
             'airdrops' => $airdrop,
             'airdropCount' => $airdropCount
         ]);
+    }
+
+    public function exportToExcel()
+    {
+        // Filter airdrops yang dimiliki oleh user yang terautentikasi
+        $userAirdrops = auth()->user()->airdrops;
+
+        // Download data airdrops menggunakan export class
+        return Excel::download(new UserAirdropsExport($userAirdrops), 'user_airdrops.xlsx');
     }
 
     /**

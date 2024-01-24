@@ -56,7 +56,10 @@
                 <div class="relative w-full">
                     <div class="mb-4 flex flex-row justify-between">
                         <div class="text-gray-900 dark:text-gray-100">
-                            Your total airdrop: {{ $airdropCount }}
+                            <a href="{{ route('airdrops.export.to.excel') }}"
+                                class="rounded-md bg-orange-600 px-5 py-2 hover:bg-orange-500">
+                                Export to xls
+                            </a>
                         </div>
                         <form action="/airdrop">
                             <div class="flex">
