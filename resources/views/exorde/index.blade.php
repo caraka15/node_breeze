@@ -36,7 +36,7 @@
                     <p id="userBounty"></p>
                     <p id="bountyPercentage"></p>
                     <br>
-                    <h1 class="text-pretty text-xl font-bold">Rewrd Expectation</h1>
+                    <h1 class="text-pretty text-xl font-bold">Reward Expectation</h1>
                     <p id="exdPrice"></p>
                     <p id="hourlyReward"></p>
                     <p id="monthlyReward"></p>
@@ -92,23 +92,28 @@
             <div class="bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
                 <h1 class="mb-4 text-center text-lg dark:text-white">Leaderboard</h1>
                 @if (!empty($leaderboards))
-                    <table class="w-full table-auto border dark:text-white">
+                    <table id="leaderboardTable" class="w-full table-auto border dark:text-white">
                         <thead>
                             <tr>
-                                <th class="border p-2">No</th>
+                                <th class="border border-y-white border-l-white p-0"></th>
+                                <th class="border p-0">No</th>
                                 <th class="border p-2">Address</th>
                                 <th class="border p-2">Reputation</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($leaderboards as $address => $reward)
-                                @if ($reward !== 0)
-                                    <tr>
-                                        <td class="border p-2">{{ $loop->iteration }}</td>
-                                        <td class="border p-2">{{ $address }}</td>
-                                        <td class="border p-2">{{ number_format($reward) }}</td>
-                                    </tr>
-                                @endif
+                            @foreach ($leaderboards as $leaderboard)
+                                <tr>
+                                    <td
+                                        class="@if ($leaderboard['rankDifference'] >= 0) text-green-500 @else text-red-500 @endif w-2 border border-y-white border-l-white pr-4 text-right">
+                                        {{ $leaderboard['rankDifference'] }}
+                                    </td>
+                                    <td class="border p-0 text-center">
+                                        {{ $leaderboard['rank'] }}
+                                    </td>
+                                    <td class="address-cell border p-2">{{ strtolower($leaderboard['address']) }}</td>
+                                    <td class="border p-2">{{ number_format($leaderboard['value']) }}</td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -118,6 +123,7 @@
             </div>
         </div>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/web3@1.3.6/dist/web3.min.js"></script>
     <script>
@@ -154,6 +160,8 @@
                 reloadButton.classList.remove("hidden");
 
                 await getUserStats(connectedAddress);
+
+                highlightConnectedAddressRow(connectedAddress);
             } catch (error) {
                 console.error("MetaMask connection error:", error);
             }
@@ -203,6 +211,16 @@
             } else {
                 console.log("User not connected. Please connect to MetaMask first.");
             }
+        }
+
+        function highlightConnectedAddressRow(connectedAddress) {
+            var leaderboardRows = document.querySelectorAll("#leaderboardTable tbody tr");
+            leaderboardRows.forEach(row => {
+                var addressCell = row.querySelector(".address-cell");
+                if (addressCell && addressCell.textContent === connectedAddress) {
+                    row.classList.add("bg-orange-400");
+                }
+            });
         }
     </script>
 </x-app-layout>

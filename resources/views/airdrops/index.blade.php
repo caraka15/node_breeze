@@ -54,24 +54,25 @@
         <div class="mx-auto space-y-6 sm:px-6 lg:px-8">
             <div class="flex max-w-full overflow-auto bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
                 <div class="relative w-full">
-                    <div class="mb-4 flex flex-row justify-between">
-                        <div class="text-gray-900 dark:text-gray-100">
+                    <div class="mb-4 flex flex-col justify-between sm:flex-row">
+                        <div class="mb-2 text-gray-900 dark:text-gray-100 sm:mb-0">
                             <a href="{{ route('airdrops.export.to.excel') }}"
                                 class="rounded-md bg-orange-600 px-5 py-2 hover:bg-orange-500">
                                 Export to xls
                             </a>
                         </div>
-                        <form action="/airdrop">
-                            <div class="flex">
+                        <form action="/airdrop" class="sm:ml-2">
+                            <div class="flex flex-col sm:flex-row">
                                 <input type="text"
-                                    class="max-w-full rounded-l-md border-gray-300 shadow-none focus:border-orange-500 focus:ring-orange-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-orange-600 dark:focus:ring-orange-600 sm:w-80"
+                                    class="mb-2 max-w-full rounded-l-md border-gray-300 shadow-none focus:border-orange-500 focus:ring-orange-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-orange-600 dark:focus:ring-orange-600 sm:mb-0 sm:w-80"
                                     placeholder="Search.." name="search" value="{{ request('search') }}">
                                 <button
-                                    class="inline-flex items-center rounded-r-md border border-transparent bg-gray-800 p-3 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:bg-orange-600 dark:active:bg-orange-600"
+                                    class="w-full rounded-md border border-transparent bg-gray-800 p-3 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:bg-orange-600 dark:active:bg-orange-600 sm:w-auto"
                                     type="submit">Search</button>
                             </div>
                         </form>
                     </div>
+
                     @if ($airdrops->count())
                         <table class="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
                             <thead
