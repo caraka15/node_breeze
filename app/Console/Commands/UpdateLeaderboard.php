@@ -15,9 +15,9 @@ class UpdateLeaderboard extends Command
     {
         try {
             // Ambil data leaderboard dari URL
-            // $response = Http::get("https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/Stats/leaderboard.json");
+            $response = Http::get("https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/Stats/leaderboard.json");
 
-            $response = Http::get("https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/7f98f36b706714b41b2428abf603ed35e0d61866/Stats/leaderboard.json");
+            // $response = Http::get("https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/7f98f36b706714b41b2428abf603ed35e0d61866/Stats/leaderboard.json");
 
             if ($response->successful()) {
                 $latestLeaderboardData = $response->json();
