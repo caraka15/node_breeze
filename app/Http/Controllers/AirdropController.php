@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Exports\UserAirdropsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Collection;
-
+use Illuminate\Support\Facades\Auth;
 
 class AirdropController extends Controller
 {
@@ -16,28 +16,36 @@ class AirdropController extends Controller
      */
     public function index()
     {
+        // Pengecekan apakah pengguna sudah login
+        if (Auth::check()) {
+            $userId = auth()->user()->id;
 
-        $airdrop = Airdrop::where('user_id', auth()->user()->id)
-            ->where('sudah_dikerjakan', false)
-            ->orderByDesc('created_at')
-            ->filter(request(['search']))
-            ->union(
-                Airdrop::where('user_id', auth()->user()->id)
-                    ->where('sudah_dikerjakan', true)
-                    ->orderByDesc('created_at')
-                    ->filter(request(['search']))
+            $airdrop = Airdrop::where('user_id', $userId)
+                ->where('sudah_dikerjakan', false)
+                ->orderByDesc('created_at')
+                ->filter(request(['search']))
+                ->union(
+                    Airdrop::where('user_id', $userId)
+                        ->where('sudah_dikerjakan', true)
+                        ->orderByDesc('created_at')
+                        ->filter(request(['search']))
+                )
+                ->paginate(7);
 
-            )
-            ->paginate(7);
+            $airdropCount = Airdrop::where('user_id', $userId)->count();
 
-        $userId = auth()->user()->id;
+            return view('airdrops.index', [
+                'title' => 'Airdrop List and Notification',
+                'airdrops' => $airdrop,
+                'airdropCount' => $airdropCount
+            ]);
+        } else {
+            // Pengguna belum login, tampilkan halaman dengan pesan atau tindakan yang sesuai
+            return view('airdrops.index', [
+                'title' => 'Airdrop List and Notification',
 
-        $airdropCount = Airdrop::where('user_id', $userId)->count();
-        return view('airdrops.index', [
-            'title' => 'Airdrop List and Notification',
-            'airdrops' => $airdrop,
-            'airdropCount' => $airdropCount
-        ]);
+            ]);
+        }
     }
 
     public function exportToExcel()

@@ -42,6 +42,7 @@ Route::get('/exorde-stats', [ExordeController::class, 'index']);
 
 Route::get('/airdrop/export-to-excel', [AirdropController::class, 'exportToExcel'])->name('airdrops.export.to.excel');
 
+Route::resource('/airdrop', AirdropController::class);
 
 
 Route::get('/dashboard', function () {
@@ -69,7 +70,6 @@ Route::middleware('auth')->group(function () {
         'posts.update' => 'posts.update',
         'posts.destroy' => 'posts.destroy',
     ]);
-    Route::resource('/airdrop', AirdropController::class);
 
     Route::put('/airdrop/status/{id}', [AirdropController::class, 'checkedUpdate'])->name('airdrop-checked');
 });

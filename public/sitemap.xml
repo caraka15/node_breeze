@@ -6,27 +6,7 @@
         <priority>0.8</priority>
             </url>
     <url>
-        <loc>https://crxanode.com/register</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>https://crxanode.com/config</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>https://crxanode.com/login</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>https://crxanode.com/blogs</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>https://crxanode.com/osmosis</loc>
+        <loc>https://crxanode.com</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
@@ -36,22 +16,62 @@
         <priority>0.8</priority>
             </url>
     <url>
+        <loc>https://crxanode.com/blogs</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>https://crxanode.com/exorde</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
         <loc>https://crxanode.com/mande</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
     <url>
-        <loc>https://crxanode.com</loc>
+        <loc>https://crxanode.com/config</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
     <url>
-        <loc>https://crxanode.com/storage/uploads/IM3%2011%20Jan.nm</loc>
+        <loc>https://crxanode.com/airdrop</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
     <url>
-        <loc>https://crxanode.com/storage/uploads/XL%20Baru%2011%20jan.nm</loc>
+        <loc>https://crxanode.com/register</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>https://crxanode.com/login</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>https://crxanode.com/over</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>https://crxanode.com/exorde-stats</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>https://crxanode.com/storage/uploads/ime%20edu%2022%20jan.nm</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>https://crxanode.com/storage/uploads/im3%2014jan.nm</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>https://crxanode.com/storage/uploads/XL%20Baru%2011%20jan%20(7).nm</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
@@ -61,52 +81,17 @@
         <priority>0.8</priority>
             </url>
     <url>
-        <loc>https://crxanode.com/blogs/config-xl-dan-im3-update-11des</loc>
+        <loc>https://crxanode.com/blogs/how-to-public-api-rpc-grpc-explorer</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>https://crxanode.com/blogs?author=crxa</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
     <url>
         <loc>https://crxanode.com/blogs?category=web-programming</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>https://crxanode.com/blogs?author=caraka15</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>https://crxanode.com/blogs/crxa-nodes</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>https://crxanode.com/blogs/config-indosat</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>https://crxanode.com/blogs/config-xl-flex</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>https://crxanode.com/upload/im3bab.nm</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>https://crxanode.com/upload/XL%20Baru%2011%20jan.nm</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>https://crxanode.com/upload/xl_enhance.nm</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>https://crxanode.com/upload/IM3%2011%20Jan.nm</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
