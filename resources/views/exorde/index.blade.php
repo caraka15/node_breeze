@@ -95,25 +95,32 @@
                     <table id="leaderboardTable" class="w-full table-auto border dark:text-white">
                         <thead>
                             <tr>
-                                <th class="border border-y-white border-l-white p-0"></th>
+                                <th
+                                    class="border border-y-white border-l-white p-0 dark:border-y-gray-900 dark:border-l-gray-800">
+                                </th>
                                 <th class="border p-0">No</th>
                                 <th class="border p-2">Address</th>
                                 <th class="border p-2">Reputation</th>
+                                <th class="border p-2">Rep increase</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($leaderboards as $leaderboard)
-                                <tr>
-                                    <td
-                                        class="@if ($leaderboard['rankDifference'] >= 0) text-green-500 @else text-red-500 @endif w-2 border border-y-white border-l-white pr-4 text-right">
-                                        {{ $leaderboard['rankDifference'] }}
-                                    </td>
-                                    <td class="border p-0 text-center">
-                                        {{ $leaderboard['rank'] }}
-                                    </td>
-                                    <td class="address-cell border p-2">{{ strtolower($leaderboard['address']) }}</td>
-                                    <td class="border p-2">{{ number_format($leaderboard['value']) }}</td>
-                                </tr>
+                                @if ($leaderboard['value'] > 0)
+                                    <tr>
+                                        <td
+                                            class="@if ($leaderboard['rankDifference'] >= 0) text-green-500 @else text-red-500 @endif w-2 border border-y-white border-l-white pr-4 text-right dark:border-y-gray-900 dark:border-l-gray-800">
+                                            {{ $leaderboard['rankDifference'] }}
+                                        </td>
+                                        <td class="border p-0 text-center">
+                                            {{ $leaderboard['rank'] }}
+                                        </td>
+                                        <td class="address-cell border p-2">{{ strtolower($leaderboard['address']) }}
+                                        </td>
+                                        <td class="border p-2">{{ number_format($leaderboard['value']) }}</td>
+                                        <td class="border p-2">{{ '+' . $leaderboard['valueDifference'] }}</td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>
@@ -217,8 +224,8 @@
             var leaderboardRows = document.querySelectorAll("#leaderboardTable tbody tr");
             leaderboardRows.forEach(row => {
                 var addressCell = row.querySelector(".address-cell");
-                if (addressCell && addressCell.textContent === connectedAddress) {
-                    row.classList.add("bg-orange-400");
+                if (addressCell && addressCell.textContent.toLowerCase() === connectedAddress.toLowerCase()) {
+                    row.classList.add("bg-orange-500");
                 }
             });
         }

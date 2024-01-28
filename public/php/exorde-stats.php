@@ -75,6 +75,8 @@ function getCryptoData()
 }
 
 // Get cryptocurrency data
+$userReputation = number_format($userRep);
+$userBountys = number_format($userBounty);
 $cryptoData = getCryptoData();
 $bitcoinInfo = $cryptoData['data']['23638'];
 $exdPrice = $bitcoinInfo['quote']['USD']['price'];
@@ -98,9 +100,9 @@ $data = [
     'userAddress' => $userAddress,
     'userPercentage' => $userPercentage,
     'bountyPercentage' => $bountyPercentage,
-    'userRep' => $userRep,
+    'userRep' => $userReputation,
     'userRank' => $userRank,
-    'userBounty' => $userBounty,
+    'userBounty' => $userBountys,
     'exdPrice' => $numExdPrice,
     'hourlyReward' => $hourlyReward,
     'monthlyReward' => $numMonthlyReward,

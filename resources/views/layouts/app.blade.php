@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="scroll-smooth" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
@@ -255,6 +255,13 @@
             {{ $slot }}
         </main>
     </div>
+
+    <!-- Tombol Scroll to Top -->
+    <div id="scroll-to-top"
+        class="fixed bottom-4 right-4 flex hidden h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-orange-500 p-2 text-white">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
     @include('layouts.footer')
     <script>
         feather.replace();
@@ -277,6 +284,29 @@
             if (closeBtn) {
                 closeBtn.addEventListener('click', closeAlert);
             }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var mybutton = document.getElementById('scroll-to-top');
+
+            // Tampilkan tombol ketika menggulir lebih dari 100px dari bagian atas halaman
+            window.onscroll = function() {
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    mybutton.classList.remove('hidden');
+                } else {
+                    mybutton.classList.add('hidden');
+                }
+            };
+
+            // Fungsi untuk menangani klik pada tombol scroll to top
+            mybutton.addEventListener('click', function() {
+                // Menggunakan scrollIntoView dengan efek smooth
+                document.body.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
         });
     </script>
 

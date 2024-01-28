@@ -11,10 +11,10 @@ class ExordeController extends Controller
     public function index()
     {
         // Ambil data leaderboard harian dari file daily_leaderboard.json
-        $dailyLeaderboardData = json_decode(Storage::disk('public')->get('php/daily_leaderboard.json'), true);
+        $dailyLeaderboardData = json_decode(Storage::disk('public')->get('data-json/daily_leaderboard.json'), true);
 
         // Ambil data leaderboard terbaru dari URL
-        $latestLeaderboardUrl = "https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/Stats/leaderboard.json";
+        $latestLeaderboardData = json_decode(Storage::disk('public')->get('data-json/latest_leaderboard.json'), true);
 
         $leaderboardUrl = "https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/Stats/leaderboard.json";
         $leaderboardDatas = Http::get($leaderboardUrl)->json();
@@ -25,28 +25,10 @@ class ExordeController extends Controller
         $totalRep = array_sum($leaderboardDatas);
         $totalBounty = array_sum($bountyDatas['tweets']);
 
-        // Loop through leaderboard terbaru
-        $latestLeaderboardData = Http::get($latestLeaderboardUrl)->json();
-
-        // Inisialisasi array untuk menyimpan data leaderboard harian dalam format "rank, address, value"
-        $latestLeaderboardArray = [];
-
-        // Mendapatkan nilai terurut dari leaderboard terbaru
-        arsort($latestLeaderboardData);
-
-        // Loop through leaderboard terbaru
-        foreach ($latestLeaderboardData as $address => $value) {
-            // Menambahkan data ke array dalam format yang diinginkan
-            $latestLeaderboardArray[] = [
-                'rank' => count($latestLeaderboardArray) + 1,
-                'address' => $address,
-                'value' => $value,
-            ];
-        }
-
+        // Rank Json
         $latestRank = [];
 
-        foreach ($latestLeaderboardArray as $entry) {
+        foreach ($latestLeaderboardData as $entry) {
             $latestRank[$entry['address']] = $entry['rank'];
         }
 
@@ -56,19 +38,38 @@ class ExordeController extends Controller
             $dailyRank[$entry['address']] = $entry['rank'];
         }
 
-        $leaderboards = [];
+        // value json
+        $latestValue = [];
+        foreach ($latestLeaderboardData as $entry) {
+            $latestValue[$entry['address']] = $entry['value'];
+        }
 
-        foreach ($latestLeaderboardArray as $entry) {
+        $dailyValue = [];
+        foreach ($dailyLeaderboardData as $entry) {
+            $dailyValue[$entry['address']] = $entry['value'];
+        }
+
+        $leaderboards = [];
+        foreach ($latestLeaderboardData as $entry) {
+
             $address = $entry['address'];
 
             // Peringkat harian
             $dailyRankValue = isset($dailyRank[$address]) ? $dailyRank[$address] : null;
-
             // Peringkat terbaru
             $latestRankValue = isset($latestRank[$address]) ? $latestRank[$address] : null;
-
             // Perbedaan peringkat
             $rankDifference = ($latestRankValue !== null) ? ($dailyRankValue - $latestRankValue) : null;
+
+
+
+            // Value harian
+            $dailyValueData = isset($dailyValue[$address]) ? $dailyValue[$address] : null;
+            // Peringkat terbaru
+            $latestValueData = isset($latestValue[$address]) ? $latestValue[$address] : null;
+            // Perbedaan peringkat
+            $valueDifference = ($latestRankValue !== null) ? ($latestValueData - $dailyValueData) : null;
+
 
             // Tambahkan informasi ke array $leaderboards
             $leaderboards[] = [
@@ -76,6 +77,7 @@ class ExordeController extends Controller
                 'address' => $address,
                 'value' => $entry['value'],
                 'rankDifference' => $rankDifference,
+                'valueDifference' => $valueDifference
             ];
         }
 
