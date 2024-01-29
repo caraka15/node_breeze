@@ -108,7 +108,7 @@
                                             </td>
                                             <td class="px-6 py-4">
                                                 <form action="/airdrop/status/{{ $airdrop->id }}" method="post"
-                                                    id="updateForm">
+                                                    id="updateForm{{ $index }}">
                                                     @csrf
                                                     @method('put')
 
@@ -126,9 +126,8 @@
                                                     @endif
 
                                                 </form>
-
                                                 <script>
-                                                    document.getElementById('updateForm').addEventListener('submit', function() {
+                                                    document.getElementById('updateForm{{ $index }}').addEventListener('submit', function() {
                                                         window.open("{{ $airdrop->link }}", "_blank");
                                                     });
                                                 </script>
