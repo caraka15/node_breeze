@@ -1,12 +1,12 @@
 <x-app-layout>
     @section('title', $title)
     <div class="py-12">
-        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+        <div class="mx-auto max-w-5xl space-y-6 sm:px-6 lg:px-8">
+            <div class="bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
                 <div class="max-w-xl">
-                    <h2 class="dark:text-white mb-7 text-2xl text-center">{{ $post->name }}</h2>
+                    <h2 class="mb-7 text-center text-2xl dark:text-white">{{ $post->name }}</h2>
 
-                    <div class="prose dark:prose-dark dark:text-white">
+                    <div class="prose max-w-full p-5 dark:prose-invert">
                         {!! $post->description !!}
                     </div>
                 </div>
