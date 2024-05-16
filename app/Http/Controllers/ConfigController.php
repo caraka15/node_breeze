@@ -16,19 +16,10 @@ class ConfigController extends Controller
      */
     public function index()
     {
-
-        if (Auth::check()) {
-            return view('dashboard.configs.index', [
-                'configs' => Config::all(),
-                'title' => "Config Dashboard"
-            ]);
-        } else {
-            // Pengguna belum login, tampilkan halaman dengan pesan atau tindakan yang sesuai
-            return view('airdrops.index', [
-                'title' => 'Airdrop List and Notification',
-
-            ]);
-        }
+        return view('dashboard.configs.index', [
+            'configs' => Config::all(),
+            'title' => "Config Dashboard"
+        ]);
     }
 
     /**
@@ -143,9 +134,17 @@ class ConfigController extends Controller
 
     public function config()
     {
-        return view('config', [
-            'configs' => Config::orderBy('updated_at', 'desc')->get(),
-            'title' => " Config Inject Internet"
-        ]);
+        if (Auth::check()) {
+            return view('config', [
+                'configs' => Config::orderBy('updated_at', 'desc')->get(),
+                'title' => " Config Inject Internet"
+            ]);
+        } else {
+            // Pengguna belum login, tampilkan halaman dengan pesan atau tindakan yang sesuai
+            return view('airdrops.index', [
+                'title' => 'Airdrop List and Notification',
+
+            ]);
+        }
     }
 }
