@@ -21,11 +21,16 @@ class AirdropController extends Controller
             $userId = auth()->user()->id;
 
             $airdrop = Airdrop::where('user_id', $userId)
-                ->whereIn('sudah_dikerjakan', [false, true])
+                ->where('sudah_dikerjakan', false)
                 ->orderByDesc('created_at')
                 ->filter(request(['search']))
-                ->paginate(10);
-
+                ->union(
+                    Airdrop::where('user_id', $userId)
+                        ->where('sudah_dikerjakan', true)
+                        ->orderByDesc('created_at')
+                        ->filter(request(['search']))
+                )
+                ->paginate(7);
 
             $airdropCount = Airdrop::where('user_id', $userId)->count();
 

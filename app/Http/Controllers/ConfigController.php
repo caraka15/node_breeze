@@ -14,10 +14,19 @@ class ConfigController extends Controller
      */
     public function index()
     {
-        return view('dashboard.configs.index', [
-            'configs' => Config::all(),
-            'title' => "Config Dashboard"
-        ]);
+
+        if (Auth::check()) {
+            return view('dashboard.configs.index', [
+                'configs' => Config::all(),
+                'title' => "Config Dashboard"
+            ]);
+        } else {
+            // Pengguna belum login, tampilkan halaman dengan pesan atau tindakan yang sesuai
+            return view('airdrops.index', [
+                'title' => 'Airdrop List and Notification',
+
+            ]);
+        }
     }
 
     /**
