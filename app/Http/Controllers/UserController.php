@@ -20,7 +20,7 @@ class UserController extends Controller
         $total = $user->count();
         return view('dashboard.users.index', [
             'total' => $total,
-            'users' => User::all()->latest('created_at')->get(),
+            'users' => User::all(),
             'title' => "Users Dashboard"
         ]);
     }
