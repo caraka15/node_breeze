@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ChaindController;
 use App\Http\Controllers\ConfigController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExordeController;
 use App\Http\Controllers\AirdropController;
 use App\Http\Controllers\ProfileController;
@@ -56,11 +57,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/dashboard/user', function () {
-        return view('user', [
-            'title' => "All User List"
-        ]);
-    })->name('user');
+    Route::resource('/dashboard/users', UserController::class)->names([
+        'users.index' => 'users.index',
+        'users.create' => 'users.create',
+        'users.store' => 'users.store',
+        'users.show' => 'users.show',
+        'users.edit' => 'users.edit',
+        'users.update' => 'users.update',
+        'users.destroy' => 'users.destroy',
+    ]);
     Route::resource('/dashboard/posts', PostController::class)->names([
         'posts.index' => 'posts.index',
         'posts.create' => 'posts.create',
