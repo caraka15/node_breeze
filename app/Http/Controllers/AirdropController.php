@@ -20,17 +20,32 @@ class AirdropController extends Controller
         if (Auth::check()) {
             $userId = auth()->user()->id;
 
-            $airdrop = Airdrop::where('user_id', $userId)
+            $airdrop1 = Airdrop::where('user_id', $userId)
                 ->where('sudah_dikerjakan', false)
-                ->orderByDesc('created_at')
-                ->filter(request(['search']))
-                ->union(
-                    Airdrop::where('user_id', $userId)
-                        ->where('sudah_dikerjakan', true)
-                        ->orderByDesc('created_at')
-                        ->filter(request(['search']))
-                )
+                ->where('selesai', false)
+                ->where('frekuensi', 'daily')
+                ->filter(request(['search']));
+
+            $airdrop2 = Airdrop::where('user_id', $userId)
+                ->where('sudah_dikerjakan', false)
+                ->where('selesai', false)
+                ->where('frekuensi', 'once')
+                ->filter(request(['search']));
+
+            $airdrop3 = Airdrop::where('user_id', $userId)
+                ->where('sudah_dikerjakan', true)
+                ->where('selesai', false)
+                ->filter(request(['search']));
+
+            $airdrop4 = Airdrop::where('user_id', $userId)
+                ->where('selesai', true)
+                ->filter(request(['search']));
+
+            $airdrop = $airdrop1->union($airdrop2)
+                ->union($airdrop3)
+                ->union($airdrop4)
                 ->paginate(7);
+
 
             $airdropCount = Airdrop::where('user_id', $userId)->count();
 
@@ -116,6 +131,20 @@ class AirdropController extends Controller
 
         // Redirect atau kembalikan respons yang sesuai
         return redirect()->back()->with('success', 'Airdrop berhasil diupdate dan link dibuka di tab baru.');
+    }
+
+    public function checkedSelesai(Request $request, $id)
+    {
+        $airdrop = Airdrop::findOrFail($id);
+
+        // Lakukan update pada model
+        $airdrop->update([
+            // Sesuaikan dengan kolom-kolom lain yang perlu diupdate
+            'selesai' => true,
+        ]);
+
+        // Redirect atau kembalikan respons yang sesuai
+        return redirect()->back()->with('success', 'Airdrop sudah anda selesaikan.');
     }
 
     public function show(Airdrop $airdrop)

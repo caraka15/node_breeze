@@ -79,21 +79,12 @@
                                 <thead
                                     class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
-                                        <th scope="col" class="px-6 py-3">
-                                            No
-                                        </th>
-                                        <th scope="col" class="max-w-[600px] px-4 py-3">
-                                            Title
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Link
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Frekuensi
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Action
-                                        </th>
+                                        <th scope="col" class="px-6 py-3">No</th>
+                                        <th scope="col" class="max-w-[600px] px-4 py-3">Title</th>
+                                        <th scope="col" class="px-6 py-3">Link</th>
+                                        <th scope="col" class="px-6 py-3">Frekuensi</th>
+                                        <th scope="col" class="px-6 py-3">Action</th>
+                                        <th scope="col" class="px-6 py-3">Selesai</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -111,7 +102,6 @@
                                                     id="updateForm{{ $index }}">
                                                     @csrf
                                                     @method('put')
-
                                                     @if ($airdrop->sudah_dikerjakan)
                                                         <button type="submit"
                                                             class="w-24 rounded-md bg-orange-500/50 px-4 py-2 text-white/50"
@@ -124,7 +114,6 @@
                                                             Do it
                                                         </button>
                                                     @endif
-
                                                 </form>
                                                 <script>
                                                     document.getElementById('updateForm{{ $index }}').addEventListener('submit', function() {
@@ -132,9 +121,7 @@
                                                     });
                                                 </script>
                                             </td>
-                                            <td class="px-6 py-4">
-                                                {{ $airdrop->frekuensi }}
-                                            </td>
+                                            <td class="px-6 py-4">{{ $airdrop->frekuensi }}</td>
                                             <td class="px-6 py-4">
                                                 <div x-data="{ showEdit: false }">
                                                     <button @click="showEdit = true">
@@ -159,10 +146,28 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td class="px-6 py-4">
+                                                <form action="/airdrop/selesai/{{ $airdrop->id }}" method="post">
+                                                    @csrf
+                                                    @method('put')
+                                                    @if ($airdrop->selesai)
+                                                        <button type="submit"
+                                                            class="w-24 rounded-md bg-blue-500 px-4 py-2 text-white hover:scale-105 hover:bg-red-600" disabled>
+                                                            Selesai
+                                                        </button>
+                                                    @else
+                                                        <button type="submit"
+                                                            class="w-24 rounded-md bg-green-500 px-4 py-2 text-white hover:scale-105 hover:bg-green-600">
+                                                            Selesaikan
+                                                        </button>
+                                                    @endif
+                                                </form>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+
                             <div class="p-4">
                                 {{ $airdrops->links('vendor.pagination.tailwind') }}
                             </div>
@@ -187,7 +192,8 @@
                             You are not logged in. Please log in to access this page.
                         </p>
                         <div class="mt-4 flex justify-center">
-                            <a href="{{ route('login') }}" class="rounded-md bg-orange-600 px-5 py-2 hover:bg-orange-500">
+                            <a href="{{ route('login') }}"
+                                class="rounded-md bg-orange-600 px-5 py-2 hover:bg-orange-500">
                                 Login
                             </a>
                         </div>
