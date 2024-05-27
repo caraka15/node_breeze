@@ -27,5 +27,11 @@ class Airdrop extends Model
                 });
             }
         });
+
+        $query->when($filters['selesai'] ?? false, function ($query, $selesai) {
+            if ($selesai !== null) {
+                $query->where('selesai', $selesai);
+            }
+        });
     }
 }

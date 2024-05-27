@@ -42,8 +42,18 @@ Route::get('/generate-sitemap', [SitemapController::class, 'generate']);
 Route::get('/exorde-stats', [ExordeController::class, 'index']);
 
 Route::get('/airdrop/export-to-excel', [AirdropController::class, 'exportToExcel'])->name('airdrops.export.to.excel');
+Route::get('/airdrop/selesai-filter', [AirdropController::class, 'selesaiFilter'])->name('airdrops.selesai.filter');
 
-Route::resource('/airdrop', AirdropController::class);
+
+Route::resource('/airdrop', AirdropController::class)->names([
+    'airdrop.index' => 'airdrop.index',
+    'airdrop.create' => 'airdrop.create',
+    'airdrop.store' => 'airdrop.store',
+    'airdrop.show' => 'airdrop.show',
+    'airdrop.edit' => 'airdrop.edit',
+    'airdrop.update' => 'airdrop.update',
+    'airdrop.destroy' => 'airdrop.destroy',
+]);;
 
 
 Route::get('/dashboard', function () {

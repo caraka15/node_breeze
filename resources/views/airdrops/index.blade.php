@@ -62,6 +62,7 @@
                                     Export to xls
                                 </a>
                             </div>
+
                             <form action="/airdrop" class="sm:ml-2">
                                 <div class="flex flex-col sm:flex-row">
                                     <input type="text"
@@ -84,7 +85,41 @@
                                         <th scope="col" class="px-6 py-3">Link</th>
                                         <th scope="col" class="px-6 py-3">Frekuensi</th>
                                         <th scope="col" class="px-6 py-3">Action</th>
-                                        <th scope="col" class="px-6 py-3">Selesai</th>
+                                        <th scope="col" class="px-6 py-3 hover:underline">
+                                            <a id="selesaiButton" href="{{ route('airdrop.index') }}?selesai=1"
+                                                class="flex items-center">
+                                                Selesai
+                                                @if ($hasSelesaiParam)
+                                                    <i data-feather="chevron-down" style="font-size: 1em;"></i>
+                                                @elseif ($hasSelesaiParam0)
+                                                    <i data-feather="chevron-up" style="font-size: 1em;"></i>
+                                                @endif
+                                            </a>
+                                        </th>
+
+
+                                        <script>
+                                            // Mendapatkan URL saat ini
+                                            var currentUrl = window.location.href;
+
+                                            // Memeriksa apakah parameter 'selesai' ada dalam URL
+                                            var hasSelesaiParam = currentUrl.includes('?selesai=1');
+                                            var hasSelesaiParam0 = currentUrl.includes('?selesai=0');
+
+                                            // Mendapatkan elemen tombol berdasarkan ID
+                                            var selesaiButton = document.getElementById('selesaiButton');
+
+                                            // Mengubah href berdasarkan keberadaan parameter 'selesai' dalam URL
+                                            if (hasSelesaiParam) {
+                                                selesaiButton.href = "{{ route('airdrop.index') }}?selesai=0";
+                                            } else if (hasSelesaiParam0) {
+                                                selesaiButton.href = "{{ route('airdrop.index') }}";
+                                            } else {
+                                                selesaiButton.href = "{{ route('airdrop.index') }}?selesai=1";
+                                            }
+                                        </script>
+                                        </th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -152,7 +187,8 @@
                                                     @method('put')
                                                     @if ($airdrop->selesai)
                                                         <button type="submit"
-                                                            class="w-24 rounded-md bg-blue-500 px-4 py-2 text-white hover:scale-105 hover:bg-red-600" disabled>
+                                                            class="w-24 rounded-md bg-blue-500 px-4 py-2 text-white hover:scale-105 hover:bg-red-600"
+                                                            disabled>
                                                             Selesai
                                                         </button>
                                                     @else
@@ -203,6 +239,7 @@
         </div>
 
     @endauth
+
 
 
 

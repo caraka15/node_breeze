@@ -14,7 +14,7 @@ class AirdropController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         // Pengecekan apakah pengguna sudah login
         if (Auth::check()) {
@@ -24,22 +24,22 @@ class AirdropController extends Controller
                 ->where('sudah_dikerjakan', false)
                 ->where('selesai', false)
                 ->where('frekuensi', 'daily')
-                ->filter(request(['search']));
+                ->filter(request(['search', 'selesai']));
 
             $airdrop2 = Airdrop::where('user_id', $userId)
                 ->where('sudah_dikerjakan', false)
                 ->where('selesai', false)
                 ->where('frekuensi', 'once')
-                ->filter(request(['search']));
+                ->filter(request(['search', 'selesai']));
 
             $airdrop3 = Airdrop::where('user_id', $userId)
                 ->where('sudah_dikerjakan', true)
                 ->where('selesai', false)
-                ->filter(request(['search']));
+                ->filter(request(['search', 'selesai']));
 
             $airdrop4 = Airdrop::where('user_id', $userId)
                 ->where('selesai', true)
-                ->filter(request(['search']));
+                ->filter(request(['search', 'selesai']));
 
             $airdrop = $airdrop1->union($airdrop2)
                 ->union($airdrop3)
@@ -49,10 +49,15 @@ class AirdropController extends Controller
 
             $airdropCount = Airdrop::where('user_id', $userId)->count();
 
+            $hasSelesaiParam = $request->has('selesai') && $request->selesai == 1;
+            $hasSelesaiParam0 = $request->has('selesai') && $request->selesai == 0;
+
             return view('airdrops.index', [
                 'title' => 'Airdrop List and Notification',
                 'airdrops' => $airdrop,
-                'airdropCount' => $airdropCount
+                'airdropCount' => $airdropCount,
+                'hasSelesaiParam' => $hasSelesaiParam,
+                'hasSelesaiParam0' => $hasSelesaiParam0
             ]);
         } else {
             // Pengguna belum login, tampilkan halaman dengan pesan atau tindakan yang sesuai
@@ -62,6 +67,14 @@ class AirdropController extends Controller
             ]);
         }
     }
+
+    public function selesaiFilter(Request $request)
+    {
+        $selesaiFilter = $request->input('selesai');
+
+        // Lakukan sesuatu berdasarkan nilai $selesaiFilter, misalnya melakukan query berdasarkan nilai ini
+    }
+
 
     public function exportToExcel()
     {
