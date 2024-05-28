@@ -89,6 +89,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/airdrop/status/{id}', [AirdropController::class, 'checkedUpdate'])->name('airdrop-checked');
 
     Route::put('/airdrop/selesai/{id}', [AirdropController::class, 'checkedSelesai'])->name('airdrop-selesai');
+
+    Route::put('/airdrop/salary/{id}', [AirdropController::class, 'EditSalary'])->name('airdrop-salary');
 });
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/dashboard/chainds/checkSlug', [AdminChaindController::class, 'checkSlug']);

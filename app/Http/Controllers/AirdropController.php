@@ -52,12 +52,15 @@ class AirdropController extends Controller
             $hasSelesaiParam = $request->has('selesai') && $request->selesai == 1;
             $hasSelesaiParam0 = $request->has('selesai') && $request->selesai == 0;
 
+            $totalSalary = Airdrop::where('user_id', $userId)->sum('salary');
+
             return view('airdrops.index', [
                 'title' => 'Airdrop List and Notification',
                 'airdrops' => $airdrop,
                 'airdropCount' => $airdropCount,
                 'hasSelesaiParam' => $hasSelesaiParam,
-                'hasSelesaiParam0' => $hasSelesaiParam0
+                'hasSelesaiParam0' => $hasSelesaiParam0,
+                'totalSalary' => $totalSalary
             ]);
         } else {
             // Pengguna belum login, tampilkan halaman dengan pesan atau tindakan yang sesuai
@@ -202,6 +205,29 @@ class AirdropController extends Controller
             'nama' => $request->nama,
             'link' => $request->link,
             'frekuensi' => $request->frekuensi,
+            // Sesuaikan dengan kolom-kolom lainnya yang ingin Anda perbarui
+        ]);
+
+        // Redirect or return a response as appropriate
+        return redirect('/airdrop')->with('success', 'Airdrop successfully updated!');
+    }
+
+    public function editSalary(Request $request, $id)
+    {
+
+        $user_id = auth()->user()->id;
+
+        // Retrieve the specific Airdrop instance by its ID
+        $airdrop = Airdrop::find($id);
+
+        // Check if the Airdrop instance is found
+        if (!$airdrop) {
+            return redirect('/airdrop')->with('error', 'Airdrop not found.');
+        }
+
+        // Update the specified columns of the retrieved instance
+        $airdrop->update([
+            'salary' => $request->salary,
             // Sesuaikan dengan kolom-kolom lainnya yang ingin Anda perbarui
         ]);
 

@@ -96,6 +96,8 @@
                                                 @endif
                                             </a>
                                         </th>
+                                        <th scope="col" class="px-6 py-3">Salary (USD)</th>
+
 
 
                                         <script>
@@ -181,13 +183,14 @@
                                                     </div>
                                                 </div>
                                             </td>
+
                                             <td class="px-6 py-4">
                                                 <form action="/airdrop/selesai/{{ $airdrop->id }}" method="post">
                                                     @csrf
                                                     @method('put')
                                                     @if ($airdrop->selesai)
                                                         <button type="submit"
-                                                            class="w-24 rounded-md bg-blue-500 px-4 py-2 text-white hover:scale-105 hover:bg-red-600"
+                                                            class="w-24 rounded-md bg-blue-500 px-4 py-2 text-white"
                                                             disabled>
                                                             Selesai
                                                         </button>
@@ -199,9 +202,56 @@
                                                     @endif
                                                 </form>
                                             </td>
+                                            <td class="px-6 py-4">
+                                                <div x-data="{ showSalary: false }">
+                                                    @if ($airdrop->selesai)
+                                                        <button
+                                                            class="hover:bg-gray-600/55 w-20 rounded-md border border-gray-400 p-2 hover:text-white dark:border-black"
+                                                            @click="showSalary = true">
+                                                            ${{ $airdrop->salary ?? 0 }}
+                                                        </button>
+                                                    @else
+                                                        <button
+                                                            class="w-20 rounded-md border border-gray-400 p-2 dark:border-black"
+                                                            disabled title="Tandai selesai terlebih dahulu">
+                                                            ${{ $airdrop->salary ?? 0 }}
+                                                        </button>
+                                                    @endif
+
+
+
+                                                    <div x-show="showSalary"
+                                                        class="fixed inset-16 z-50 overflow-auto bg-transparent">
+                                                        <div class="items-center justify-center">
+                                                            <div
+                                                                class="mx-auto max-w-5xl rounded-lg border border-gray-700 bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
+                                                                <div class="mt-4 flex justify-end">
+                                                                    <button @click="showSalary = false"
+                                                                        class="relative text-gray-500 hover:text-gray-700">
+                                                                        <i data-feather="x"></i>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="max-w-full overflow-auto">
+                                                                    @include('airdrops.salary')
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <th scope="col" class="px-6 py-3"> </th>
+                                    <th scope="col" class="max-w-[600px] px-4 py-3"> </th>
+                                    <th scope="col" class="px-6 py-3"> </th>
+                                    <th scope="col" class="px-6 py-3"> </th>
+                                    <th scope="col" class="px-6 py-3"> </th>
+                                    <th scope="col" class="px-6 py-3"> </th>
+                                    <th scope="col" class="px-6 py-3 text-center">${{ $totalSalary }}
+                                    </th>
+                                </tfoot>
                             </table>
 
                             <div class="p-4">
