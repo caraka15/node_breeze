@@ -16,8 +16,9 @@ class AirdropController extends Controller
      */
     public function index(Request $request)
     {
-        // Pengecekan apakah pengguna sudah login
-        if (Auth::check()) {
+
+        if (Auth::check()) {  // Pengecekan apakah pengguna sudah login
+            // pengelompokan yang ditampilkan lebih dulu
             $userId = auth()->user()->id;
 
             $airdrop1 = Airdrop::where('user_id', $userId)
@@ -47,13 +48,16 @@ class AirdropController extends Controller
                 ->paginate(7);
 
 
-            $airdropCount = Airdrop::where('user_id', $userId)->count();
+            $airdropCount = Airdrop::where('user_id', $userId)->count();  // menghitung total airdrop
 
+            // membaca request apakah selesai 1 atau 0
             $hasSelesaiParam = $request->has('selesai') && $request->selesai == 1;
             $hasSelesaiParam0 = $request->has('selesai') && $request->selesai == 0;
 
+            // menghitung total salary pada satu user
             $totalSalary = Airdrop::where('user_id', $userId)->sum('salary');
 
+            // mengembalikan semua variable pada view agar dapat ditampilkan
             return view('airdrops.index', [
                 'title' => 'Airdrop List and Notification',
                 'airdrops' => $airdrop,

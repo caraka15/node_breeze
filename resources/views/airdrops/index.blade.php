@@ -243,13 +243,17 @@
                                     @endforeach
                                 </tbody>
                                 <tfoot>
-                                    <th scope="col" class="px-6 py-3"> </th>
-                                    <th scope="col" class="max-w-[600px] px-4 py-3"> </th>
-                                    <th scope="col" class="px-6 py-3"> </th>
-                                    <th scope="col" class="px-6 py-3"> </th>
-                                    <th scope="col" class="px-6 py-3"> </th>
-                                    <th scope="col" class="px-6 py-3"> </th>
-                                    <th scope="col" class="px-6 py-3 text-center">${{ $totalSalary }}
+                                    <th scope="col" class=" px-6 py-3"> </th>
+                                    <th scope="col" class=" px-6 py-3"> </th>
+                                    <th scope="col" class=" px-6 py-3"> </th>
+                                    <th scope="col" class=" px-6 py-3"> </th>
+                                    <th scope="col" class=" px-6 py-3"> </th>
+                                    <th scope="col" class=" px-6 py-3"> </th>
+                                    <th scope="col" class=" px-6 py-3">
+                                        <button class="w-20 rounded-md" disabled>
+                                            ${{ $totalSalary }}
+                                        </button>
+
                                     </th>
                                 </tfoot>
                             </table>
