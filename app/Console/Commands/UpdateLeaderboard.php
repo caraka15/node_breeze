@@ -14,71 +14,83 @@ class UpdateLeaderboard extends Command
     public function handle()
     {
         try {
-            // Ambil data leaderboard dari URL
-            $response = Http::get("https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/Stats/leaderboard.json");
+            // Fetch leaderboard and bounty data from the URL
+            $leaderboardResponse = Http::get("https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/Stats/leaderboard.json");
+            $bountyResponse = Http::get("https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/Stats/bounties.json");
 
-            if ($response->successful()) {
-                $leaderboardData = $response->json();
+            if ($leaderboardResponse->successful() && $bountyResponse->successful()) {
+                $leaderboardData = array_change_key_case($leaderboardResponse->json(), CASE_LOWER);
+                $bountyData = array_change_key_case($bountyResponse->json(), CASE_LOWER);
 
-                // Menentukan pilihan berdasarkan argumen yang diberikan
+                // Determine which leaderboard to update based on the provided option
                 if ($this->option('daily')) {
-                    $this->updateDailyLeaderboard($leaderboardData);
+                    $this->updateLeaderboard($leaderboardData, $bountyData, 'daily');
                 } elseif ($this->option('latest')) {
-                    $this->updateLatestLeaderboard($leaderboardData);
+                    $this->updateLeaderboard($leaderboardData, $bountyData, 'latest');
                 } else {
                     $this->error('Please provide either --daily or --latest option.');
                 }
             } else {
-                $this->error('Failed to fetch leaderboard data.');
+                $this->error('Failed to fetch leaderboard or bounty data.');
             }
         } catch (\Exception $e) {
             $this->error('Error updating leaderboard: ' . $e->getMessage());
         }
     }
 
-    protected function updateDailyLeaderboard($leaderboardData)
+    protected function updateLeaderboard($leaderboardData, $bountyData, $type)
     {
-        // Inisialisasi array untuk menyimpan data leaderboard harian dalam format "rank, address, value"
-        $dailyLeaderboardArray = [];
+        $bountyUrl = "https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/Stats/bounties.json";
+        $finalData = json_decode(file_get_contents($bountyUrl), true);
 
-        // Mendapatkan nilai terurut dari leaderboard terbaru
-        arsort($leaderboardData);
-
-        // Loop through leaderboard terbaru
-        foreach ($leaderboardData as $address => $value) {
-            // Menambahkan data ke array dalam format yang diinginkan
-            $dailyLeaderboardArray[] = [
-                'rank' => count($dailyLeaderboardArray) + 1,
-                'address' => $address,
-                'value' => $value,
-            ];
+        function arrayKeysToLower($array)
+        {
+            return array_change_key_case($array, CASE_LOWER);
         }
 
-        // Simpan data leaderboard harian ke dalam file daily_leaderboard.json
-        Storage::disk('public')->put('data-json/daily_leaderboard.json', json_encode($dailyLeaderboardArray));
+        $finalData = arrayKeysToLower($finalData);
+        $twitter = is_array($bountyData['tweets']) ? arrayKeysToLower($bountyData['tweets']) : [];
+        $reddit = is_array($bountyData['reddit']) ? arrayKeysToLower($bountyData['reddit']) : [];
+        $youtube = is_array($bountyData['youtube']) ? arrayKeysToLower($bountyData['youtube']) : [];
+        $news = is_array($bountyData['news']) ? arrayKeysToLower($bountyData['news']) : [];
+        // Initialize array for storing leaderboard data in the format "rank, address, Rep, FinalRep"
+        $leaderboardArray = [];
 
-        $this->info('Daily leaderboard updated successfully!');
-    }
-
-    protected function updateLatestLeaderboard($leaderboardData)
-    {
-        // Inisialisasi array untuk menyimpan data leaderboard harian dalam format "rank, address, value"
-        $latestLeaderboardArray = [];
-
-        // Mendapatkan nilai terurut dari leaderboard terbaru
+        // Get sorted values from the latest leaderboard
         arsort($leaderboardData);
 
-        // Loop through leaderboard terbaru
-        foreach ($leaderboardData as $address => $value) {
-            // Menambahkan data ke array dalam format yang diinginkan
-            $latestLeaderboardArray[] = [
-                'rank' => count($latestLeaderboardArray) + 1,
-                'address' => $address,
-                'value' => $value,
-            ];
-        }        // Simpan data leaderboard terbaru ke dalam file latest_leaderboard.json
-        Storage::disk('public')->put('data-json/latest_leaderboard.json', json_encode($latestLeaderboardArray));
+        // Loop through the latest leaderboard
+        foreach ($leaderboardData as $address => $userRep) {
+            // Only process if userRep is greater than 0
+            if ($userRep > 0) {
+                // Calculate stats for the address
+                $twitterBounty = $twitter[$address] ?? 0;
+                $redditBounty = $reddit[$address] ?? 0;
+                $youtubeBounty = $youtube[$address] ?? 0;
+                $newsBounty = $news[$address] ?? 0;
 
-        $this->info('Latest leaderboard updated successfully!');
+                // Debug statements to check bounty values
+                $this->info("Address: $address, Twitter: $twitterBounty, Reddit: $redditBounty, YouTube: $youtubeBounty, News: $newsBounty");
+
+                $finalRep = $userRep + ($twitterBounty * 4) + ($redditBounty * 4) + ($youtubeBounty * 3) + ($newsBounty * 25);
+
+                // Add data to the array in the desired format
+                $leaderboardArray[] = [
+                    'rank' => count($leaderboardArray) + 1,
+                    'address' => $address,
+                    'Rep' => $userRep,
+                    'FinalRep' => $finalRep,
+                ];
+
+                // Debug statement to check the calculation
+                // $this->info("Address: $address, Rep: $userRep, FinalRep: $finalRep");
+            }
+        }
+
+        // Save leaderboard data to the appropriate file
+        $filename = $type == 'daily' ? 'data-json/daily_leaderboard.json' : 'data-json/latest_leaderboard.json';
+        Storage::disk('public')->put($filename, json_encode($leaderboardArray));
+
+        $this->info(ucfirst($type) . ' leaderboard updated successfully!');
     }
 }

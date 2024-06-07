@@ -27,22 +27,25 @@
 
                 <div id="statsContainer"
                     class="mt-4 hidden rounded-md bg-gray-200 p-4 dark:bg-slate-500 dark:text-white">
-                    <h1 class="text-pretty text-xl font-bold">Leaderboard Statistic</h1>
-                    <p id="userRank"></p>
-                    <p id="userRep"></p>
-                    <p id="userPercentage"></p>
-                    <br>
-                    <h1 class="text-pretty text-xl font-bold">Bounty Leaderboard Statistic</h1>
-                    <p id="userBounty"></p>
-                    <p id="bountyPercentage"></p>
-                    <br>
-                    <h1 class="text-pretty text-xl font-bold">Reward Expectation</h1>
-                    <p id="exdPrice"></p>
-                    <p id="hourlyReward"></p>
-                    <p id="monthlyReward"></p>
-                    <p id="usdReward"></p>
-
-                    <!-- Menambahkan elemen untuk menampilkan waktu terakhir diperbarui -->
+                    <h1 class="text-pretty text-xl font-bold">Leaderboard Statistics</h1>
+                    <div class="mb-4">
+                        <h2 class="text-lg font-semibold">User Information</h2>
+                        <p><span id="userRank"></span></p>
+                        <p><span id="userRep"></span></p>
+                        <p><span id="userPercentage"></span>%</p>
+                    </div>
+                    <div class="mb-4">
+                        <h2 class="text-lg font-semibold">Bounty Leaderboard Statistics</h2>
+                        <p><span id="twitterBounty"></span></p>
+                        <p><span id="redditBounty"></span></p>
+                        <p><span id="youtubeBounty"></span></p>
+                        <p><span id="newsBounty"></span></p>
+                    </div>
+                    <div class="mb-4">
+                        <h2 class="text-lg font-semibold">Reward Expectation</h2>
+                        <p><span id="exdPrice"></span></p>
+                        <p><span id="usdReward"></span></p>
+                    </div>
                 </div>
 
                 <div id="loadingMessage" class="hidden w-full">
@@ -91,6 +94,17 @@
         <div class="mx-auto max-w-5xl space-y-6 sm:px-6 lg:px-8">
             <div class="bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
                 <h1 class="mb-4 text-center text-lg dark:text-white">Leaderboard</h1>
+                <div
+                    class="mb-4 border-l-4 border-blue-500 bg-blue-100 p-4 text-blue-700 dark:border-blue-700 dark:bg-blue-900 dark:text-blue-300">
+                    <h2 class="text-right text-lg font-semibold">FinalRep:</h2>
+                    <p class="text-right">
+                        Leaderboard + <span class="font-bold">twitter bounties x 4</span> +
+                        <span class="font-bold">youtube bounties x 3</span> +
+                        <span class="font-bold">reddit bounties x 4</span> +
+                        <span class="font-bold">news bounties x 25</span>
+                    </p>
+                </div>
+
                 @if (!empty($leaderboards))
                     <table id="leaderboardTable" class="w-full table-auto border dark:text-white">
                         <thead>
@@ -101,12 +115,13 @@
                                 <th class="border p-0">No</th>
                                 <th class="border p-2">Address</th>
                                 <th class="border p-2">Reputation</th>
+                                <th class="border p-2">Final Rep</th>
                                 <th class="border p-2">Rep increase</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($leaderboards as $leaderboard)
-                                @if ($leaderboard['value'] > 0)
+                                @if ($leaderboard['rep'] > 0)
                                     <tr>
                                         <td
                                             class="@if ($leaderboard['rankDifference'] >= 0) text-green-500 @else text-red-500 @endif w-2 border border-y-white border-l-white pr-4 text-right dark:border-y-gray-900 dark:border-l-gray-800">
@@ -117,7 +132,8 @@
                                         </td>
                                         <td class="address-cell border p-2">{{ strtolower($leaderboard['address']) }}
                                         </td>
-                                        <td class="border p-2">{{ number_format($leaderboard['value']) }}</td>
+                                        <td class="border p-2">{{ number_format($leaderboard['rep']) }}</td>
+                                        <td class="border p-2">{{ number_format($leaderboard['totalRep']) }}</td>
                                         <td class="border p-2">{{ '+' . $leaderboard['valueDifference'] }}</td>
                                     </tr>
                                 @endif
@@ -184,18 +200,16 @@
                 var response = await fetch(`/php/exorde-stats.php?user_address=${userAddress}`);
                 var data = await response.json();
 
-                document.getElementById('userRep').innerText = 'Reputation: ' + data.userRep;
-                document.getElementById('userRank').innerText = 'Rank: ' + data.userRank;
-                document.getElementById('userBounty').innerText = 'Bounty: ' + data.userBounty + ' REP';
-                document.getElementById('exdPrice').innerText = 'EXD Price: ' + data.exdPrice + 'USD';
-                document.getElementById('hourlyReward').innerText = 'Hourly Reward: ' + data.hourlyReward + ' EXD';
-                document.getElementById('monthlyReward').innerText = 'Monthly Reward: ' + data.monthlyReward +
-                    ' EXD';
-                document.getElementById('usdReward').innerText = 'USD Monthly Reward: ' + data.usdReward + ' USD';
-                document.getElementById('userPercentage').innerText = 'Percentage: ' + data.userPercentage +
-                    ' %';
-                document.getElementById('bountyPercentage').innerText = 'Percentage: ' + data.bountyPercentage +
-                    ' %';
+                document.getElementById('userRep').innerText = 'Reputation: ' + data.reputation;
+                document.getElementById('userRank').innerText = 'Rank: ' + data.rank;
+                document.getElementById('userPercentage').innerText = 'Percentage: ' + data.percentage + ' %';
+                document.getElementById('twitterBounty').innerText = 'Twitter Bounties: ' + data.twitter;
+                document.getElementById('redditBounty').innerText = 'Reddit Bounties: ' + data.reddit;
+                document.getElementById('youtubeBounty').innerText = 'YouTube Bounties: ' + data.youtube;
+                document.getElementById('newsBounty').innerText = 'News Bounties: ' + data.news;
+                document.getElementById('exdPrice').innerText = 'EXD Price: ' + data.exd_price + ' USD';
+                document.getElementById('usdReward').innerText = 'USD Monthly Reward: ' + data.usd_monthly_reward +
+                    ' USD';
 
                 loadingMessage.style.display = 'none';
                 statsContainer.style.display = 'block';
@@ -203,6 +217,7 @@
                 console.error('Error fetching data:', error);
                 loadingMessage.innerText = 'Error fetching data';
             }
+
         }
 
         function reloadStats() {
