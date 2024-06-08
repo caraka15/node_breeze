@@ -1,18 +1,18 @@
 <?php
 
 // Path to your JSON file in the storage
-$jsonFilePath = '../storage/data-json/latest_leaderboard.json';
+$latestLeaderboardUrl = '../storage/data-json/latest_leaderboard.json';
 
 // Check if the file exists
-if (!file_exists($jsonFilePath)) {
+if (!file_exists($latestLeaderboardUrl)) {
     die('Error: File not found.');
 }
 
 // Read the content of the file
-$jsonContent = file_get_contents($jsonFilePath);
+$latestLeaderboardData = file_get_contents($latestLeaderboardUrl);
 
 // Decode JSON content into an associative array
-$dataArray = json_decode($jsonContent, true);
+$dataArray = json_decode($latestLeaderboardData, true);
 
 // Check if JSON decoding was successful
 if (json_last_error() !== JSON_ERROR_NONE) {

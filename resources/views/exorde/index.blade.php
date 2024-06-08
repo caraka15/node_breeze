@@ -32,7 +32,7 @@
                         <h2 class="text-lg font-semibold">User Information</h2>
                         <p><span id="userRank"></span></p>
                         <p><span id="userRep"></span></p>
-                        <p><span id="userPercentage"></span>%</p>
+                        <p><span id="userPercentage"></span></p>
                     </div>
                     <div class="mb-4">
                         <h2 class="text-lg font-semibold">Bounty Leaderboard Statistics</h2>
@@ -43,6 +43,8 @@
                     </div>
                     <div class="mb-4">
                         <h2 class="text-lg font-semibold">Reward Expectation</h2>
+                        <p><span id="final"></span></p>
+                        <p><span id="exdReward"></span> // if pool reward 200.000 exd</p>
                         <p><span id="exdPrice"></span></p>
                         <p><span id="usdReward"></span></p>
                     </div>
@@ -201,6 +203,7 @@
                 var data = await response.json();
 
                 document.getElementById('userRep').innerText = 'Reputation: ' + data.reputation;
+                document.getElementById('final').innerText = 'Final Reputation: ' + data.final;
                 document.getElementById('userRank').innerText = 'Rank: ' + data.rank;
                 document.getElementById('userPercentage').innerText = 'Percentage: ' + data.percentage + ' %';
                 document.getElementById('twitterBounty').innerText = 'Twitter Bounties: ' + data.twitter;
@@ -208,9 +211,11 @@
                 document.getElementById('youtubeBounty').innerText = 'YouTube Bounties: ' + data.youtube;
                 document.getElementById('newsBounty').innerText = 'News Bounties: ' + data.news;
                 document.getElementById('exdPrice').innerText = 'EXD Price: ' + data.exd_price + ' USD';
-                document.getElementById('usdReward').innerText = 'USD Monthly Reward: ' + data.usd_monthly_reward +
+                document.getElementById('usdReward').innerText = 'USD Reward: ' + data.usd_monthly_reward +
                     ' USD';
 
+                document.getElementById('exdReward').innerText = 'EXD Reward: ' + data.exdReward +
+                    ' EXD';
                 loadingMessage.style.display = 'none';
                 statsContainer.style.display = 'block';
             } catch (error) {

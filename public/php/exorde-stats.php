@@ -22,6 +22,7 @@ $bountyData = arrayKeysToLower($bountyData);
 
 $userRep = $leaderboardData[$userAddress] ?? null;
 
+
 // Sort leaderboard data
 arsort($leaderboardData);
 $sortedLeaderboard = array_keys($leaderboardData);
@@ -84,8 +85,14 @@ $numExdPrice = number_format($exdPrice, 4);
 $hourlyReward = isset($hourlyData[$userAddress]) ? floatval($hourlyData[$userAddress]) : 0;
 
 $totalRep = array_sum($leaderboardData);
-$totalBounty = array_sum($bountyData['tweets']);
-$finalRep = $userRep + ($twitterBounty * 4) + ($youtubeBounty * 3) + ($redditBounty * 4) + ($newsBounty * 25);
+$totaltweets = array_sum($bountyData['tweets']);
+$totalReddit = array_sum($bountyData['reddit']);
+$totalNews = array_sum($bountyData['news']);
+$totalYoutube = array_sum($bountyData['youtube']);
+
+$totalBounty = ($totaltweets * 4) + ($totalReddit * 4) + ($totalNews * 25) + ($totalYoutube * 3) + $totalRep;
+
+$finalReps = $userRep + ($twitterBounty * 4) + ($youtubeBounty * 3) + ($redditBounty * 4) + ($newsBounty * 25);
 
 //Final rep
 // Path to your JSON file in the storage
@@ -102,31 +109,20 @@ $latestLeaderboardData = file_get_contents($latestLeaderboardUrl);
 // Decode JSON content into an associative array
 $dataArray = json_decode($latestLeaderboardData, true);
 
-// Check if JSON decoding was successful
-if (json_last_error() !== JSON_ERROR_NONE) {
-    die('Error: Invalid JSON file.');
-}
+$totalFinalRep = array_sum(array_column($dataArray, 'FinalRep'));
 
-// Initialize total FinalRep
-$totalFinalRep = 0;
-
-// Iterate through each item and sum the FinalRep values
-foreach ($dataArray as $item) {
-    if (isset($item['FinalRep'])) {
-        $totalFinalRep += $item['FinalRep'];
-    }
-}
+// Ini
 
 $totalFinal = number_format($totalFinalRep);
-$finalPresentage = number_format(($finalRep / $totalFinalRep) * 100);
-$exdReward = $finalPresentage * 200000;
+$finalPresentage = number_format(($finalReps / $totalBounty) * 100, 2);
+$exdReward = ($finalPresentage / 100) * 200000;
 
 $userPercentage = number_format(($userRep / $totalRep) * 100, 2);
 // Calculate monthly reward
 $monthlyReward = $hourlyReward * 720;
 $numMonthlyReward = number_format($monthlyReward, 2);
 // Calculate USD reward
-$usdReward = number_format($monthlyReward * $exdPrice, 2);
+$usdReward = number_format($exdReward * $exdPrice, 2);
 
 $data = [
     'rank' => $userRank,
@@ -136,10 +132,14 @@ $data = [
     'reddit' => number_format($redditBounty),
     'youtube' => number_format($youtubeBounty),
     'news' => number_format($newsBounty),
-    'final' => number_format($finalRep),
+    'final' => number_format($finalReps),
+    'totalBounty' => number_format($totalBounty),
+    'finalPresentage' => $finalPresentage,
     'exdReward' => $exdReward,
     'exd_price' => $numExdPrice,
     'usd_monthly_reward' => $usdReward,
+    'totalRep' => $totalRep,
+    'totaltweets' => $totaltweets,
 ];
 
 // Return data as JSON
