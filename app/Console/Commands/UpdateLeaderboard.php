@@ -72,7 +72,7 @@ class UpdateLeaderboard extends Command
                 // Debug statements to check bounty values
                 $this->info("Address: $address, Twitter: $twitterBounty, Reddit: $redditBounty, YouTube: $youtubeBounty, News: $newsBounty");
 
-                $finalRep = $userRep + ($twitterBounty * 4) + ($redditBounty * 4) + ($youtubeBounty * 3) + ($newsBounty * 25);
+                $finalRep = $userRep + ($twitterBounty * 4) + ($redditBounty * 10) + ($youtubeBounty * 3) + ($newsBounty * 25);
 
                 // Add data to the array in the desired format
                 $leaderboardArray[] = [
