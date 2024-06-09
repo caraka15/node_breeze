@@ -102,7 +102,7 @@
                     <p class="text-right">
                         Leaderboard + <span class="font-bold">twitter bounties x 4</span> +
                         <span class="font-bold">youtube bounties x 3</span> +
-                        <span class="font-bold">reddit bounties x 4</span> +
+                        <span class="font-bold">reddit bounties x 10</span> +
                         <span class="font-bold">news bounties x 25</span>
                     </p>
                 </div>

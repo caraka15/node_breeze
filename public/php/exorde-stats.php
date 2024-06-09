@@ -90,9 +90,9 @@ $totalReddit = array_sum($bountyData['reddit']);
 $totalNews = array_sum($bountyData['news']);
 $totalYoutube = array_sum($bountyData['youtube']);
 
-$totalBounty = ($totaltweets * 4) + ($totalReddit * 4) + ($totalNews * 25) + ($totalYoutube * 3) + $totalRep;
+$totalBounty = ($totaltweets * 4) + ($totalReddit * 10) + ($totalNews * 25) + ($totalYoutube * 3) + $totalRep;
 
-$finalReps = $userRep + ($twitterBounty * 4) + ($youtubeBounty * 3) + ($redditBounty * 4) + ($newsBounty * 25);
+$finalReps = $userRep + ($twitterBounty * 4) + ($youtubeBounty * 3) + ($redditBounty * 10) + ($newsBounty * 25);
 
 //Final rep
 // Path to your JSON file in the storage
