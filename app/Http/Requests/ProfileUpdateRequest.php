@@ -19,7 +19,9 @@ class ProfileUpdateRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'lowercase', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
-            'telegram_username' => ['max:255']
+            'telegram_username' => ['max:255'],
+            'addresses' => 'array',
+            'addresses.*' => 'string|max:255', // Validasi setiap address
         ];
     }
 }

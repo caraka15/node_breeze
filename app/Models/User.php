@@ -24,7 +24,8 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'telegram_username'
+        'telegram_username',
+        'addresses'
     ];
 
     /**
@@ -45,6 +46,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'addresses' => 'array', // Menambahkan casting untuk kolom addresses
     ];
 
     public function getRouteKeyName()

@@ -63,6 +63,24 @@
             @endif
         </div>
 
+        <div id="addresses-section">
+            <x-input-label for="addresses" :value="__('Addresses')" />
+            <div id="addresses-wrapper">
+                @foreach (old('addresses', $user->addresses ?? []) as $index => $address)
+                    <div class="address-input mt-2 flex items-center gap-2" id="address-{{ $index }}">
+                        <x-text-input id="addresses[{{ $index }}]" name="addresses[]" type="text"
+                            class="mt-1 block w-full" :value="$address" required autofocus />
+                        <button type="button"
+                            class="remove-address-button mt-1 h-10 items-center rounded bg-red-500 px-2 py-1 text-white"
+                            data-index="{{ $index }}">Remove</button>
+                    </div>
+                @endforeach
+            </div>
+            <button type="button" id="add-address-button"
+                class="mt-2 rounded-md bg-red-600 px-3 py-1 hover:bg-red-500">{{ __('Add Address') }}</button>
+            <x-input-error class="mt-2" :messages="$errors->get('addresses')" />
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
@@ -73,3 +91,44 @@
         </div>
     </form>
 </section>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let addressIndex = document.querySelectorAll('.address-input').length;
+
+        document.getElementById('add-address-button').addEventListener('click', function() {
+            const wrapper = document.getElementById('addresses-wrapper');
+            const newAddressDiv = document.createElement('div');
+            newAddressDiv.className = 'address-input mt-2 flex items-center gap-2';
+            newAddressDiv.id = `address-${addressIndex}`;
+
+            const newAddressInput = document.createElement('input');
+            newAddressInput.type = 'text';
+            newAddressInput.name = `addresses[]`;
+            newAddressInput.className = 'mt-1 block w-full';
+            newAddressInput.required = true;
+
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.className =
+                'remove-address-button mt-1 h-10 items-center rounded bg-red-500 px-2 py-1 text-white';
+            removeButton.dataset.index = addressIndex;
+            removeButton.innerText = 'Remove';
+
+            newAddressDiv.appendChild(newAddressInput);
+            newAddressDiv.appendChild(removeButton);
+            wrapper.appendChild(newAddressDiv);
+
+            addressIndex++;
+        });
+
+        document.getElementById('addresses-wrapper').addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-address-button')) {
+                const index = e.target.dataset.index;
+                const addressDiv = document.getElementById(`address-${index}`);
+                addressDiv.remove();
+            }
+        });
+    });
+</script>
