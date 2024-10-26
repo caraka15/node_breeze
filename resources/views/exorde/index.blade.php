@@ -100,10 +100,10 @@
                     class="mb-4 border-l-4 border-blue-500 bg-blue-100 p-4 text-blue-700 dark:border-blue-700 dark:bg-blue-900 dark:text-blue-300">
                     <h2 class="text-right text-lg font-semibold">FinalRep:</h2>
                     <p class="text-right">
-                        Leaderboard + <span class="font-bold">twitter bounties x 4</span> +
-                        <span class="font-bold">youtube bounties x 3</span> +
-                        <span class="font-bold">reddit bounties x 10</span> +
-                        <span class="font-bold">news bounties x 30</span>
+                        Leaderboard + <span class="font-bold">twitter bounties x 7</span> +
+                        <span class="font-bold">youtube bounties x 5</span> +
+                        <span class="font-bold">reddit bounties x 12</span> +
+                        <span class="font-bold">news bounties x 10</span>
                     </p>
                 </div>
 
