@@ -36,12 +36,14 @@ $twitter = is_array($bountyData['tweets']) ? arrayKeysToLower($bountyData['tweet
 $reddit = is_array($bountyData['reddit']) ? arrayKeysToLower($bountyData['reddit']) : [];
 $youtube = is_array($bountyData['youtube']) ? arrayKeysToLower($bountyData['youtube']) : [];
 $news = is_array($bountyData['news']) ? arrayKeysToLower($bountyData['news']) : [];
+$bsky = is_array($bountyData['bsky']) ? arrayKeysToLower($bountyData['bsky']) : [];
 
 // Set default value of 0 for userAddress in tweets array
 $twitterBounty = $twitter[$userAddress] ?? 0;
 $redditBounty = $reddit[$userAddress] ?? 0;
 $youtubeBounty = $youtube[$userAddress] ?? 0;
 $newsBounty = $news[$userAddress] ?? 0;
+$bskyBounty = $bsky[$userAddress] ?? 0;
 
 // Function to get cryptocurrency data
 function getCryptoData()
@@ -89,10 +91,11 @@ $totaltweets = array_sum($bountyData['tweets']);
 $totalReddit = array_sum($bountyData['reddit']);
 $totalNews = array_sum($bountyData['news']);
 $totalYoutube = array_sum($bountyData['youtube']);
+$totalbsky = array_sum($bountyData['bsky']);
 
-$totalBounty = ($totaltweets * 7) + ($totalReddit * 12) + ($totalNews * 10) + ($totalYoutube * 5) + $totalRep;
+$totalBounty = ($totaltweets * 7.5) + ($totalReddit * 13) + ($totalNews * 25) + ($totalYoutube * 5) + ($totalbsky * 5) + $totalRep;
 
-$finalReps = $userRep + ($twitterBounty * 7) + ($youtubeBounty * 5) + ($redditBounty * 12) + ($newsBounty * 10);
+$finalReps = $userRep + ($twitterBounty * 7.5) + ($youtubeBounty * 5) + ($redditBounty * 13) + ($newsBounty * 25) + ($totalbsky * 5);
 
 //Final rep
 // Path to your JSON file in the storage
@@ -133,6 +136,7 @@ $data = [
     'youtube' => number_format($youtubeBounty),
     'news' => number_format($newsBounty),
     'final' => number_format($finalReps),
+    'blueSky' => number_format($bskyBounty),
     'totalBounty' => number_format($totalBounty),
     'finalPresentage' => $finalPresentage,
     'exdReward' => $exdReward,

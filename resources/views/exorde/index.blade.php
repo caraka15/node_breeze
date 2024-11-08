@@ -40,6 +40,7 @@
                         <p><span id="redditBounty"></span></p>
                         <p><span id="youtubeBounty"></span></p>
                         <p><span id="newsBounty"></span></p>
+                        <p><span id="blueSky"></span></p>
                     </div>
                     <div class="mb-4">
                         <h2 class="text-lg font-semibold">Reward Expectation</h2>
@@ -100,10 +101,11 @@
                     class="mb-4 border-l-4 border-blue-500 bg-blue-100 p-4 text-blue-700 dark:border-blue-700 dark:bg-blue-900 dark:text-blue-300">
                     <h2 class="text-right text-lg font-semibold">FinalRep:</h2>
                     <p class="text-right">
-                        Leaderboard + <span class="font-bold">twitter bounties x 7</span> +
+                        Leaderboard + <span class="font-bold">twitter bounties x 7.5</span> +
                         <span class="font-bold">youtube bounties x 5</span> +
-                        <span class="font-bold">reddit bounties x 12</span> +
-                        <span class="font-bold">news bounties x 10</span>
+                        <span class="font-bold">reddit bounties x 13</span> +
+                        <span class="font-bold">news bounties x 25</span> +
+                        <span class="font-bold">BlueSky x 5</span>
                     </p>
                 </div>
 
@@ -210,6 +212,7 @@
                 document.getElementById('redditBounty').innerText = 'Reddit Bounties: ' + data.reddit;
                 document.getElementById('youtubeBounty').innerText = 'YouTube Bounties: ' + data.youtube;
                 document.getElementById('newsBounty').innerText = 'News Bounties: ' + data.news;
+                document.getElementById('blueSky').innerText = 'BlueSky: ' + data.blueSky;
                 document.getElementById('exdPrice').innerText = 'EXD Price: ' + data.exd_price + ' USD';
                 document.getElementById('usdReward').innerText = 'USD Reward: ' + data.usd_monthly_reward +
                     ' USD';
