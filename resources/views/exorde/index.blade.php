@@ -45,7 +45,7 @@
                     <div class="mb-4">
                         <h2 class="text-lg font-semibold">Reward Expectation</h2>
                         <p><span id="final"></span></p>
-                        <p><span id="exdReward"></span> // if pool reward 180.000 exd</p>
+                        <p><span id="exdReward"></span> // if pool reward 400.000 exd</p>
                         <p><span id="exdPrice"></span></p>
                         <p><span id="usdReward"></span></p>
                     </div>

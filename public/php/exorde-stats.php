@@ -118,7 +118,7 @@ $totalFinalRep = array_sum(array_column($dataArray, 'FinalRep'));
 
 $totalFinal = number_format($totalFinalRep);
 $finalPresentage = number_format(($finalReps / $totalBounty) * 100, 2);
-$exdReward = ($finalPresentage / 100) * 200000;
+$exdReward = ($finalPresentage / 100) * 400000;
 
 $userPercentage = number_format(($userRep / $totalRep) * 100, 2);
 // Calculate monthly reward
