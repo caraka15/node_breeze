@@ -35,13 +35,13 @@
                 <div id="statsContainer"
                     class="mt-6 hidden rounded-xl bg-gray-50 p-6 shadow-inner dark:bg-gray-700/50 dark:text-white">
                     <!-- Tampilkan Alamat di Sini -->
+
+
+                    <h1 class="mb-4 text-xl font-bold">User Statistics</h1>
                     <div id="addressDisplayContainer" class="mb-4">
                         {{-- <span class="text-lg font-semibold">Connected Address:</span> --}}
                         <span class="font-mono text-lg" id="connectedAddress"></span>
                     </div>
-
-                    <h1 class="mb-4 text-xl font-bold">Leaderboard Statistics</h1>
-
                     <!-- Stats Grid -->
                     <div class="grid gap-6 md:grid-cols-3">
                         <!-- User Info Card -->
@@ -103,7 +103,7 @@
                     <div class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
                         <p>
                             <strong>Disclaimer:</strong> Reward expectation calculations are based on a reward pool of
-                            400,000 EXD distributed every 2 weeks.
+                            310,000 EXD distributed every 2 weeks.
                         </p>
                     </div>
                 </div>

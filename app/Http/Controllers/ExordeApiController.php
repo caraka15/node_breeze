@@ -53,7 +53,7 @@ class ExordeApiController extends Controller
 
         // Calculate percentages and rewards
         $finalPercentage = number_format(($finalReps / $totalBounty) * 100, 2);
-        $exdReward = ($finalPercentage / 100) * 400000;
+        $exdReward = ($finalPercentage / 100) * 310000;
         $userPercentage = number_format(($userRep / $totals['totalRep']) * 100, 2);
         $usdReward = number_format($exdReward * $exdPrice, 2);
 
@@ -109,10 +109,10 @@ class ExordeApiController extends Controller
     {
         return $userRep +
             ($bounties['twitter'] * 7.5) +
-            ($bounties['youtube'] * 5) +
+            ($bounties['youtube'] * 6) +
             ($bounties['reddit'] * 13) +
             ($bounties['news'] * 25) +
-            ($bounties['bsky'] * 5);
+            ($bounties['bsky'] * 6);
     }
 
     private function calculateTotalBounty($totals)
@@ -120,8 +120,8 @@ class ExordeApiController extends Controller
         return ($totals['totalTweets'] * 7.5) +
             ($totals['totalReddit'] * 13) +
             ($totals['totalNews'] * 25) +
-            ($totals['totalYoutube'] * 5) +
-            ($totals['totalBsky'] * 5) +
+            ($totals['totalYoutube'] * 6) +
+            ($totals['totalBsky'] * 6) +
             $totals['totalRep'];
     }
 
