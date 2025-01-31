@@ -2,155 +2,225 @@
     @section('title', 'Exorde Stats')
     @section('description', 'Exorde Stats Node Service, Validator guide')
 
+    <!-- Main Stats Container -->
     <div class="py-4">
         <div class="mx-auto max-w-5xl space-y-6 sm:px-6 lg:px-8">
-            <div class="bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
-
-                <div class="justify-center">
+            <!-- Enhanced Main Card -->
+            <div class="overflow-hidden rounded-xl bg-white/80 p-6 backdrop-blur-sm sm:p-8 dark:bg-gray-800/90">
+                <!-- Connect and Manual Address Container -->
+                <div class="flex items-center justify-between space-x-4">
+                    <!-- Connect Button -->
                     <button
-                        class="inline-flex rounded-md border border-transparent bg-gray-800 p-3 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:bg-orange-600 dark:active:bg-orange-600"
+                        class="inline-flex rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 p-3 text-xs font-semibold uppercase tracking-widest text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-orange-500/25 dark:from-orange-600 dark:to-orange-700"
                         type="submit" id="connectButton1">Connect</button>
+
+                    <!-- Input Manual dan Tombol Submit -->
+                    <div class="flex flex-1 items-center space-x-2">
+                        <input type="text" id="manualAddressInput" placeholder="Enter address manually"
+                            class="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                        <button id="submitManualAddress"
+                            class="rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 p-3 text-xs font-semibold uppercase tracking-widest text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-green-500/25"
+                            onclick="submitManualAddress()">Submit</button>
+                    </div>
                 </div>
-                <div class="flex items-center justify-between">
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-5 sm:flex">
-                        <div class="hidden space-x-8 sm:-my-px sm:ml-5 sm:flex">
-                            <div id="connectedAddressContainer" class="hidden text-sm dark:text-white">
-                                <span class="text-lg" id="connectedAddress"></span>
+
+                <!-- Reload Button -->
+                <div class="mt-4 flex justify-end">
+                    <button id="reloadButton"
+                        class="hidden items-center rounded-xl bg-gradient-to-r from-gray-700 to-gray-800 p-3 text-xs font-semibold uppercase tracking-widest text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-gray-800/25 dark:from-orange-500 dark:to-orange-600"
+                        onclick="reloadStats()">Reload</button>
+                </div>
+
+                <!-- Stats Grid Container -->
+                <div id="statsContainer"
+                    class="mt-6 hidden rounded-xl bg-gray-50 p-6 shadow-inner dark:bg-gray-700/50 dark:text-white">
+                    <!-- Tampilkan Alamat di Sini -->
+                    <div id="addressDisplayContainer" class="mb-4">
+                        {{-- <span class="text-lg font-semibold">Connected Address:</span> --}}
+                        <span class="font-mono text-lg" id="connectedAddress"></span>
+                    </div>
+
+                    <h1 class="mb-4 text-xl font-bold">Leaderboard Statistics</h1>
+
+                    <!-- Stats Grid -->
+                    <div class="grid gap-6 md:grid-cols-3">
+                        <!-- User Info Card -->
+                        <div class="rounded-lg bg-white p-4 shadow-md transition-all hover:shadow-lg dark:bg-gray-800">
+                            <h2 class="mb-3 text-lg font-semibold">User Information</h2>
+                            <div class="space-y-2 text-sm">
+                                <p><span id="userRank" class="font-medium"></span></p>
+                                <p><span id="userRep" class="font-medium"></span></p>
+                                <p><span id="userPercentage" class="font-medium"></span></p>
+                            </div>
+                        </div>
+
+                        <!-- Bounty Stats Card -->
+                        <div class="rounded-lg bg-white p-4 shadow-md transition-all hover:shadow-lg dark:bg-gray-800">
+                            <h2 class="mb-3 text-lg font-semibold">Bounty Statistics</h2>
+                            <div class="space-y-2 text-sm">
+                                <p><span id="twitterBounty" class="font-medium"></span></p>
+                                <p><span id="redditBounty" class="font-medium"></span></p>
+                                <p><span id="youtubeBounty" class="font-medium"></span></p>
+                                <p><span id="newsBounty" class="font-medium"></span></p>
+                                <p><span id="blueSky" class="font-medium"></span></p>
+                            </div>
+                        </div>
+
+                        <!-- Reward Card -->
+                        <div class="rounded-lg bg-white p-4 shadow-md transition-all hover:shadow-lg dark:bg-gray-800">
+                            <h2 class="mb-3 text-lg font-semibold">Reward Expectation</h2>
+                            <div class="space-y-2 text-sm">
+                                <p><span id="final" class="font-medium"></span></p>
+                                <p><span id="exdReward" class="font-medium"></span></p>
+                                <p><span id="exdPrice" class="font-medium"></span></p>
+                                <p><span id="usdReward" class="font-medium"></span></p>
                             </div>
                         </div>
                     </div>
 
-                    <button id="reloadButton"
-                        class="hidden items-center rounded-md border border-transparent bg-gray-800 p-3 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:bg-orange-600 dark:active:bg-orange-600"
-                        onclick="reloadStats()">Reload</button>
+                    <div id="loadingMessage" class="hidden w-full">
+                        <div class="mx-auto mt-5 flex h-20 w-20 content-center items-center justify-center">
+                            <svg version="1.1" id="L5" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100"
+                                enable-background="new 0 0 0 0" xml:space="preserve">
+                                <circle fill="orange" stroke="none" cx="6" cy="50" r="6">
+                                    <animateTransform attributeName="transform" dur="1s" type="translate"
+                                        values="0 15 ; 0 -15; 0 15" repeatCount="indefinite" begin="0.1" />
+                                </circle>
+                                <circle fill="orange" stroke="none" cx="30" cy="50" r="6">
+                                    <animateTransform attributeName="transform" dur="1s" type="translate"
+                                        values="0 10 ; 0 -10; 0 10" repeatCount="indefinite" begin="0.2" />
+                                </circle>
+                                <circle fill="orange" stroke="none" cx="54" cy="50" r="6">
+                                    <animateTransform attributeName="transform" dur="1s" type="translate"
+                                        values="0 5 ; 0 -5; 0 5" repeatCount="indefinite" begin="0.3" />
+                                </circle>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Disclaimer Section -->
+                    <div class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                        <p>
+                            <strong>Disclaimer:</strong> Reward expectation calculations are based on a reward pool of
+                            400,000 EXD distributed every 2 weeks.
+                        </p>
+                    </div>
                 </div>
 
-                <div id="statsContainer"
-                    class="mt-4 hidden rounded-md bg-gray-200 p-4 dark:bg-slate-500 dark:text-white">
-                    <h1 class="text-pretty text-xl font-bold">Leaderboard Statistics</h1>
-                    <div class="mb-4">
-                        <h2 class="text-lg font-semibold">User Information</h2>
-                        <p><span id="userRank"></span></p>
-                        <p><span id="userRep"></span></p>
-                        <p><span id="userPercentage"></span></p>
-                    </div>
-                    <div class="mb-4">
-                        <h2 class="text-lg font-semibold">Bounty Leaderboard Statistics</h2>
-                        <p><span id="twitterBounty"></span></p>
-                        <p><span id="redditBounty"></span></p>
-                        <p><span id="youtubeBounty"></span></p>
-                        <p><span id="newsBounty"></span></p>
-                        <p><span id="blueSky"></span></p>
-                    </div>
-                    <div class="mb-4">
-                        <h2 class="text-lg font-semibold">Reward Expectation</h2>
-                        <p><span id="final"></span></p>
-                        <p><span id="exdReward"></span> // if pool reward 400.000 exd</p>
-                        <p><span id="exdPrice"></span></p>
-                        <p><span id="usdReward"></span></p>
-                    </div>
-                </div>
-
-                <div id="loadingMessage" class="hidden w-full">
-                    <div class="mx-auto mt-5 flex h-20 w-20 content-center items-center justify-center">
-                        <svg version="1.1" id="L5" xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100"
-                            enable-background="new 0 0 0 0" xml:space="preserve">
-                            <circle fill="orange" stroke="none" cx="6" cy="50" r="6">
-                                <animateTransform attributeName="transform" dur="1s" type="translate"
-                                    values="0 15 ; 0 -15; 0 15" repeatCount="indefinite" begin="0.1" />
-                            </circle>
-                            <circle fill="orange" stroke="none" cx="30" cy="50" r="6">
-                                <animateTransform attributeName="transform" dur="1s" type="translate"
-                                    values="0 10 ; 0 -10; 0 10" repeatCount="indefinite" begin="0.2" />
-                            </circle>
-                            <circle fill="orange" stroke="none" cx="54" cy="50" r="6">
-                                <animateTransform attributeName="transform" dur="1s" type="translate"
-                                    values="0 5 ; 0 -5; 0 5" repeatCount="indefinite" begin="0.3" />
-                            </circle>
-                        </svg>
-                    </div>
-                </div>
+                <!-- Loading Animation -->
 
             </div>
         </div>
     </div>
 
-    <div class="py-12">
+    <!-- Total Stats Container -->
+    <div class="py-6">
         <div class="mx-auto max-w-5xl space-y-6 sm:px-6 lg:px-8">
-            <div class="bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
-                <table class="w-full table-auto border dark:text-white">
-                    <tr>
-                        <th class="border p-2">Total Reputation</th>
-                        <th class="border p-2">{{ number_format($totalReputation) }}</th>
-                    </tr>
-                    <tr>
-                        <th class="border p-2">Total Bounty</th>
-                        <th class="border p-2">{{ number_format($totalBounty) }}</th>
-                    </tr>
-                </table>
+            <div class="overflow-hidden rounded-xl bg-white/80 p-6 backdrop-blur-sm dark:bg-gray-800/90">
+                <!-- Enhanced Stats Table -->
+                <div class="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+                    <table class="w-full">
+                        <tr
+                            class="border-b border-gray-200 bg-gray-50 transition-colors hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-700/50 dark:hover:bg-gray-700">
+                            <th class="p-4 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">Total
+                                Reputation</th>
+                            <th class="p-4 text-right font-mono text-gray-800 dark:text-gray-100">
+                                {{ number_format($totalReputation) }}</th>
+                        </tr>
+                        <tr
+                            class="bg-white transition-colors hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700">
+                            <th class="p-4 text-left text-sm font-semibold text-gray-600 dark:text-gray-300">Total
+                                Bounty</th>
+                            <th class="p-4 text-right font-mono text-gray-800 dark:text-gray-100">
+                                {{ number_format($totalBounty) }}</th>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Leaderboard Container -->
     <div class="py-4">
         <div class="mx-auto max-w-5xl space-y-6 sm:px-6 lg:px-8">
-            <div class="bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-8">
-                <h1 class="mb-4 text-center text-lg dark:text-white">Leaderboard</h1>
+            <div class="overflow-hidden rounded-xl bg-white/80 p-6 backdrop-blur-sm dark:bg-gray-800/90">
+                <h1 class="mb-4 text-center text-2xl font-bold text-gray-800 dark:text-white">Leaderboard</h1>
+
+                <!-- Formula Card -->
                 <div
-                    class="mb-4 border-l-4 border-blue-500 bg-blue-100 p-4 text-blue-700 dark:border-blue-700 dark:bg-blue-900 dark:text-blue-300">
-                    <h2 class="text-right text-lg font-semibold">FinalRep:</h2>
-                    <p class="text-right">
-                        Leaderboard + <span class="font-bold">twitter bounties x 7.5</span> +
-                        <span class="font-bold">youtube bounties x 5</span> +
-                        <span class="font-bold">reddit bounties x 13</span> +
-                        <span class="font-bold">news bounties x 25</span> +
-                        <span class="font-bold">BlueSky x 5</span>
+                    class="mb-6 overflow-hidden rounded-xl bg-gradient-to-r from-blue-50 to-blue-100 p-6 dark:from-blue-900/20 dark:to-blue-800/20">
+                    <h2 class="text-right text-lg font-semibold text-blue-800 dark:text-blue-200">FinalRep:</h2>
+                    <p class="text-right text-blue-700 dark:text-blue-300">
+                        Leaderboard +
+                        <span class="font-bold text-blue-800 dark:text-blue-200">twitter bounties x 7.5</span> +
+                        <span class="font-bold text-blue-800 dark:text-blue-200">youtube bounties x 5</span> +
+                        <span class="font-bold text-blue-800 dark:text-blue-200">reddit bounties x 13</span> +
+                        <span class="font-bold text-blue-800 dark:text-blue-200">news bounties x 25</span> +
+                        <span class="font-bold text-blue-800 dark:text-blue-200">BlueSky x 5</span>
                     </p>
                 </div>
 
                 @if (!empty($leaderboards))
-                    <table id="leaderboardTable" class="w-full table-auto border dark:text-white">
-                        <thead>
-                            <tr>
-                                <th
-                                    class="border border-y-white border-l-white p-0 dark:border-y-gray-900 dark:border-l-gray-800">
-                                </th>
-                                <th class="border p-0">No</th>
-                                <th class="border p-2">Address</th>
-                                <th class="border p-2">Reputation</th>
-                                <th class="border p-2">Final Rep</th>
-                                <th class="border p-2">Rep increase</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($leaderboards as $leaderboard)
-                                @if ($leaderboard['rep'] > 0)
-                                    <tr>
-                                        <td
-                                            class="@if ($leaderboard['rankDifference'] >= 0) text-green-500 @else text-red-500 @endif w-2 border border-y-white border-l-white pr-4 text-right dark:border-y-gray-900 dark:border-l-gray-800">
-                                            {{ $leaderboard['rankDifference'] }}
-                                        </td>
-                                        <td class="border p-0 text-center">
-                                            {{ $leaderboard['rank'] }}
-                                        </td>
-                                        <td class="address-cell border p-2">{{ strtolower($leaderboard['address']) }}
-                                        </td>
-                                        <td class="border p-2">{{ number_format($leaderboard['rep']) }}</td>
-                                        <td class="border p-2">{{ number_format($leaderboard['totalRep']) }}</td>
-                                        <td class="border p-2">{{ '+' . $leaderboard['valueDifference'] }}</td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <!-- Enhanced Leaderboard Table -->
+                    <div
+                        class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
+                        <table id="leaderboardTable" class="w-full table-auto">
+                            <thead>
+                                <tr
+                                    class="border-b border-gray-200 bg-gray-50 text-sm dark:border-gray-700 dark:bg-gray-700">
+                                    <th class="p-4 text-left font-medium text-gray-500 dark:text-gray-400"></th>
+                                    <th class="p-4 text-left font-medium text-gray-500 dark:text-gray-400">No</th>
+                                    <th class="p-4 text-left font-medium text-gray-500 dark:text-gray-400">Address</th>
+                                    <th class="p-4 text-left font-medium text-gray-500 dark:text-gray-400">Reputation
+                                    </th>
+                                    <th class="p-4 text-left font-medium text-gray-500 dark:text-gray-400">Final Rep
+                                    </th>
+                                    <th class="p-4 text-left font-medium text-gray-500 dark:text-gray-400">Rep increase
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                @foreach ($leaderboards as $leaderboard)
+                                    @if ($leaderboard['rep'] > 0)
+                                        <tr class="transition-colors hover:bg-gray-50 dark:hover:bg-gray-700">
+                                            <td class="p-4 text-right">
+                                                @if ($leaderboard['rankDifference'] >= 0)
+                                                    <span
+                                                        class="text-green-500">+{{ $leaderboard['rankDifference'] }}</span>
+                                                @else
+                                                    <span
+                                                        class="text-red-500">{{ $leaderboard['rankDifference'] }}</span>
+                                                @endif
+                                            </td>
+                                            <td class="p-4 text-center font-medium text-gray-700 dark:text-gray-300">
+                                                {{ $leaderboard['rank'] }}
+                                            </td>
+                                            <td
+                                                class="address-cell p-4 font-mono text-sm text-gray-600 dark:text-gray-300">
+                                                {{ strtolower($leaderboard['address']) }}
+                                            </td>
+                                            <td class="p-4 font-medium text-gray-700 dark:text-gray-300">
+                                                {{ number_format($leaderboard['rep']) }}
+                                            </td>
+                                            <td class="p-4 font-medium text-gray-700 dark:text-gray-300">
+                                                {{ number_format($leaderboard['totalRep']) }}
+                                            </td>
+                                            <td class="p-4 font-medium text-green-500">
+                                                +{{ $leaderboard['valueDifference'] }}
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 @else
-                    <p>Failed to fetch leaderboard data.</p>
+                    <p class="text-center text-gray-500 dark:text-gray-400">Failed to fetch leaderboard data.</p>
                 @endif
             </div>
         </div>
     </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/web3@1.3.6/dist/web3.min.js"></script>
     <script>
@@ -181,10 +251,9 @@
 
                 document.getElementById("connectButton1").style.display = "none";
                 document.getElementById("connectedAddress").textContent = connectedAddress;
-                document.getElementById("connectedAddressContainer").style.display = "inline";
-                var reloadButton = document.getElementById("reloadButton");
-                reloadButton.classList.add("inline-flex");
-                reloadButton.classList.remove("hidden");
+                document.getElementById("statsContainer").style.display = "block";
+                document.getElementById("reloadButton").classList.remove("hidden");
+                document.getElementById("reloadButton").classList.add("inline-flex");
 
                 await getUserStats(connectedAddress);
 
@@ -194,6 +263,23 @@
             }
         });
 
+        // Fungsi untuk submit alamat manual
+        function submitManualAddress() {
+            const manualAddress = document.getElementById("manualAddressInput").value.trim();
+            if (manualAddress) {
+                sessionStorage.setItem("connectAddress", manualAddress);
+                document.getElementById("connectedAddress").textContent = manualAddress;
+                document.getElementById("statsContainer").style.display = "block";
+                document.getElementById("reloadButton").classList.remove("hidden");
+                document.getElementById("reloadButton").classList.add("inline-flex");
+
+                getUserStats(manualAddress);
+                highlightConnectedAddressRow(manualAddress);
+            } else {
+                alert("Please enter a valid address.");
+            }
+        }
+
         async function getUserStats(userAddress) {
             var statsContainer = document.getElementById('statsContainer');
             var loadingMessage = document.getElementById('loadingMessage');
@@ -201,7 +287,7 @@
             loadingMessage.style.display = 'block';
 
             try {
-                var response = await fetch(`/php/exorde-stats.php?user_address=${userAddress}`);
+                var response = await fetch(`exorde-api?user_address=${userAddress}`);
                 var data = await response.json();
 
                 document.getElementById('userRep').innerText = 'Reputation: ' + data.reputation;

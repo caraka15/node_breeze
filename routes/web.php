@@ -8,6 +8,7 @@ use App\Http\Controllers\ChaindController;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExordeController;
+use App\Http\Controllers\ExordeApiController;
 use App\Http\Controllers\AirdropController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SitemapController;
@@ -40,6 +41,8 @@ Route::get('/generate-sitemap', [SitemapController::class, 'generate']);
 
 
 Route::get('/exorde-stats', [ExordeController::class, 'index']);
+
+Route::get('/exorde-api', [ExordeApiController::class, 'getStats']);
 
 Route::get('/airdrop/export-to-excel', [AirdropController::class, 'exportToExcel'])->name('airdrops.export.to.excel');
 Route::get('/airdrop/selesai-filter', [AirdropController::class, 'selesaiFilter'])->name('airdrops.selesai.filter');
