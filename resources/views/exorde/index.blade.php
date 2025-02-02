@@ -63,6 +63,7 @@
                                 <p><span id="youtubeBounty" class="font-medium"></span></p>
                                 <p><span id="newsBounty" class="font-medium"></span></p>
                                 <p><span id="blueSky" class="font-medium"></span></p>
+                                <p><span id="threads" class="font-medium"></span></p>
                             </div>
                         </div>
 
@@ -77,6 +78,13 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Reputation Chart Component -->
+                    {{-- @include('components.reputation-chart', [
+                        'chartId' => 'reputationChart',
+                        'chartTitle' => 'Reputation History (24h)',
+                        'chartDescription' => 'Your reputation changes over the last 24 hours',
+                    ]) --}}
 
                     <div id="loadingMessage" class="hidden w-full">
                         <div class="mx-auto mt-5 flex h-20 w-20 content-center items-center justify-center">
@@ -103,7 +111,7 @@
                     <div class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
                         <p>
                             <strong>Disclaimer:</strong> Reward expectation calculations are based on a reward pool of
-                            310,000 EXD distributed every 2 weeks.
+                            {{ $multipliers->pool }} EXD distributed every 2 weeks.
                         </p>
                     </div>
                 </div>
@@ -151,13 +159,20 @@
                 <div
                     class="mb-6 overflow-hidden rounded-xl bg-gradient-to-r from-blue-50 to-blue-100 p-6 dark:from-blue-900/20 dark:to-blue-800/20">
                     <h2 class="text-right text-lg font-semibold text-blue-800 dark:text-blue-200">FinalRep:</h2>
-                    <p class="text-right text-blue-700 dark:text-blue-300">
+                    <p class="text-right font-bold text-blue-800 dark:text-blue-300">
                         Leaderboard +
-                        <span class="font-bold text-blue-800 dark:text-blue-200">twitter bounties x 7.5</span> +
-                        <span class="font-bold text-blue-800 dark:text-blue-200">youtube bounties x 5</span> +
-                        <span class="font-bold text-blue-800 dark:text-blue-200">reddit bounties x 13</span> +
-                        <span class="font-bold text-blue-800 dark:text-blue-200">news bounties x 25</span> +
-                        <span class="font-bold text-blue-800 dark:text-blue-200">BlueSky x 5</span>
+                        <span class="font-bold text-blue-800 dark:text-blue-200">twitter bounties x
+                            {{ $multipliers->twitter }}</span> +
+                        <span class="font-bold text-blue-800 dark:text-blue-200">youtube bounties x
+                            {{ $multipliers->youtube }}</span> +
+                        <span class="font-bold text-blue-800 dark:text-blue-200">reddit bounties x
+                            {{ $multipliers->reddit }}</span> +
+                        <span class="font-bold text-blue-800 dark:text-blue-200">news bounties x
+                            {{ $multipliers->news }}</span> +
+                        <span class="font-bold text-blue-800 dark:text-blue-200">BlueSky bounties x
+                            {{ $multipliers->bsky }}</span> +
+                        <span class="font-bold text-blue-800 dark:text-blue-200">Threads bounties x
+                            {{ $multipliers->threads }}</span>
                     </p>
                 </div>
 
@@ -298,7 +313,8 @@
                 document.getElementById('redditBounty').innerText = 'Reddit Bounties: ' + data.reddit;
                 document.getElementById('youtubeBounty').innerText = 'YouTube Bounties: ' + data.youtube;
                 document.getElementById('newsBounty').innerText = 'News Bounties: ' + data.news;
-                document.getElementById('blueSky').innerText = 'BlueSky: ' + data.blueSky;
+                document.getElementById('blueSky').innerText = 'BlueSky Bounties: ' + data.blueSky;
+                document.getElementById('threads').innerText = 'Threads Bounties: ' + data.threads;
                 document.getElementById('exdPrice').innerText = 'EXD Price: ' + data.exd_price + ' USD';
                 document.getElementById('usdReward').innerText = 'USD Reward: ' + data.usd_monthly_reward +
                     ' USD';

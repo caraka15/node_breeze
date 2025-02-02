@@ -69,7 +69,10 @@ class ExordeController extends Controller
             ];
         }
 
+        $multipliers = app(MultiplierController::class)->getMultipliers()->getData();
+
         return view('exorde.index', [
+            'multipliers' => $multipliers,
             'leaderboards' => $leaderboards,
             'totalBounty' => $totalBounty,
             'totalReputation' => $totalRep

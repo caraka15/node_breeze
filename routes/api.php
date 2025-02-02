@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ExordeHistoryController;
+use App\Http\Controllers\MultiplierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::get('/exorde-history', [ExordeHistoryController::class, 'getReputationHistory']);
+
+Route::get('/multipliers', [MultiplierController::class, 'getMultipliers']);
+Route::post('/multipliers', [MultiplierController::class, 'updateMultipliers'])->middleware(['auth:sanctum', 'isAdmin']);

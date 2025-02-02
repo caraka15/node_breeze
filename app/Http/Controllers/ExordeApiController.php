@@ -13,6 +13,7 @@ class ExordeApiController extends Controller
 
     public function getStats(Request $request)
     {
+        $multipliers = app(MultiplierController::class)->getMultipliers()->getData();
         $userAddress = strtolower($request->user_address);
 
         // Fetch Data
@@ -26,18 +27,25 @@ class ExordeApiController extends Controller
 
         $userRep = $leaderboardData[$userAddress] ?? null;
 
-        // Sort leaderboard data
-        arsort($leaderboardData);
-        $sortedLeaderboard = array_keys($leaderboardData);
-        $rankedLeaderboard = array_flip($sortedLeaderboard);
-        $rankedLeaderboard = array_map(fn($rank) => $rank + 1, $rankedLeaderboard);
-        $userRank = $rankedLeaderboard[$userAddress] ?? null;
-
         // Process bounty data
         $bounties = $this->processBountyData($bountyData, $userAddress);
 
         // Calculate totals
         $totals = $this->calculateTotals($leaderboardData, $bountyData);
+
+        // Calculate final reps for all users
+        $finalRepsLeaderboard = [];
+        foreach ($leaderboardData as $address => $rep) {
+            $userBounties = $this->processBountyData($bountyData, $address);
+            $finalRepsLeaderboard[$address] = $this->calculateFinalReps($rep, $userBounties);
+        }
+
+        // Sort by final reps and calculate rank
+        arsort($finalRepsLeaderboard);
+        $sortedLeaderboard = array_keys($finalRepsLeaderboard);
+        $rankedLeaderboard = array_flip($sortedLeaderboard);
+        $rankedLeaderboard = array_map(fn($rank) => $rank + 1, $rankedLeaderboard);
+        $userRank = $rankedLeaderboard[$userAddress] ?? null;
 
         // Get crypto price
         $cryptoData = $this->getCryptoData();
@@ -53,7 +61,7 @@ class ExordeApiController extends Controller
 
         // Calculate percentages and rewards
         $finalPercentage = number_format(($finalReps / $totalBounty) * 100, 2);
-        $exdReward = ($finalPercentage / 100) * 310000;
+        $exdReward = ($finalPercentage / 100) * $multipliers->pool;
         $userPercentage = number_format(($userRep / $totals['totalRep']) * 100, 2);
         $usdReward = number_format($exdReward * $exdPrice, 2);
 
@@ -67,6 +75,7 @@ class ExordeApiController extends Controller
             'news' => number_format($bounties['news']),
             'final' => number_format($finalReps),
             'blueSky' => number_format($bounties['bsky']),
+            'threads' => number_format($bounties['threads']),
             'totalBounty' => number_format($totalBounty),
             'finalPresentage' => $finalPercentage,
             'exdReward' => $exdReward,
@@ -90,6 +99,7 @@ class ExordeApiController extends Controller
             'youtube' => $this->arrayKeysToLower($bountyData['youtube'] ?? [])[strtolower($userAddress)] ?? 0,
             'news' => $this->arrayKeysToLower($bountyData['news'] ?? [])[strtolower($userAddress)] ?? 0,
             'bsky' => $this->arrayKeysToLower($bountyData['bsky'] ?? [])[strtolower($userAddress)] ?? 0,
+            'threads' => $this->arrayKeysToLower($bountyData['threads'] ?? [])[strtolower($userAddress)] ?? 0,
         ];
     }
 
@@ -102,26 +112,33 @@ class ExordeApiController extends Controller
             'totalNews' => array_sum($bountyData['news'] ?? []),
             'totalYoutube' => array_sum($bountyData['youtube'] ?? []),
             'totalBsky' => array_sum($bountyData['bsky'] ?? []),
+            'totalThreads' => array_sum($bountyData['threads'] ?? []),
         ];
     }
 
     private function calculateFinalReps($userRep, $bounties)
     {
+        $multipliers = app(MultiplierController::class)->getMultipliers()->getData();
+
         return $userRep +
-            ($bounties['twitter'] * 7.5) +
-            ($bounties['youtube'] * 6) +
-            ($bounties['reddit'] * 13) +
-            ($bounties['news'] * 25) +
-            ($bounties['bsky'] * 6);
+            ($bounties['twitter'] * $multipliers->twitter) +
+            ($bounties['youtube'] * $multipliers->youtube) +
+            ($bounties['reddit'] * $multipliers->reddit) +
+            ($bounties['news'] * $multipliers->news) +
+            ($bounties['bsky'] * $multipliers->bsky) +
+            ($bounties['threads'] * $multipliers->threads);
     }
 
     private function calculateTotalBounty($totals)
     {
-        return ($totals['totalTweets'] * 7.5) +
-            ($totals['totalReddit'] * 13) +
-            ($totals['totalNews'] * 25) +
-            ($totals['totalYoutube'] * 6) +
-            ($totals['totalBsky'] * 6) +
+        $multipliers = app(MultiplierController::class)->getMultipliers()->getData();
+
+        return ($totals['totalTweets'] * $multipliers->twitter) +
+            ($totals['totalReddit'] * $multipliers->reddit) +
+            ($totals['totalNews'] * $multipliers->news) +
+            ($totals['totalYoutube'] * $multipliers->youtube) +
+            ($totals['totalBsky'] * $multipliers->bsky) +
+            ($totals['totalThreads'] * $multipliers->threads) +
             $totals['totalRep'];
     }
 

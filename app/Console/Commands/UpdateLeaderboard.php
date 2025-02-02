@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\MultiplierController;
 
 class UpdateLeaderboard extends Command
 {
@@ -40,57 +41,78 @@ class UpdateLeaderboard extends Command
 
     protected function updateLeaderboard($leaderboardData, $bountyData, $type)
     {
-        $bountyUrl = "https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/Stats/bounties.json";
-        $finalData = json_decode(file_get_contents($bountyUrl), true);
-
-        function arrayKeysToLower($array)
-        {
-            return array_change_key_case($array, CASE_LOWER);
-        }
-
-        $finalData = arrayKeysToLower($finalData);
-        $twitter = is_array($bountyData['tweets']) ? arrayKeysToLower($bountyData['tweets']) : [];
-        $reddit = is_array($bountyData['reddit']) ? arrayKeysToLower($bountyData['reddit']) : [];
-        $youtube = is_array($bountyData['youtube']) ? arrayKeysToLower($bountyData['youtube']) : [];
-        $news = is_array($bountyData['news']) ? arrayKeysToLower($bountyData['news']) : [];
-        // Initialize array for storing leaderboard data in the format "rank, address, Rep, FinalRep"
+        $multipliers = app(MultiplierController::class)->getMultipliers()->getData();
+        // Initialize array for storing leaderboard data
         $leaderboardArray = [];
 
-        // Get sorted values from the latest leaderboard
-        arsort($leaderboardData);
+        // Process bounty data
+        $twitter = is_array($bountyData['tweets']) ? $this->arrayKeysToLower($bountyData['tweets']) : [];
+        $reddit = is_array($bountyData['reddit']) ? $this->arrayKeysToLower($bountyData['reddit']) : [];
+        $youtube = is_array($bountyData['youtube']) ? $this->arrayKeysToLower($bountyData['youtube']) : [];
+        $news = is_array($bountyData['news']) ? $this->arrayKeysToLower($bountyData['news']) : [];
+        $bsky = is_array($bountyData['bsky']) ? $this->arrayKeysToLower($bountyData['bsky']) : [];
+        $threads = is_array($bountyData['threads']) ? $this->arrayKeysToLower($bountyData['threads']) : [];
 
-        // Loop through the latest leaderboard
+        // Calculate final reps for all addresses
+        $finalRepsData = [];
         foreach ($leaderboardData as $address => $userRep) {
-            // Only process if userRep is greater than 0
             if ($userRep > 0) {
-                // Calculate stats for the address
                 $twitterBounty = $twitter[$address] ?? 0;
                 $redditBounty = $reddit[$address] ?? 0;
                 $youtubeBounty = $youtube[$address] ?? 0;
                 $newsBounty = $news[$address] ?? 0;
+                $bskyBounty = $bsky[$address] ?? 0;
+                $threadsBounty = $threads[$address] ?? 0;
 
-                // Debug statements to check bounty values
-                $this->info("Address: $address, Twitter: $twitterBounty, Reddit: $redditBounty, YouTube: $youtubeBounty, News: $newsBounty");
+                $finalRep = $userRep +
+                    ($twitterBounty * $multipliers->twitter) +
+                    ($redditBounty * $multipliers->reddit) +
+                    ($youtubeBounty * $multipliers->youtube) +
+                    ($newsBounty * $multipliers->news) +
+                    ($bskyBounty * $multipliers->bsky) +
+                    ($threadsBounty * $multipliers->threads);
 
-                $finalRep = $userRep + ($twitterBounty * 4) + ($redditBounty * 10) + ($youtubeBounty * 3) + ($newsBounty * 25);
-
-                // Add data to the array in the desired format
-                $leaderboardArray[] = [
-                    'rank' => count($leaderboardArray) + 1,
+                $finalRepsData[$address] = [
                     'address' => $address,
                     'Rep' => $userRep,
-                    'FinalRep' => $finalRep,
+                    'FinalRep' => $finalRep
                 ];
 
-                // Debug statement to check the calculation
-                // $this->info("Address: $address, Rep: $userRep, FinalRep: $finalRep");
+                // Debug output if needed
+                $this->info("Address: $address");
+                $this->info("Base Rep: $userRep");
+                $this->info("Twitter ($twitterBounty * $multipliers->twitter), Reddit ($redditBounty * $multipliers->reddit), YouTube ($youtubeBounty * $multipliers->youtube)");
+                $this->info("News ($newsBounty * $multipliers->news), BlueSky ($bskyBounty * $multipliers->bsky), Threads ($threadsBounty * $multipliers->threads)");
+                $this->info("Final Rep: $finalRep");
+                $this->info("------------------------");
             }
         }
 
-        // Save leaderboard data to the appropriate file
+        // Sort by FinalRep
+        uasort($finalRepsData, function ($a, $b) {
+            return $b['FinalRep'] <=> $a['FinalRep'];
+        });
+
+        // Create final array with rankings
+        $rank = 1;
+        foreach ($finalRepsData as $data) {
+            $leaderboardArray[] = [
+                'rank' => $rank++,
+                'address' => $data['address'],
+                'Rep' => $data['Rep'],
+                'FinalRep' => $data['FinalRep']
+            ];
+        }
+
+        // Save leaderboard data
         $filename = $type == 'daily' ? 'data-json/daily_leaderboard.json' : 'data-json/latest_leaderboard.json';
         Storage::disk('public')->put($filename, json_encode($leaderboardArray));
 
         $this->info(ucfirst($type) . ' leaderboard updated successfully!');
+    }
+
+    private function arrayKeysToLower($array)
+    {
+        return array_change_key_case($array, CASE_LOWER);
     }
 }
