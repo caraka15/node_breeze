@@ -80,11 +80,11 @@
                     </div>
 
                     <!-- Reputation Chart Component -->
-                    @include('components.reputation-chart', [
+                    {{-- @include('components.reputation-chart', [
                         'chartId' => 'reputationChart',
                         'chartTitle' => 'Reputation History (24h)',
                         'chartDescription' => 'Your reputation changes over the last 24 hours',
-                    ])
+                    ]) --}}
 
                     <div id="loadingMessage" class="hidden w-full">
                         <div class="mx-auto mt-5 flex h-20 w-20 content-center items-center justify-center">
