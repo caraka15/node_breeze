@@ -13,7 +13,7 @@ class TrackExordeReputation extends Command
     protected $description = 'Track reputation changes for all addresses in the Exorde leaderboard and cleanup old data';
 
     private $leaderboardUrl = "https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/Stats/leaderboard.json";
-    private $localApiUrl = "http://127.0.0.1:8000/exorde-api?user_address=";
+    private $localApiUrl = "https://crxanode.xyz/exorde-api?user_address=";
     private $storageFile = 'reputation-tracking/reputation-history.json';
 
     public function handle()
