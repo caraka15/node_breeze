@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
+use App\View\Components\ReputationChartComponent;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Blade::component('reputation-chart', ReputationChartComponent::class);
         Gate::define('admin', function (User $user) {
             return $user->isAdmin;
         });

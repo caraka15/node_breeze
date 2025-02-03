@@ -79,12 +79,6 @@
                         </div>
                     </div>
 
-                    <!-- Reputation Chart Component -->
-                    {{-- @include('components.reputation-chart', [
-                        'chartId' => 'reputationChart',
-                        'chartTitle' => 'Reputation History (24h)',
-                        'chartDescription' => 'Your reputation changes over the last 24 hours',
-                    ]) --}}
 
                     <div id="loadingMessage" class="hidden w-full">
                         <div class="mx-auto mt-5 flex h-20 w-20 content-center items-center justify-center">
@@ -113,6 +107,18 @@
                             <strong>Disclaimer:</strong> Reward expectation calculations are based on a reward pool of
                             {{ $multipliers->pool }} EXD distributed every 2 weeks.
                         </p>
+                    </div>
+                    <div class="mt-6 rounded-xl bg-white p-6 shadow-md dark:bg-gray-800">
+                        <div class="mb-4">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Reputation History (24h)
+                            </h2>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Your reputation changes over the last
+                                24
+                                hours</p>
+                        </div>
+                        <div class="relative h-[400px] w-full">
+                            <canvas id="reputationChart"></canvas>
+                        </div>
                     </div>
                 </div>
 
@@ -238,6 +244,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/web3@1.3.6/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.getElementById("connectButton1").addEventListener("click", async () => {
             try {
@@ -295,6 +302,89 @@
             }
         }
 
+        let reputationChart = null;
+
+        async function initChart(userAddress) {
+            try {
+                const response = await fetch(`https://crxanode.xyz/api/exorde-history?user_address=${userAddress}`);
+                const data = await response.json();
+
+                const ctx = document.getElementById('reputationChart').getContext('2d');
+                const isDarkMode = document.documentElement.classList.contains('dark');
+
+                if (reputationChart) {
+                    reputationChart.destroy();
+                }
+
+                const chartData = data.changes.map(item => ({
+                    x: new Date(item.timestamp).toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }),
+                    y: item.change
+                }));
+
+                const totalChange = chartData.reduce((sum, item) => sum + item.y, 0);
+
+                const changeText = document.createElement('p');
+                changeText.className = 'mt-4 text-sm text-gray-500 text-center dark:text-gray-400';
+                changeText.innerHTML =
+                    `Total REP Change(last 24h): <span class="font-medium text-bold">${totalChange.toLocaleString()}</span>`;
+                document.getElementById('reputationChart').parentElement.appendChild(changeText);
+                reputationChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: chartData.map(d => d.x),
+                        datasets: [{
+                            label: 'REP per 15m',
+                            data: chartData.map(d => d.y),
+                            borderColor: 'rgb(255, 159, 64)',
+                            backgroundColor: 'rgba(255, 159, 64, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 0,
+                            pointHoverRadius: 6,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            intersect: false,
+                            mode: 'x'
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    color: function(context) {
+                                        if (!context.tick.label) return 'rgba(0, 0, 0, 0)';
+                                        const hour = parseInt(context.tick.label.split(':')[0]);
+                                        return (hour % 3 === 0) ?
+                                            (isDarkMode ? 'rgba(255, 255, 255, 0.1)' :
+                                                'rgba(0, 0, 0, 0.1)') :
+                                            'rgba(0, 0, 0, 0)';
+                                    }
+                                },
+                                ticks: {
+                                    callback: function(val, index) {
+                                        const label = this.getLabelForValue(val);
+                                        const hour = parseInt(label.split(':')[0]);
+                                        return hour % 3 === 0 ? label : '';
+                                    }
+                                }
+                            },
+                            y: {
+                                min: 0
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('Error initializing chart:', error);
+            }
+        }
+
         async function getUserStats(userAddress) {
             var statsContainer = document.getElementById('statsContainer');
             var loadingMessage = document.getElementById('loadingMessage');
@@ -316,18 +406,18 @@
                 document.getElementById('blueSky').innerText = 'BlueSky Bounties: ' + data.blueSky;
                 document.getElementById('threads').innerText = 'Threads Bounties: ' + data.threads;
                 document.getElementById('exdPrice').innerText = 'EXD Price: ' + data.exd_price + ' USD';
-                document.getElementById('usdReward').innerText = 'USD Reward: ' + data.usd_monthly_reward +
-                    ' USD';
+                document.getElementById('usdReward').innerText = 'USD Reward: ' + data.usd_monthly_reward + ' USD';
+                document.getElementById('exdReward').innerText = 'EXD Reward: ' + data.exdReward + ' EXD';
 
-                document.getElementById('exdReward').innerText = 'EXD Reward: ' + data.exdReward +
-                    ' EXD';
+                // Initialize chart
+                await initChart(userAddress);
+
                 loadingMessage.style.display = 'none';
                 statsContainer.style.display = 'block';
             } catch (error) {
                 console.error('Error fetching data:', error);
                 loadingMessage.innerText = 'Error fetching data';
             }
-
         }
 
         function reloadStats() {

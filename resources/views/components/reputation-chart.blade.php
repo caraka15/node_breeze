@@ -10,27 +10,25 @@
         <p class="text-sm text-gray-500 dark:text-gray-400">{{ $chartDescription }}</p>
     </div>
     <div class="relative h-[400px] w-full">
-        <!-- Loading Overlay -->
         <div id="{{ $chartId }}-loading"
             class="absolute inset-0 z-10 hidden items-center justify-center bg-white/50 dark:bg-gray-800/50">
             <div class="text-center">
                 <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-orange-500 border-r-transparent align-[-0.125em]"
                     role="status">
                     <span
-                        class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
+                        class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                        Loading...
+                    </span>
                 </div>
                 <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Loading chart data...</p>
             </div>
         </div>
-
-        <!-- Chart Canvas -->
         <canvas id="{{ $chartId }}" class="w-full"></canvas>
     </div>
 </div>
 
 @push('scripts')
     <script>
-        // Chart configuration and initialization
         const initChart = (elementId) => {
             const ctx = document.getElementById(elementId).getContext('2d');
             const isDarkMode = document.documentElement.classList.contains('dark');
@@ -40,10 +38,10 @@
                 data: {
                     labels: [],
                     datasets: [{
-                        label: 'Reputation',
+                        label: 'REP per hour',
                         data: [],
-                        borderColor: '#f97316',
-                        backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                        borderColor: 'rgb(255, 159, 64)',
+                        backgroundColor: 'rgba(255, 159, 64, 0.1)',
                         tension: 0.4,
                         fill: true,
                         pointRadius: 0,
@@ -61,19 +59,35 @@
                     scales: {
                         x: {
                             grid: {
-                                color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                                color: function(context) {
+                                    const label = context.tick.label;
+                                    if (!label) return 'rgba(0, 0, 0, 0)';
+                                    const hour = parseInt(label.split(' ')[1].split(':')[0]);
+                                    const minute = parseInt(label.split(' ')[1].split(':')[1]);
+                                    return (hour % 3 === 0 && minute === 0) ?
+                                        (isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)') :
+                                        'rgba(0, 0, 0, 0)';
+                                },
                                 drawBorder: false
                             },
                             ticks: {
                                 color: isDarkMode ? '#9ca3af' : '#6b7280',
                                 maxRotation: 45,
                                 minRotation: 45,
+                                callback: function(val, index, labels) {
+                                    const label = labels[index];
+                                    if (!label) return '';
+                                    const hour = parseInt(label.split(' ')[1].split(':')[0]);
+                                    const minute = parseInt(label.split(' ')[1].split(':')[1]);
+                                    return (hour % 3 === 0 && minute === 0) ? label : '';
+                                },
                                 font: {
                                     size: 11
                                 }
                             }
                         },
                         y: {
+                            min: 0,
                             grid: {
                                 color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
                                 drawBorder: false
@@ -117,11 +131,16 @@
             });
         };
 
-        // Function to update chart data
-        const updateChartData = async (chart, address) => {
+        let reputationChart = null;
+
+        window.handleReputationChart = async (address) => {
             const loadingElement = document.getElementById(`${chart.canvas.id}-loading`);
             loadingElement.classList.remove('hidden');
             loadingElement.classList.add('flex');
+
+            if (!reputationChart) {
+                reputationChart = initChart('{{ $chartId }}');
+            }
 
             try {
                 const response = await fetch(`/api/exorde-history?user_address=${address}`);
@@ -135,9 +154,9 @@
                     y: item.reputation
                 }));
 
-                chart.data.labels = chartData.map(d => d.x);
-                chart.data.datasets[0].data = chartData.map(d => d.y);
-                chart.update('none');
+                reputationChart.data.labels = chartData.map(d => d.x);
+                reputationChart.data.datasets[0].data = chartData.map(d => d.y);
+                reputationChart.update('none');
             } catch (error) {
                 console.error('Error updating chart:', error);
             } finally {
@@ -146,18 +165,6 @@
             }
         };
 
-        // Initialize and store chart instance
-        let reputationChart = null;
-
-        // Function to handle chart initialization and updates
-        window.handleReputationChart = async (address) => {
-            if (!reputationChart) {
-                reputationChart = initChart('{{ $chartId }}');
-            }
-            await updateChartData(reputationChart, address);
-        };
-
-        // Clean up on page unload
         window.addEventListener('beforeunload', () => {
             if (reputationChart) {
                 reputationChart.destroy();
