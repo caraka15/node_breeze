@@ -9,7 +9,7 @@ class ExordeApiController extends Controller
 {
     private $leaderboardUrl = "https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/Stats/leaderboard.json";
     private $bountyUrl = "https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/Stats/bounties.json";
-    private $cmcApiKey = 'c278f052-8555-4544-81a5-a2d0ef287c4c';
+    private $cmcApiKey = 'c67e76f3-c420-4446-9573-c2d591e2e382';
 
     public function getStats(Request $request)
     {
