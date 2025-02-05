@@ -333,7 +333,7 @@
                     data: {
                         labels: chartData.map(d => d.x),
                         datasets: [{
-                            label: 'REP per 15m',
+                            label: 'REP per 30m',
                             data: chartData.map(d => d.y),
                             borderColor: 'rgb(255, 159, 64)',
                             backgroundColor: 'rgba(255, 159, 64, 0.1)',
