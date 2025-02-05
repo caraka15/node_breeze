@@ -9,7 +9,6 @@ class ExordeApiController extends Controller
 {
     private $leaderboardUrl = "https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/Stats/leaderboard.json";
     private $bountyUrl = "https://raw.githubusercontent.com/exorde-labs/TestnetProtocol/main/Stats/bounties.json";
-    private $cmcApiKey = 'c67e76f3-c420-4446-9573-c2d591e2e382';
 
     public function getStats(Request $request)
     {
@@ -49,7 +48,8 @@ class ExordeApiController extends Controller
 
         // Get crypto price
         $cryptoData = $this->getCryptoData();
-        $exdPrice = $cryptoData['data']['23638']['quote']['USD']['price'];
+        $exdPrice = $cryptoData['price'];
+
 
         // Calculate final metrics
         $finalReps = $this->calculateFinalReps($userRep, $bounties);
@@ -144,15 +144,16 @@ class ExordeApiController extends Controller
 
     private function getCryptoData()
     {
-        $response = Http::withHeaders([
-            'Accepts' => 'application/json',
-            'X-CMC_PRO_API_KEY' => $this->cmcApiKey
-        ])->get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest', [
-            'slug' => 'exorde',
-            'convert' => 'USD'
-        ]);
+        try {
+            $path = public_path('storage/data-json/exorde_price.json');
+            if (!file_exists($path)) {
+                throw new \Exception('Price data file not found');
+            }
 
-        return $response->json();
+            return json_decode(file_get_contents($path), true);
+        } catch (\Exception $e) {
+            throw new \Exception('Failed to fetch Exorde price: ' . $e->getMessage());
+        }
     }
 
     private function getLatestLeaderboardData()

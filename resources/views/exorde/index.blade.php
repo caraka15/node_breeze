@@ -118,6 +118,8 @@
                         </div>
                         <div class="relative h-[400px] w-full">
                             <canvas id="reputationChart"></canvas>
+                            <p id="totalRepChange" class="mt-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                                Total REP Change(last 24h): <span class="text-bold font-medium">0</span>
                         </div>
                     </div>
                 </div>
@@ -306,7 +308,7 @@
 
         async function initChart(userAddress) {
             try {
-                const response = await fetch(`https://crxanode.xyz/api/exorde-history?user_address=${userAddress}`);
+                const response = await fetch(`api/exorde-history?user_address=${userAddress}`);
                 const data = await response.json();
 
                 const ctx = document.getElementById('reputationChart').getContext('2d');
@@ -325,12 +327,7 @@
                 }));
 
                 const totalChange = chartData.reduce((sum, item) => sum + item.y, 0);
-
-                const changeText = document.createElement('p');
-                changeText.className = 'mt-4 text-sm text-gray-500 text-center dark:text-gray-400';
-                changeText.innerHTML =
-                    `Total REP Change(last 24h): <span class="font-medium text-bold">${totalChange.toLocaleString()}</span>`;
-                document.getElementById('reputationChart').parentElement.appendChild(changeText);
+                document.querySelector('#totalRepChange span').textContent = totalChange.toLocaleString();
                 reputationChart = new Chart(ctx, {
                     type: 'line',
                     data: {

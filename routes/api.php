@@ -2,8 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ExordeHistoryController;
 use App\Http\Controllers\MultiplierController;
+use App\Http\Controllers\ExordePriceController;
+use App\Http\Controllers\ExordeHistoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,4 @@ Route::get('/exorde-history', [ExordeHistoryController::class, 'getReputationHis
 
 Route::get('/multipliers', [MultiplierController::class, 'getMultipliers']);
 Route::post('/multipliers', [MultiplierController::class, 'updateMultipliers'])->middleware(['auth:sanctum', 'isAdmin']);
+Route::get('/exorde/price', [ExordePriceController::class, 'getPrice'])->name('api.exorde.price');

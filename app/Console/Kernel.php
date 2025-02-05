@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use line;
 use GenerateSitemap;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -21,8 +22,10 @@ class Kernel extends ConsoleKernel
 
         // Add Exorde tracking schedule (every 15 minutes)
         $schedule->command('exorde:track-reputation')
-            ->everyFifteenMinutes()
+            ->everyThirtyMinutes()
             ->timezone('Asia/Jakarta');
+
+        $schedule->command('exorde:fetch-price')->hourly();
     }
 
     /**
@@ -43,5 +46,6 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\GenerateSitemaps::class,
         Commands\TrackExordeReputation::class, // Add this line
+        Commands\FetchExordePriceCommand::class,
     ];
 }
